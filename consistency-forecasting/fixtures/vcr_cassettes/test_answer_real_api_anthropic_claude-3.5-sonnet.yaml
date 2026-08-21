@@ -1,0 +1,104 @@
+interactions:
+- request:
+    body: '{"messages":[{"role":"system","content":"You are a helpful assistant.\n\n\n        Parse
+      the content and return a JSON object matching this schema:\n\n        {\n  \"properties\":
+      {\n    \"name\": {\n      \"title\": \"Name\",\n      \"type\": \"string\"\n    },\n    \"age\":
+      {\n      \"title\": \"Age\",\n      \"type\": \"integer\"\n    }\n  },\n  \"required\":
+      [\n    \"name\",\n    \"age\"\n  ],\n  \"title\": \"UserInfo\",\n  \"type\":
+      \"object\"\n}\n\n        Return a valid JSON instance, not the schema definition."},{"role":"user","content":"John
+      Doe is 25 years old.\n\nReturn the correct JSON response within a ```json codeblock.
+      not the JSON_SCHEMA"}],"model":"claude-opus-4-6-thinking","max_tokens":1024,"temperature":0.5}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate, br, zstd
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '736'
+      Content-Type:
+      - application/json
+      Host:
+      - llm.wokushop.com
+      User-Agent:
+      - AsyncOpenAI/Python 2.30.0
+      X-Stainless-Arch:
+      - other:amd64
+      X-Stainless-Async:
+      - async:asyncio
+      X-Stainless-Lang:
+      - python
+      X-Stainless-OS:
+      - Windows
+      X-Stainless-Package-Version:
+      - 2.30.0
+      X-Stainless-Runtime:
+      - CPython
+      X-Stainless-Runtime-Version:
+      - 3.14.5
+      x-stainless-read-timeout:
+      - '600'
+      x-stainless-retry-count:
+      - '0'
+    method: POST
+    uri: https://llm.wokushop.com/v1/chat/completions
+  response:
+    body:
+      string: !!binary |
+        KLUv/QBY9QoAJpdDIUBL3Aa/KFutFkGZclRBU5YIueZ0j4CkrYJHhUtyURQ1LjoAOgA7AGeyMRvY
+        05e1s7mHGUCzXEjgpzerDKtOGwSGgPEgx0YyEDZ29ZYMP0/XJFGXCQeHazT3sEaHXZ3RLwK4VxCI
+        VRarLL+FZVmu3pu9zJ7ei/30Pbx6Nm74Qj0bfC+fp0P9IZnVLw7UXzJlhz0dCZJQKBBFAlEB60Aa
+        NvdTQPKUUCDqb5OBe7V7uMFBTwjRHfe7+vLDbFjO01WFp+jLsqwSrTKQNJiuJBcg1mGDKwh1JZ9R
+        5CzkeNbAWta1UmvQHg0x5FafomY1ygYfZWUgfDoesp8OJh2G7Av11xQ7mZWuuOn46kx78ckXHQBg
+        G6TgYkENgrQjG8FySP47bIaUzG7YGajZxUODBhyJxWCKEcrgoGTSBZum4Zzwu1CiCLaQVwmu1YSy
+        o5fs7wuBId3zNoPPQIeR4Sg=
+    headers:
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      CF-RAY:
+      - a0e3f7196d320cd4-SIN
+      Cf-Cache-Status:
+      - DYNAMIC
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - zstd
+      Content-Security-Policy:
+      - frame-ancestors 'self'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 19 Jun 2026 16:38:41 GMT
+      Etag:
+      - W/"141-SdrdrSiZ86BMhYG+wJUfzmBKlwI"
+      Nel:
+      - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
+      Report-To:
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=a02NZm4myWDBhpl%2Bba9M8eTeGxR4v5oxWUmepbyBetrQ6%2BE9yZO7oW1cg311F5JJjEdkjqSoH2AIJLQeeIFAR4yhWlnlWDK%2BO9LvhGvRbZ%2FfJqJT4UfR7XPJqYubVwPab71H9sNWiUCB%2F6rw%2FDYB"}]}'
+      Server:
+      - cloudflare
+      Strict-Transport-Security:
+      - max-age=31536000
+      Transfer-Encoding:
+      - chunked
+      X-Api-Request-Id:
+      - 20260620003838541447847Bwwl2Wvt
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-New-Api-Version:
+      - v1.0.0-rc.8
+      X-Oneapi-Request-Id:
+      - 202606191638385850624538268d9d61cryvA1D
+      X-Powered-By:
+      - Express
+      X-Routing-Group:
+      - default
+      X-Routing-Priority:
+      - auto
+      X-Routing-Source:
+      - system
+    status:
+      code: 200
+      message: OK
+version: 1

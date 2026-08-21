@@ -1,0 +1,151 @@
+
+%% Journal article
+@misc{
+    ref1,
+    title={Consistency Checks for Language Model Forecasters}, 
+    author={Daniel Paleka and Abhimanyu Pallavi Sudhir and Alejandro Alvarez and Vineeth Bhat and Adam Shen and Evan Wang and Florian Tramèr},
+    year={2025},
+    eprint={2412.18544},
+    archivePrefix={arXiv},
+    primaryClass={cs.LG},
+    url={https://arxiv.org/abs/2412.18544}, 
+}
+
+@article{
+    ref2,
+    author ={Jeremiah Lowin},
+    title = {An Intuitive Guide to How LLMs Work},
+    journal = ,
+    year = {2024},
+    url = {https://jlowin.dev/blog/an-intuitive-guide-to-how-llms-work}
+}
+
+@inproceedings{
+    ref3,
+    title = "Probability-Consistent Preference Optimization for Enhanced {LLM} Reasoning",
+    author = "Yang, Yunqiao  and
+      Ren, Houxing  and
+      Lu, Zimu  and
+      Wang, Ke  and
+      Shi, Weikang  and
+      Zhou, Aojun  and
+      Pan, Junting  and
+      Zhan, Mingjie  and
+      Li, Hongsheng",
+    editor = "Che, Wanxiang  and
+      Nabende, Joyce  and
+      Shutova, Ekaterina  and
+      Pilehvar, Mohammad Taher",
+    booktitle = "Findings of the Association for Computational Linguistics: ACL 2025",
+    month = jul,
+    year = "2025",
+    address = "Vienna, Austria",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2025.findings-acl.333/",
+    doi = "10.18653/v1/2025.findings-acl.333",
+    pages = "6435--6448",
+    ISBN = "979-8-89176-256-5",
+    abstract = "Recent advances in preference optimization have demonstrated significant potential for improving mathematical reasoning capabilities in large language models (LLMs). While current approaches leverage high-quality pairwise preference data through outcome-based criteria like answer correctness or consistency, they fundamentally neglect the internal logical coherence of responses. To overcome this, we propose Probability-Consistent Preference Optimization (PCPO), a novel framework that establishes dual quantitative metrics for preference selection: (1) surface-level answer correctness and (2) intrinsic token-level probability consistency across responses. Extensive experiments show that our PCPO consistently outperforms existing outcome-only criterion approaches across a diverse range of LLMs and benchmarks. Our code is publicly available at https://github.com/YunqiaoYang/PCPO."
+}
+
+@article{
+    ref4,
+    author = {Bradley C. Love},
+    title = {Backwards Compatible: The Strange Math Behind Word Order in AI},
+    journal = ,
+    year = {June 27, 2026},
+    url = {https://bradlove.org/blog/prob-llm-consistency}
+}
+
+@article{
+    ref5,
+    title={Probability Consistency in Large Language Models: Theoretical Foundations Meet Empirical Discrepancies},
+    author={Anonymous},
+    journal={Submitted to Transactions on Machine Learning Research},
+    year={2025},
+    url={https://openreview.net/forum?id=AV3fX3jB0H},
+    note={Rejected}
+}
+
+@misc{
+    ref6,
+    title={Bridging Internal Probability and Self-Consistency for Effective and Efficient LLM Reasoning}, 
+    author={Zhi Zhou and Tan Yuhao and Zenan Li and Yuan Yao and Lan-Zhe Guo and Xiaoxing Ma and Yu-Feng Li},
+    year={2025},
+    eprint={2502.00511},
+    archivePrefix={arXiv},
+    primaryClass={cs.LG},
+    url={https://arxiv.org/abs/2502.00511}, 
+}
+
+@inproceedings{
+    ref7,
+    title={Automata-based constraints for language model decoding},
+    author={Terry Koo and Frederick Liu and Luheng He},
+    booktitle={First Conference on Language Modeling},
+    year={2024},
+    url={https://openreview.net/forum?id=BDBdblmyzY}
+}
+
+@article{
+    ref8,
+    author = {Jasmin Mousavi, & Arash Termehchy. (n.d.).},
+    title = {Towards consistent language models using controlled prompting and decoding},
+    journal = ,
+    year =,
+    url ={https://research.engr.oregonstate.edu/idea/sites/research.engr.oregonstate.edu.idea/files/consistent_llms_deem.pdf}
+}
+
+@misc{ref9,
+      title={Token Constraint Decoding Improves Robustness on Question Answering for Large Language Models}, 
+      author={Jui-Ming Yao and Hao-Yuan Chen and Zi-Xian Tang and Bing-Jia Tan and Sheng-Wei Peng and Bing-Cheng Xie and Shun-Feng Su},
+      year={2025},
+      eprint={2506.09408},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2506.09408}, 
+}
+
+@inproceedings{
+    ref10,
+    title = "The Hidden Cost of Structure: How Constrained Decoding Affects Language Model Performance",
+    author = "Schall, Maximilian  and
+      de Melo, Gerard",
+    editor = "Angelova, Galia  and
+      Kunilovskaya, Maria  and
+      Escribe, Marie  and
+      Mitkov, Ruslan",
+    booktitle = "Proceedings of the 15th International Conference on Recent Advances in Natural Language Processing - Natural Language Processing in the Generative AI Era",
+    month = sep,
+    year = "2025",
+    address = "Varna, Bulgaria",
+    publisher = "INCOMA Ltd., Shoumen, Bulgaria",
+    url = "https://aclanthology.org/2025.ranlp-1.124/",
+    pages = "1074--1084",
+    abstract = "Large Language Models excel at generating fluent text, but real-world applications increasingly demand structured outputs like JSON that can be programmatically processed. While prior work examines either task performance or format compliance in isolation, we investigate their interaction through comprehensive experiments across 11 models and multiple benchmarks. We uncover a fundamental divergence between base and instruction-tuned models under structural constraints. Base models often benefit from constrained decoding, producing more precise outputs, while instruction-tuned models frequently suffer performance degradation on generation tasks despite maintaining stability on classification tasks. Our log probability analysis reveals the underlying mechanism: constrained decoding forces models away from their preferred natural language patterns into lower-confidence structured alternatives. We demonstrate that successful constrained generation requires both adapted prompts and sufficient few-shot examples, with constrained models showing steeper performance gains from additional demonstrations compared to unconstrained generation. Notably, we find that base model performance under constraints can serve as an early indicator of post-training structured output capabilities, offering a practical evaluation tool for model development. These findings suggest that current instruction-tuning practices may inadvertently reduce models' structured output capabilities and highlight the need for training-time integration of structural constraints in future model development."
+}
+
+@inproceedings{ref11,
+   title={DeAL: Decoding-time Alignment for Large Language Models},
+   url={http://dx.doi.org/10.18653/v1/2025.acl-long.1274},
+   DOI={10.18653/v1/2025.acl-long.1274},
+   booktitle={Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)},
+   publisher={Association for Computational Linguistics},
+   author={Huang, James Y. and Sengupta, Sailik and Bonadiman, Daniele and Lai, Yi-An and Gupta, Arshit and Pappas, Nikolaos and Mansour, Saab and Kirchhoff, Katrin and Roth, Dan},
+   year={2025},
+   pages={26280–26300} }
+
+%%============================================================================%%
+%% while using chicago reference style, both abbreviated and expanded form of %%
+%% author name format is acceptable. Refer below example for expanded form    %%
+%%============================================================================%%
+
+%%  author		= "{Cameron, Deborah}", - single author
+%%  author		= "{Saito, Yukio} and {Hyuga, Hiroyuki}", - double author 
+
+%%======================================%%
+%% Example for author names with suffix %%
+%%======================================%%
+
+%%  author		= "{Price, R. A. Jr} and {Curry, N. {III}} and McCann, K. E. and 
+%%					Fielding, J. L. and {Abercrombie, E. Jr}",

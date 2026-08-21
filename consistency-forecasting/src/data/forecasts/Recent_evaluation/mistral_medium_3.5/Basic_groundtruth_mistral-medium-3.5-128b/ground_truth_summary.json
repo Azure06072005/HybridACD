@@ -1,0 +1,90 @@
+{
+    "total_questions": 242,
+    "avg_brier_score": 0.202,
+    "avg_platt_brier_score": 0.191,
+    "tuned_brier_baseline": 0.227,
+    "avg_brier_score_scaled": 19.3,
+    "avg_platt_brier_score_scaled": 23.6,
+    "tuned_brier_baseline_scaled": 9.3,
+    "avg_log_score": 0.918,
+    "platt_scaling_factor": 0.768,
+    "brier_score_decomposition": {
+        "uncertainty": 0.227,
+        "reliability": 0.056,
+        "resolution": 0.056
+    },
+    "calibration_error": 0.09,
+    "calibration_error_data": {
+        "bins": [
+            0.01,
+            0.03,
+            0.05,
+            0.1,
+            0.2,
+            0.3,
+            0.4,
+            0.5,
+            0.6,
+            0.7,
+            0.8,
+            0.9,
+            0.95,
+            0.99
+        ],
+        "bin_accuracies": [
+            0.048,
+            0.0,
+            0.0,
+            0.174,
+            0.273,
+            0.217,
+            0.455,
+            0.667,
+            0.467,
+            0.384,
+            0.769,
+            1.0,
+            0.8,
+            1.0
+        ],
+        "bin_confidences": [
+            0.008,
+            0.02,
+            0.05,
+            0.133,
+            0.232,
+            0.32,
+            0.418,
+            0.5,
+            0.593,
+            0.681,
+            0.85,
+            0.9,
+            0.95,
+            0.99
+        ],
+        "num_samples": [
+            21,
+            1,
+            23,
+            23,
+            11,
+            23,
+            11,
+            15,
+            15,
+            73,
+            13,
+            1,
+            10,
+            2
+        ],
+        "calibration_error": 0.09
+    },
+    "forecaster": "BasicForecaster",
+    "full_forecaster_config": {
+        "model": "mistral-medium-3.5-128b",
+        "preface": "You are an informed and well-calibrated forecaster. I need you to give me your best probability estimate for the following sentence or question resolving YES. Your answer should be a float between 0 and 1, with nothing else in your response.",
+        "examples": []
+    }
+}

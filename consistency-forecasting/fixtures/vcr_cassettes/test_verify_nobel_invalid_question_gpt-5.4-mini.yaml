@@ -1,0 +1,118 @@
+interactions:
+- request:
+    body: '{"messages":[{"role":"system","content":"You are a helpful assistant.\n\n\n        Parse
+      the content and return a JSON object matching this schema:\n\n        {\n  \"properties\":
+      {\n    \"reasoning\": {\n      \"title\": \"Reasoning\",\n      \"type\": \"string\"\n    },\n    \"valid\":
+      {\n      \"title\": \"Valid\",\n      \"type\": \"boolean\"\n    }\n  },\n  \"required\":
+      [\n    \"reasoning\",\n    \"valid\"\n  ],\n  \"title\": \"VerificationResult\",\n  \"type\":
+      \"object\"\n}\n\n        Return a valid JSON instance, not the schema definition."},{"role":"user","content":"\nI''m
+      trying to assess the quality of an old forecasting dataset. Here is a forecasting
+      question from the dataset: Will the discovery of dark matter lead to a Nobel
+      Prize in Physics that significantly impacts the global economy by 2040?. Please
+      flag questions that don''t sound like binary forecasting questions by outputting
+      \"flag\". If it sounds like a reasonable question, output valid is True.\n\nTips
+      for identifying good forecasting questions:\n1. The question should be binary
+      (answerable with yes/no) and about a future event.\n2. Include a specific timeframe
+      or deadline for the event to occur.\n3. The question should have clear, objective
+      resolution criteria. Avoid vague words like \"significant\", \"major\", \"substantial\",
+      etc., as these are signs of a vague question.\n4. The outcome should be verifiable
+      through reliable sources.\n\nExamples of strings that should be flagged:\n-
+      Will I finish my homework tonight?\n- Metaculus party 2023\n- Will Hell freeze
+      over?\n- Heads or tails\n- Will this video reach 100k views by the EOD?\n- Will
+      the US pass significant legislation related to AI in 2028? (vague term: \"significant\")\n-
+      Will a major breakthrough in particle physics occur before 2028? (vague term:
+      \"major breakthrough\")\n\nExamples of strings that should not be flagged:\n-
+      Will Megan Markle and Prince Harry have a baby by the end of the year?\n- Will
+      the Brain Preservation Foundation''s Large Mammal preservation prize be won
+      by Feb 9th, 2017?\n- Will there be more novel new drugs approved by the FDA
+      in 2016 than in 2015?\n\nIf a question is already resolved, that doesn''t mean
+      it should be flagged. When in doubt, mark it as \"True\".\n\nYour response should
+      take the following structure:\nreasoning: { insert your concise thoughts here
+      }\nvalid: { True/False }\n\n\nReturn the correct JSON response within a ```json
+      codeblock. not the JSON_SCHEMA"}],"model":"gpt-5.4-mini","temperature":0.5}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate, br, zstd
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2511'
+      Content-Type:
+      - application/json
+      Host:
+      - llm.wokushop.com
+      User-Agent:
+      - AsyncOpenAI/Python 2.30.0
+      X-Stainless-Arch:
+      - other:amd64
+      X-Stainless-Async:
+      - async:asyncio
+      X-Stainless-Lang:
+      - python
+      X-Stainless-OS:
+      - Windows
+      X-Stainless-Package-Version:
+      - 2.30.0
+      X-Stainless-Runtime:
+      - CPython
+      X-Stainless-Runtime-Version:
+      - 3.14.5
+      x-stainless-read-timeout:
+      - '600'
+      x-stainless-retry-count:
+      - '0'
+    method: POST
+    uri: https://llm.wokushop.com/v1/chat/completions
+  response:
+    body:
+      string: !!binary |
+        KLUv/QBYTRYANvSRJRCtuAG8s7ApvGGacGljkpz4Dcl/q1cEaAZBoD9094YcEQAAACCPAIEAhAAa
+        aXSO/pg2Gn3j9/9qpOwe1IlImdp/trRxIo3g5q0TDJE+s34V00Yhj4LhKB6QAyna21I0Fg5FtFAa
+        qeP2LG0ajvN4HigCeSJtHJch00b9dWRnsR5bxK2YRhoZO0xPG4UgHnBAGAwIZR3PozE9A0+k0Zi4
+        scwRxj4eZ4DCIpD2GJgivI4HxJFYnqFG2lonAun2r2XJ1UIu2E3blIZ8SYzjS2d8ns03+aL2kt+p
+        kiRhrOePcbqdnqOSq5gf2VqsToyLvqwp7VS/SpKU/NcynrLxP4vCOYbI+Dy/M3bGa8qGvV1bbrlZ
+        xYZIfx2fr4dkeMWLks8FnjG5+Z3f1YJKGalEefv7ZahSpksTLvl7h8lkElVC+rJL5xqC8iidjSu/
+        CfmvB4D8V3IV0182/p3Sl917E4yfufncLse8M24V8wBBwSA388VszJ4FLrkUEPDeSXlT1DqCgABJ
+        o5PJxKWMS/xuKRmp1NrtpVFp8de7qJ6szfeOJRompOPpHeRm800M5Mtj3y0hx7hWVuC2bH49uEl5
+        /8LKEplM5tF4mozTuGLLdCLSd72Rm4QBRaLFetCijaPhPG7ji9pAEBTpO1delFzaNGQkfOm4ro1a
+        XnyNVFJ9e1O0yTh3eaTv3DKJey9qowv+Zv5Ybjq8IsN0DqAgFw8QO99nw5e+PrmyVqq0SK60y7cg
+        R++N/lhcCz7vfOeWkrEgF07DgRIz5bN+TC8gEGYQYpwHtgJ6toBZDrzyA+Qi3HWHV2i7xTbIXrZJ
+        vMEH4mqki7FWja4x+a6l1PgdiRAwRkOK9SKFgP6fZI5wNcxSGL64NApYwS4FDU5bruLBiG2gtBdR
+        HNZTxtPYzwvcbiSaXmCyuX+szQro3Ne6GTY23uEBlJsbFR4NYgo=
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, PATCH, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      CF-RAY:
+      - a0f9cb1b4c3ad846-SIN
+      Cf-Cache-Status:
+      - DYNAMIC
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - zstd
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 22 Jun 2026 08:13:29 GMT
+      Nel:
+      - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
+      Report-To:
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=VWndNcXWWUVEA9lAutXx1LBmV2AFa37cZU%2BaZ6ya10mvcppRcb6qEyY2Iw6WRn15pzMYzuLQJgb4%2BQ9tjbO264SXThUl%2BtNIk5bE5th5UNkbB1Ja%2B6P1u5mbRDeFS0efpISe6BoJy4OR1ocusosY"}]}'
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      X-Oneapi-Request-Id:
+      - 202606221513226728715279D9gWMEV
+      alt-svc:
+      - h3=":443"; ma=86400
+    status:
+      code: 200
+      message: OK
+version: 1

@@ -1,0 +1,25 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.1.13
+    hooks:
+      # Run the linter.
+      - id: ruff
+        args: [ --fix ]
+      # Run the formatter.
+      - id: ruff-format
+  - repo: local
+    hooks:
+      - id: validate-jsonl
+        name: Validate verified data JSONL files for all fields 
+        entry: hooks/validate_jsonls.py
+        language: script
+        always_run: true
+        verbose: true
+      - id: avoid-naming-anything-test
+        name: Avoid naming anything *_test.py or test_*.py if it's not a test file
+        entry: hooks/avoid_naming_anything_test.py
+        language: script
+        always_run: true
+        verbose: true
+

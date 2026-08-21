@@ -1,0 +1,53 @@
+{
+    "total_questions": 20,
+    "avg_brier_score": 0.015,
+    "avg_platt_brier_score": 0.055,
+    "tuned_brier_baseline": 0.21,
+    "avg_brier_score_scaled": 94.1,
+    "avg_platt_brier_score_scaled": 78.1,
+    "tuned_brier_baseline_scaled": 16.0,
+    "avg_log_score": 0.063,
+    "platt_scaling_factor": 1.911,
+    "brier_score_decomposition": {
+        "uncertainty": 0.21,
+        "reliability": 0.288,
+        "resolution": 0.21
+    },
+    "calibration_error": 0.141,
+    "calibration_error_data": {
+        "bins": [
+            0.01,
+            0.03,
+            0.5,
+            0.99
+        ],
+        "bin_accuracies": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+        ],
+        "bin_confidences": [
+            0.004,
+            0.02,
+            0.46,
+            0.998
+        ],
+        "num_samples": [
+            12,
+            2,
+            1,
+            5
+        ],
+        "calibration_error": 0.141
+    },
+    "forecaster": "HybridACDForecaster",
+    "full_forecaster_config": {
+        "model": "gpt-5.4-mini",
+        "adversarial_model": "gpt-5.4-mini",
+        "preface": null,
+        "examples": [],
+        "adversarial_enabled": true,
+        "tcd_enabled": true
+    }
+}

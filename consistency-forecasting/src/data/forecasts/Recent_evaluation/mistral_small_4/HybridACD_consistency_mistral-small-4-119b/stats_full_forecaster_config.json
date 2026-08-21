@@ -1,0 +1,8 @@
+{
+    "model": "mistral/mistral-small-4-119b-2603",
+    "adversarial_model": "mistral/mistral-small-4-119b-2603",
+    "preface": null,
+    "examples": [],
+    "adversarial_enabled": true,
+    "tcd_enabled": true
+}

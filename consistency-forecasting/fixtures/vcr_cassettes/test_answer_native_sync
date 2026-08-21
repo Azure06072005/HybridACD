@@ -1,0 +1,188 @@
+interactions:
+- request:
+    body: '{"messages":[{"role":"system","content":"You are a helpful assistant."},{"role":"user","content":"Generate
+      a sample forecasting question"}],"model":"gpt-5.4-mini","temperature":0.5}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate, br, zstd
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '181'
+      Content-Type:
+      - application/json
+      Host:
+      - api.xah.io
+      User-Agent:
+      - OpenAI/Python 2.30.0
+      X-Stainless-Arch:
+      - other:amd64
+      X-Stainless-Async:
+      - 'false'
+      X-Stainless-Lang:
+      - python
+      X-Stainless-OS:
+      - Windows
+      X-Stainless-Package-Version:
+      - 2.30.0
+      X-Stainless-Runtime:
+      - CPython
+      X-Stainless-Runtime-Version:
+      - 3.14.5
+      x-stainless-read-timeout:
+      - '600'
+      x-stainless-retry-count:
+      - '0'
+    method: POST
+    uri: https://api.xah.io/v1/chat/completions
+  response:
+    body:
+      string: "{\"choices\":[{\"finish_reason\":\"stop\",\"index\":0,\"message\":{\"content\":\"Here\u2019s
+        a sample forecasting question:\\n\\n**How likely is it that global renewable
+        energy capacity will increase by at least 20% over the next 5 years?**\\n\\nIf
+        you want, I can also generate:\\n- a **multiple-choice forecasting question**\\n-
+        a **trading/economics-style question**\\n- or a **more specific question**
+        in a topic like AI, climate, sports, or politics\",\"provider_specific_fields\":{\"refusal\":null},\"role\":\"assistant\"},\"provider_specific_fields\":{}}],\"created\":1781883566,\"id\":\"chatcmpl-resp_025ad958cd849706016a3562adfba88191b604ba3d868a8e20\",\"model\":\"gpt-5.4-mini\",\"object\":\"chat.completion\",\"usage\":{\"completion_tokens\":85,\"prompt_tokens\":2465,\"total_tokens\":2550}}"
+    headers:
+      Access-Control-Allow-Headers:
+      - Authorization, Content-Type, Accept, X-API-Key, OpenAI-Beta, OpenAI-Organization,
+        anthropic-version, anthropic-beta
+      Access-Control-Allow-Methods:
+      - GET, POST, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - X-Request-ID, request-id, Retry-After
+      Access-Control-Max-Age:
+      - '86400'
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Cache-Control:
+      - no-store
+      Cf-Cache-Status:
+      - DYNAMIC
+      Cf-Ray:
+      - a0e3a05c3fa3ce83-SIN
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '746'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 19 Jun 2026 15:39:27 GMT
+      Llmprovider-Access-Control-Allow-Headers:
+      - Content-Type, Authorization, x-api-key, anthropic-version, x-omniroute-connection,
+        x-internal-test, accept
+      Llmprovider-Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, PATCH, OPTIONS
+      Llmprovider-Connection:
+      - keep-alive
+      Llmprovider-Content-Security-Policy:
+      - 'default-src ''self''; base-uri ''self''; object-src ''none''; frame-ancestors
+        ''none''; form-action ''self''; script-src ''self'' ''unsafe-inline'' ''unsafe-eval''
+        blob:; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com;
+        font-src ''self'' https://fonts.gstatic.com data:; img-src ''self'' data:
+        blob: https:; media-src ''self'' data: blob:; connect-src ''self'' http://localhost:*
+        http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:* https: wss:; worker-src
+        ''self'' blob:; manifest-src ''self'''
+      Llmprovider-Content-Type:
+      - application/json
+      Llmprovider-Date:
+      - Fri, 19 Jun 2026 15:39:27 GMT
+      Llmprovider-Keep-Alive:
+      - timeout=5
+      Llmprovider-Permissions-Policy:
+      - camera=(), microphone=(), geolocation=(), payment=(), usb=(), serial=()
+      Llmprovider-Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Llmprovider-Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      Llmprovider-Transfer-Encoding:
+      - chunked
+      Llmprovider-Vary:
+      - rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+      Llmprovider-X-Content-Type-Options:
+      - nosniff
+      Llmprovider-X-Frame-Options:
+      - DENY
+      Llmprovider-X-Omniroute-Cache:
+      - MISS
+      Llmprovider-X-Omniroute-Cache-Hit:
+      - 'false'
+      Llmprovider-X-Omniroute-Latency-Ms:
+      - '2005'
+      Llmprovider-X-Omniroute-Model:
+      - gpt-5.4-mini
+      Llmprovider-X-Omniroute-Provider:
+      - cx
+      Llmprovider-X-Omniroute-Response-Cost:
+      - '0.0012075000'
+      Llmprovider-X-Omniroute-Route-Class:
+      - CLIENT_API
+      Llmprovider-X-Omniroute-Session-Id:
+      - a085cccfefb0bf2d
+      Llmprovider-X-Omniroute-Tokens-In:
+      - '465'
+      Llmprovider-X-Omniroute-Tokens-Out:
+      - '85'
+      Llmprovider-X-Request-Id:
+      - a2451d8c-8c0e-41cb-a67b-30a765f7172d
+      Nel:
+      - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
+      Referrer-Policy:
+      - no-referrer
+      Report-To:
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=b6k%2F9GLh2W9k6d6fiTw%2BubuTzrFkCc0vtC929Cow%2FvyEjGNQ0zaJbG2RRychPPrP0v2fv066uE2WbMdQbtXR6%2FWoGBHMLRySVuZ%2BzfnK8BGwy77MlIvV%2BEA6Qk7Hc5lqn4J2bCKumJ5FLrGBoPBz"}]}'
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Ckey-Proxy-Version:
+      - go-v1
+      X-Content-Type-Options:
+      - nosniff
+      - nosniff
+      X-Frame-Options:
+      - DENY
+      - DENY
+      X-Litellm-Attempted-Fallbacks:
+      - '0'
+      X-Litellm-Attempted-Retries:
+      - '0'
+      X-Litellm-Call-Id:
+      - a1133809-8f03-4d91-bc97-b8eb4e59af7a
+      X-Litellm-Callback-Duration-Ms:
+      - '0.0'
+      X-Litellm-Key-Spend:
+      - '658.2382812349996'
+      X-Litellm-Model-Api-Base:
+      - http://omniroute:20131
+      X-Litellm-Model-Group:
+      - gpt-5.4-mini
+      X-Litellm-Model-Id:
+      - a28a3cca-48db-4f48-8f66-45eda4acf3d5
+      X-Litellm-Overhead-Duration-Ms:
+      - '1.295'
+      X-Litellm-Response-Cost:
+      - '0.00223125'
+      X-Litellm-Response-Cost-Discount-Amount:
+      - '0.0'
+      X-Litellm-Response-Cost-Margin-Amount:
+      - '0.0'
+      X-Litellm-Response-Cost-Margin-Percent:
+      - '0.0'
+      X-Litellm-Response-Cost-Original:
+      - '0.00223125'
+      X-Litellm-Response-Duration-Ms:
+      - '2046.8950000000002'
+      X-Litellm-Version:
+      - 1.88.1
+      X-Request-Id:
+      - req_43b6bc95ab540443d9fc26a5
+    status:
+      code: 200
+      message: OK
+version: 1

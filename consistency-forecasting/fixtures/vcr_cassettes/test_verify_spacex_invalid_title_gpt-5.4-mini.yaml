@@ -1,0 +1,116 @@
+interactions:
+- request:
+    body: '{"messages":[{"role":"system","content":"You are a helpful assistant.\n\n\n        Parse
+      the content and return a JSON object matching this schema:\n\n        {\n  \"properties\":
+      {\n    \"reasoning\": {\n      \"title\": \"Reasoning\",\n      \"type\": \"string\"\n    },\n    \"valid\":
+      {\n      \"title\": \"Valid\",\n      \"type\": \"boolean\"\n    }\n  },\n  \"required\":
+      [\n    \"reasoning\",\n    \"valid\"\n  ],\n  \"title\": \"VerificationResult\",\n  \"type\":
+      \"object\"\n}\n\n        Return a valid JSON instance, not the schema definition."},{"role":"user","content":"\nI''m
+      trying to assess the quality of an old forecasting dataset. Here is a forecasting
+      question from the dataset: SpaceX is cool. Please flag questions that don''t
+      sound like binary forecasting questions by outputting \"flag\". If it sounds
+      like a reasonable question, output valid is True.\n\nTips for identifying good
+      forecasting questions:\n1. The question should be binary (answerable with yes/no)
+      and about a future event.\n2. Include a specific timeframe or deadline for the
+      event to occur.\n3. The question should have clear, objective resolution criteria.
+      Avoid vague words like \"significant\", \"major\", \"substantial\", etc., as
+      these are signs of a vague question.\n4. The outcome should be verifiable through
+      reliable sources.\n\nExamples of strings that should be flagged:\n- Will I finish
+      my homework tonight?\n- Metaculus party 2023\n- Will Hell freeze over?\n- Heads
+      or tails\n- Will this video reach 100k views by the EOD?\n- Will the US pass
+      significant legislation related to AI in 2028? (vague term: \"significant\")\n-
+      Will a major breakthrough in particle physics occur before 2028? (vague term:
+      \"major breakthrough\")\n\nExamples of strings that should not be flagged:\n-
+      Will Megan Markle and Prince Harry have a baby by the end of the year?\n- Will
+      the Brain Preservation Foundation''s Large Mammal preservation prize be won
+      by Feb 9th, 2017?\n- Will there be more novel new drugs approved by the FDA
+      in 2016 than in 2015?\n\nIf a question is already resolved, that doesn''t mean
+      it should be flagged. When in doubt, mark it as \"True\".\n\nYour response should
+      take the following structure:\nreasoning: { insert your concise thoughts here
+      }\nvalid: { True/False }\n\n\nReturn the correct JSON response within a ```json
+      codeblock. not the JSON_SCHEMA"}],"model":"gpt-5.4-mini","temperature":0.5}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate, br, zstd
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2404'
+      Content-Type:
+      - application/json
+      Host:
+      - llm.wokushop.com
+      User-Agent:
+      - AsyncOpenAI/Python 2.30.0
+      X-Stainless-Arch:
+      - other:amd64
+      X-Stainless-Async:
+      - async:asyncio
+      X-Stainless-Lang:
+      - python
+      X-Stainless-OS:
+      - Windows
+      X-Stainless-Package-Version:
+      - 2.30.0
+      X-Stainless-Runtime:
+      - CPython
+      X-Stainless-Runtime-Version:
+      - 3.14.5
+      x-stainless-read-timeout:
+      - '600'
+      x-stainless-retry-count:
+      - '0'
+    method: POST
+    uri: https://llm.wokushop.com/v1/chat/completions
+  response:
+    body:
+      string: !!binary |
+        KLUv/QBY5BQAdvCKMXBJmwP8////v9Pftz9o/TtFtJW05WMSoUSSckFp4nzE2TjX9PvbiP1VW3Zy
+        SAGq8AWGAHcAeQD6zu6aTW5zLyOaXEndl8qlNPlgoeaMUNCkL2M3sVzZsCQWSqLBoDAkuJlKMApG
+        4iVSNtkWclQuhrI0loXB0bA0Ce3rPpYr2/Fvk1COKV4nlk0+WwaPy5WLXRwYhikLNTCeZ3EwDovD
+        wRiRQ4nWsdDGojDKaOijMCwL07BgGApE4vuySYgzIk0jbNKBuCnESkexlL5oKX5UnJ4d4PdCLG57
+        lCN+C4FrX/VVhPrg6yCEWjHBMpUcwK/co/i91L6+41aSQqCiMz5jgHb8vlUDlJrfle1zEUJ42vyg
+        4rtGZ3SeEKSDTTpSczvXfekgthPRTjtnEIlEssnv/XYsV34H1XvsV/0+hFrlJscHrgcqtj3qEiJM
+        eMaIcZupt78QQu2+7tqawgOd41J8hX5fjvhpY4gAFZRj6ApvvcKdHt1jM7Zuc+5BVIT6vSMq+kJV
+        Y834Oj2ie4R2Gx/ttLOwsN5O4vuwgIEDA1BRav5In4CFBcjKSCTSzqSd9ZPJhFGWNVGgnZiyjGjS
+        G+svBGEUx0so9yS5Fg2Hpu8+lwNjadJ7H9xDqlwLJpCF4NfOlRL3nk1CJufmKNektaqb9NaUQZpz
+        nysB/CTxW2kJoOKBufbgQs37+irGdJ1ZO4aKX0m+cugenbGpk55R0hZhaxIiTHjgetcYMQbYKSAg
+        gsOY4wM2BcqogBkH3PoBqiJAd+dlNhezvHvFDPGGH4y0QR7IbeWhz+v4rX00yUeQGF7moPNpg8rd
+        aAP2tyAtDmBfETHY7uiEbPjIDOg6LW4Po8jNy84yIEGAFDPK2i04vsddGToot0dUZqYBAAA=
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, PATCH, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      CF-RAY:
+      - a0f9cd93a9525f6e-SIN
+      Cf-Cache-Status:
+      - DYNAMIC
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - zstd
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 22 Jun 2026 08:15:08 GMT
+      Nel:
+      - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
+      Report-To:
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=8WATMz1YQ0aipcFtS7x%2FORAiFejcY%2BgLe4axYmgM0%2BGdjYG7B%2FSrVKI8vZf43o2LLjJPkePw7qoyhJibIrbbY80SxiyoS%2FVOxli7G7iaQcDDKTBWHmQRooOMIwqkkoUnDSjnFhCee8vL5NAJMHf1"}]}'
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      X-Oneapi-Request-Id:
+      - 202606221515038527851698TMuwX0Y
+      alt-svc:
+      - h3=":443"; ma=86400
+    status:
+      code: 200
+      message: OK
+version: 1

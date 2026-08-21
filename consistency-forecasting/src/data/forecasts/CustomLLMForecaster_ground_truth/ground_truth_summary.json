@@ -1,0 +1,46 @@
+{
+    "total_questions": 10,
+    "avg_brier_score": 0.0,
+    "avg_platt_brier_score": 0.106,
+    "tuned_brier_baseline": 0.25,
+    "avg_brier_score_scaled": 99.9,
+    "avg_platt_brier_score_scaled": 57.7,
+    "tuned_brier_baseline_scaled": 0.0,
+    "avg_log_score": 0.012,
+    "platt_scaling_factor": 2.979,
+    "brier_score_decomposition": {
+        "uncertainty": 0.25,
+        "reliability": 0.49,
+        "resolution": 0.25
+    },
+    "calibration_error": 0.014,
+    "calibration_error_data": {
+        "bins": [
+            0.01,
+            0.97,
+            0.99
+        ],
+        "bin_accuracies": [
+            0.0,
+            1.0,
+            1.0
+        ],
+        "bin_confidences": [
+            0.004,
+            0.97,
+            0.992
+        ],
+        "num_samples": [
+            5,
+            1,
+            4
+        ],
+        "calibration_error": 0.014
+    },
+    "forecaster": "CustomLLMForecaster",
+    "full_forecaster_config": {
+        "model": "gpt-5.4-mini",
+        "preface": "You are a highly calibrated and informed forecaster. Answer with a single float between 0.0 and 1.0 representing the probability of the question resolving YES.",
+        "examples": []
+    }
+}

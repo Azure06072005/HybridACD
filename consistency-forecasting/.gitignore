@@ -1,0 +1,300 @@
+# Project-specific
+src/data/test/*
+src/data/test/*/*.jsonl
+src/data/fq/test/*
+src/data/tuples*test/*
+src/data/news_api_test/
+src/data/verification/*.jsonl
+src/data/check_tuple_logs/*.jsonl
+src/data/forecasts/A_*_most_recent/
+src/data/forecasts/*_test/
+src/data/forecasts/test*/
+scripts/references/
+output_tables/
+src/data/output_tables/
+output_plots/
+src/data/output_plots/
+src/*see_eval.txt
+*.log
+.costly/
+src/.costly/
+tests/fixtures/vcr_cassettes/
+
+.vscode/settings.json
+.vscode/launch.json
+.python-version
+
+
+# Local stuff
+*cachedir
+venvlocal
+
+# Temporary
+scripts/pipeline/manifold/*.json                                                                                                                                                                                                                                
+scripts/pipeline/manifold/*.jsonl                                                                                     
+scripts/pipeline/metaculus/*.json                                                                                     
+scripts/pipeline/metaculus/*.jsonl                                                                                    
+scripts/pipeline/*cleaned_formatted*
+src/data/old_forecasts
+src/forecasters/cais_forecasting/
+
+# Local
+*.code-workspace
+*.DS_Store
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+.pybuilder/
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+#   For a library or package, you might want to ignore these files since the code is
+#   intended to run in multiple environments; otherwise, check them in:
+# .python-version
+
+# pipenv
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   install all needed dependencies.
+#Pipfile.lock
+
+# poetry
+#   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
+#   This is especially recommended for binary packages to ensure reproducibility, and is more
+#   commonly ignored for libraries.
+#   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
+#poetry.lock
+
+# pdm
+#   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
+#pdm.lock
+#   pdm stores project-wide configurations in .pdm.toml, but it is recommended to not include it
+#   in version control.
+#   https://pdm.fming.dev/#use-with-ide
+.pdm.toml
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# PyCharm
+#  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
+#  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
+#  and can be added to the global gitignore or merged into this file.  For a more nuclear
+#  option (not recommended) you can uncomment the following to ignore the entire idea folder.
+#.idea/
+
+logs/
+.env.swp
+modal_env/bin/activate
+modal_env/bin/activate.csh
+modal_env/bin/activate.fish
+modal_env/bin/Activate.ps1
+modal_env/bin/dotenv
+modal_env/bin/email_validator
+modal_env/bin/fastapi
+modal_env/bin/httpx
+modal_env/bin/markdown-it
+modal_env/bin/modal
+modal_env/bin/pip
+modal_env/bin/pip3
+modal_env/bin/pip3.11
+modal_env/bin/protoc-gen-grpclib_python
+modal_env/bin/protoc-gen-python_grpc
+modal_env/bin/pygmentize
+modal_env/bin/python
+modal_env/bin/python3
+modal_env/bin/python3.11
+modal_env/bin/typer
+modal_env/bin/uvicorn
+modal_env/bin/watchfiles
+modal_env/pyvenv.cfg
+scripts/halawi_sample_data.json
+debug_adam.txt
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-11/AndChecker.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-11/AndOrChecker.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-11/ButChecker.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-11/CondChecker.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-11/CondCondChecker.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-11/config.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-11/ConsequenceChecker.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-11/ExpectedEvidenceChecker.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-11/NegChecker.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-11/OrChecker.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-11/ParaphraseChecker.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-11/stats_aggregated.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-11/stats_AndChecker.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-11/stats_AndOrChecker.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-11/stats_ButChecker.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-11/stats_CondChecker.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-11/stats_CondCondChecker.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-11/stats_ConsequenceChecker.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-11/stats_ExpectedEvidenceChecker.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-11/stats_forecaster.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-11/stats_full_forecaster_config.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-11/stats_NegChecker.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-11/stats_OrChecker.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-11/stats_ParaphraseChecker.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-11/stats_summary.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-46/config.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-51/config.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-55/config.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-03-58/config.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-00/AndChecker.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-00/AndOrChecker.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-00/ButChecker.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-00/CondChecker.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-00/CondCondChecker.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-00/config.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-00/ConsequenceChecker.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-00/ExpectedEvidenceChecker.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-00/NegChecker.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-00/OrChecker.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-00/ParaphraseChecker.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-00/stats_aggregated.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-00/stats_AndChecker.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-00/stats_AndOrChecker.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-00/stats_ButChecker.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-00/stats_CondChecker.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-00/stats_CondCondChecker.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-00/stats_ConsequenceChecker.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-00/stats_ExpectedEvidenceChecker.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-00/stats_forecaster.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-00/stats_full_forecaster_config.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-00/stats_NegChecker.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-00/stats_OrChecker.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-00/stats_ParaphraseChecker.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-00/stats_summary.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-15/ButChecker.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-15/config.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-15/stats_aggregated.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-15/stats_ButChecker.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-15/stats_forecaster.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-15/stats_full_forecaster_config.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-15/stats_summary.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-17/ButChecker.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-17/config.jsonl
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-17/stats_aggregated.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-17/stats_ButChecker.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-17/stats_forecaster.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-17/stats_full_forecaster_config.json
+src/data/forecasts/PromptedToCons_Forecaster_09-27-04-17/stats_summary.json

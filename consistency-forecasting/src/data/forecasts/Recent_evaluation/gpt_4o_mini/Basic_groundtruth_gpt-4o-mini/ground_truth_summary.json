@@ -1,0 +1,74 @@
+{
+    "total_questions": 242,
+    "avg_brier_score": 0.205,
+    "avg_platt_brier_score": 0.199,
+    "tuned_brier_baseline": 0.227,
+    "avg_brier_score_scaled": 17.9,
+    "avg_platt_brier_score_scaled": 20.4,
+    "tuned_brier_baseline_scaled": 9.3,
+    "avg_log_score": 0.855,
+    "platt_scaling_factor": 0.978,
+    "brier_score_decomposition": {
+        "uncertainty": 0.227,
+        "reliability": 0.044,
+        "resolution": 0.042
+    },
+    "calibration_error": 0.161,
+    "calibration_error_data": {
+        "bins": [
+            0.01,
+            0.05,
+            0.1,
+            0.2,
+            0.3,
+            0.4,
+            0.5,
+            0.6,
+            0.7,
+            0.8
+        ],
+        "bin_accuracies": [
+            0.0,
+            0.0,
+            0.0,
+            0.091,
+            0.259,
+            0.211,
+            0.0,
+            0.4,
+            0.531,
+            1.0
+        ],
+        "bin_confidences": [
+            0.01,
+            0.05,
+            0.137,
+            0.25,
+            0.33,
+            0.424,
+            0.5,
+            0.58,
+            0.668,
+            0.85
+        ],
+        "num_samples": [
+            1,
+            1,
+            24,
+            22,
+            54,
+            19,
+            1,
+            5,
+            113,
+            2
+        ],
+        "calibration_error": 0.161
+    },
+    "forecaster": "BasicForecaster",
+    "full_forecaster_config": {
+        "model": "gpt-4o-mini",
+        "preface": "You are an informed and well-calibrated forecaster. I need you to give me your best probability estimate for the following sentence or question resolving YES. Your answer should be a float between 0 and 1, with nothing else in your response.",
+        "examples": []
+    }
+}

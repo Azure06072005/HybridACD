@@ -1,0 +1,147 @@
+interactions:
+- request:
+    body: '{"messages":[{"role":"system","content":"You are a helpful assistant.\n\n\n        Parse
+      the content and return a JSON object matching this schema:\n\n        {\n  \"properties\":
+      {\n    \"reasoning\": {\n      \"title\": \"Reasoning\",\n      \"type\": \"string\"\n    },\n    \"valid\":
+      {\n      \"title\": \"Valid\",\n      \"type\": \"boolean\"\n    }\n  },\n  \"required\":
+      [\n    \"reasoning\",\n    \"valid\"\n  ],\n  \"title\": \"VerificationResult\",\n  \"type\":
+      \"object\"\n}\n\n        Return a valid JSON instance, not the schema definition."},{"role":"user","content":"\nI''m
+      assessing the quality of the body (resolution criteria) of a forecasting question.
+      Here''s the body of the question:\n\nThis question will resolve as Yes if SpaceX
+      successfully lands at least one human on the surface of Mars before January
+      1, 2031. The current market probability for this event is 30%.\n\nPlease evaluate
+      the body according to the following criteria:\n\n1. Clarity: The resolution
+      criteria should be clear and unambiguous.\n2. Objectivity: The criteria should
+      be objectively measurable or verifiable.\n3. Completeness: All necessary information
+      for resolving the question should be included.\n4. Appropriateness: The criteria
+      should not mention market probabilities, betting odds, or other inappropriate
+      elements.\n\nExamples of valid bodies:\n- This question will resolve as Yes
+      if Kanye West is elected and inaugurated as the president of the United States
+      before January 1, 2030.\n- France has last won the FIFA World Cup in 2018. This
+      question will resolve as Yes if, by December 31, 2026, the French national football
+      team (senior, not youth or women''s) has won either the FIFA World Cup or the
+      UEFA European Championship.\n\nExamples of invalid bodies:\n- This question
+      will resolve as Yes if it happens.\n- {\"resolution_criteria\": \"nini\",\"background_info\":
+      \"50% chance. Resolves NO if dismissed, dropped, or still in process.\n\nResolves
+      YES if there is a settlement or judgement for either side.\n\nhttps://www.politico.com/news/2024/06/17/george-norcross-indictment-new-jersey-corruption-00163700\n\n[image]\"}\n-
+      This question will resolve as Yes if, by December 31, 2030, a new strain of
+      influenza virus is identified that meets the following criteria: \n  - The strain
+      must be genetically distinct from previously identified strains, with genetic
+      differences significant enough to be considered a new strain by the World Health
+      Organization (WHO) or a similar authoritative body.\n  - The strain must have
+      demonstrated the ability to cause human infection and have the potential for
+      sustained human-to-human transmission.\n  - The strain must be assessed by the
+      WHO or a similar authoritative body as having pandemic potential, meaning it
+      has a significant risk of causing widespread illness across multiple countries
+      or continents.\n  In the absence of a formal declaration by the WHO or a similar
+      authoritative body, a consensus among at least three leading infectious disease
+      research institutions will be considered sufficient for resolution.\n\nIssues
+      to flag:\n- Vague or subjective terms without clear definitions\n- Inconsistencies
+      between the body and the title\n- Inconsistencies within the body itself\n-
+      Missing crucial information needed for resolution\n- Multiple distinct pathways
+      to resolution that aren''t all important for the question\n- Any mention of
+      market probabilities, betting odds, or similar concepts\n- Spurious words or
+      irrelevant information in the body\n- Use of external links or images that are
+      crucial for understanding the resolution criteria\n- Overly complex or ambiguous
+      resolution criteria\n\nSome exceptions to the above:\n- It is okay to have subjective
+      terms if the resolution criteria references a specific source to be taken into
+      account. For example, in a question \"Will a woman win the Nobel Prize in Physics
+      by 2030?\", the preferred way to define \"woman\" is to say \"described by the
+      Nobel Prize committee as a woman\".\n- It is sometimes okay to have vague terms
+      if the question immediately clarifies an overriding criterium in case of dispute.
+      For example, \"In the event of ambiguity in the official documents, a public
+      statement from the CEO will be considered authoritative.\"\n\nYour response
+      should take the following structure:\nReasoning: { insert your concise evaluation
+      here, addressing the criteria above }\nValid: { True if the body meets all criteria,
+      False otherwise }\n\nConsider the question as a whole, not just the body. Check
+      all the sentences in the body thoroughly.\nFlag only when you have a reason
+      to believe the question is not well defined.\n\n\nReturn the correct JSON response
+      within a ```json codeblock. not the JSON_SCHEMA"}],"model":"gpt-5.4-mini","temperature":0.5}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate, br, zstd
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '4771'
+      Content-Type:
+      - application/json
+      Host:
+      - llm.wokushop.com
+      User-Agent:
+      - AsyncOpenAI/Python 2.30.0
+      X-Stainless-Arch:
+      - other:amd64
+      X-Stainless-Async:
+      - async:asyncio
+      X-Stainless-Lang:
+      - python
+      X-Stainless-OS:
+      - Windows
+      X-Stainless-Package-Version:
+      - 2.30.0
+      X-Stainless-Runtime:
+      - CPython
+      X-Stainless-Runtime-Version:
+      - 3.14.5
+      x-stainless-read-timeout:
+      - '600'
+      x-stainless-retry-count:
+      - '0'
+    method: POST
+    uri: https://llm.wokushop.com/v1/chat/completions
+  response:
+    body:
+      string: !!binary |
+        KLUv/QBYBRkA5rmlNHBLmgP8/////1ICMNxaN2Rtp0jckqavadumlTstBFVTh17fMTzbNtus2d6q
+        ExiiKwWowhedAJEAlwDcznVfQogNVTTUziVEIpF88nu/Hcslv/Wd3TWf3OZeVjy5EnXfKhfmyQor
+        NWcFhCd9GTuK5ZIRDcOBYTgcxmFwc8V4aEAw3pLkk20lV+UiIcE4msZ5RDRPSvu6j+WS7fi3WZVj
+        jVeK5ZPPVkLkcskGwtkoejiOA4KJHClqJJrHI5rWYaZ9OKijYSQcOjEIppLkRDDHMhDL9+WTEmdF
+        F8OlJjBYXAzA76329R0pz40jjdyzGL8Tnla4r/ws9yxLm7EVfaWrsWakSC5a3k6Wwh3ARuPAOLg0
+        SHl6tSbAfW7aCP3pApwcLtPpXY5LPbbD1uqicNvhu27DV5RaG75fFT5YppYDfLZFyhO/nSCl7YRR
+        asWn2xhS2rur0Bnb8dvnx7Ad/9Wc78OlJhLCJyFJB+9td5I091qWUgEYB1R0AfsozQCltWtyX8Yu
+        x1b2lvqlKLAd+kqaKWkppv+KSD1ToOK+vu2VoHuUdhsRNNRQQ8Nf1l8NkEEDBwlQ0vy6z0BDA2TJ
+        SCTSUKWh9aYTPgktCTV6//lRoCtK3HSC7xrd96KAS/1bagIb6vvaHE+QYkxR4EIgg8VFAMYBnfF7
+        J4vO1ONzE37vewGVSkXCaZYKw7LiSW+svxLEeXDeqtyzcnk4Hpqm7z4Xh+M86b0T3EOuXCJUIDvh
+        184lLfeeT0Io5+Ypl0prVz/prSmDNOc+lwQgaX7vS73EPf5loV+wuPhVgI0JzLUIV2pGStvn5mkl
+        CxYX68zaMWdcb2f9vst7sbULFhcIsNHv+n24KPV+KdsC2GiH7divxtoxVFzXCF0yICCCo5A1D7YF
+        DLGAWQ7A9xNVgJJ2fegDfafmSiyStjUhhB78xWHHWzVGY5mxsis41sSXHYLAqJMGFGpr/6BuOBXy
+        gP05SshK2r29uGhgbm9rHVu/Tfa3BUm189WF+4HHF8A+AzKbJZ211paLxxg760g3Co81UYZAVlvA
+        ZYFN0+Ja1PHF+hQ=
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, PATCH, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      CF-RAY:
+      - a0f9cd682f073d68-SIN
+      Cf-Cache-Status:
+      - DYNAMIC
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - zstd
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 22 Jun 2026 08:15:04 GMT
+      Nel:
+      - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
+      Report-To:
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=D9xlPvW4zaj3nU%2BCvT7cOhc4FqBSuF%2FzaaidY6mozurlxoUBBKI6Lp1b%2BmZ1y8ejy39%2BkI0x8UPqzOeNgWO7mo343gf8tQ9aeMh%2FBPWoaocUacJ9RTktXvdbzDJTS5OiZSRh7HPRcCuhhzsNOJtp"}]}'
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      X-Oneapi-Request-Id:
+      - 20260622151456897637438Rwk5YB4g
+      alt-svc:
+      - h3=":443"; ma=86400
+    status:
+      code: 200
+      message: OK
+version: 1

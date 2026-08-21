@@ -1,0 +1,266 @@
+interactions:
+- request:
+    body: '{"messages":[{"role":"system","content":"You are a helpful assistant.\n\n\n        Parse
+      the content and return a JSON object matching this schema:\n\n        {\n  \"properties\":
+      {\n    \"reasoning\": {\n      \"title\": \"Reasoning\",\n      \"type\": \"string\"\n    },\n    \"valid\":
+      {\n      \"title\": \"Valid\",\n      \"type\": \"boolean\"\n    }\n  },\n  \"required\":
+      [\n    \"reasoning\",\n    \"valid\"\n  ],\n  \"title\": \"VerificationResult\",\n  \"type\":
+      \"object\"\n}\n\n        Return a valid JSON instance, not the schema definition."},{"role":"user","content":"\nI''m
+      trying to assess the quality of an old forecasting dataset. Here is a forecasting
+      question from the dataset: Will SpaceX successfully land humans on Mars by 2030?.
+      Please flag questions that don''t sound like binary forecasting questions by
+      outputting \"flag\". If it sounds like a reasonable question, output valid is
+      True.\n\nTips for identifying good forecasting questions:\n1. The question should
+      be binary (answerable with yes/no) and about a future event.\n2. Include a specific
+      timeframe or deadline for the event to occur.\n3. The question should have clear,
+      objective resolution criteria. Avoid vague words like \"significant\", \"major\",
+      \"substantial\", etc., as these are signs of a vague question.\n4. The outcome
+      should be verifiable through reliable sources.\n\nExamples of strings that should
+      be flagged:\n- Will I finish my homework tonight?\n- Metaculus party 2023\n-
+      Will Hell freeze over?\n- Heads or tails\n- Will this video reach 100k views
+      by the EOD?\n- Will the US pass significant legislation related to AI in 2028?
+      (vague term: \"significant\")\n- Will a major breakthrough in particle physics
+      occur before 2028? (vague term: \"major breakthrough\")\n\nExamples of strings
+      that should not be flagged:\n- Will Megan Markle and Prince Harry have a baby
+      by the end of the year?\n- Will the Brain Preservation Foundation''s Large Mammal
+      preservation prize be won by Feb 9th, 2017?\n- Will there be more novel new
+      drugs approved by the FDA in 2016 than in 2015?\n\nIf a question is already
+      resolved, that doesn''t mean it should be flagged. When in doubt, mark it as
+      \"True\".\n\nYour response should take the following structure:\nreasoning:
+      { insert your concise thoughts here }\nvalid: { True/False }\n\n\nReturn the
+      correct JSON response within a ```json codeblock. not the JSON_SCHEMA"}],"model":"gpt-5.4-mini","temperature":0.5}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate, br, zstd
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2443'
+      Content-Type:
+      - application/json
+      Host:
+      - llm.wokushop.com
+      User-Agent:
+      - AsyncOpenAI/Python 2.30.0
+      X-Stainless-Arch:
+      - other:amd64
+      X-Stainless-Async:
+      - async:asyncio
+      X-Stainless-Lang:
+      - python
+      X-Stainless-OS:
+      - Windows
+      X-Stainless-Package-Version:
+      - 2.30.0
+      X-Stainless-Runtime:
+      - CPython
+      X-Stainless-Runtime-Version:
+      - 3.14.5
+      x-stainless-read-timeout:
+      - '600'
+      x-stainless-retry-count:
+      - '0'
+    method: POST
+    uri: https://llm.wokushop.com/v1/chat/completions
+  response:
+    body:
+      string: !!binary |
+        KLUv/QBYzRUAVnOUMoCp6TMwA3N7MgNBY2th206Rf8u0glAKaUnKlfp/HFwdDxziMrZZa6NGdrHJ
+        GkxLZEUDjQCGAH4A3/sNmSr9Xu/svtTRfTBqhKNLWe4bqWIchbCtWSMWOOrLGDqmSiGNosEoHgyG
+        oeDmSOFYLCheoqijbxuMVDUeDQtNw2CANI62/bWRqdKG/PukCLLFL8fU0WfbAIKq9OGYQI6Fhdag
+        hqGhcaymoWFwMKAHBNllaKxHw+yEPSDbNMYyGhCmYSKSb1RHG2tECgrrDSXfmAYOPAxISvOzKb43
+        FKCgEFEqkUj6ufSzU/x09Gn8VkXps2AaDCMtUHpcBbJheq9ocumt10sFy5b0kHHdr4NIZyPIfoK5
+        D1o84biVXOmeIfJ7K5sbp58m2bb1BCHFRvypLHE1Q7nSOZ0dAn3S0YfS3NDXRn0y+4nop6E3kEgk
+        6mgVfnYoZdvfKMX95lwo3+P3bG+CLJ9T7URZlYx2Pd9ROMoJEhMSJCZyH7sEuVj5E4QW7AC+lnSM
+        HUQqy3vTxH0ZmzzfYwjnbMjvOz3IdQhy0WsfhFDmytbxPXMlpbl5fUOWK1rHPNvyhNlKnus+fR37
+        FeUv97ky4Wfb7XTop5+Xy6XxaNSFaevYYhrhqD9evy3CaBheimCUVEEYTPPWw1e10DAc9V4H8COT
+        KgaXyFb4V6tSCb6roxHn3DxRdXlvakf9vcUiD8JXpQAMHHgYMFmRLYFc7C/GrTktbx3wg57qfbGN
+        cJLwPYLExHM6aHafDtl6pVpn1pCl88bJe/O9CBITDrmwvA0lIBCmFGN7dgEzFzDHgfd+gCrCtTtE
+        oQ3FUnMvoiTe0AciMcgvc3Y8xANuJUtySHMSukF2dgsWGhq0xsVNzZ9tshnIONugghyFlYJw2HbP
+        ahkOaaDMCOmBucZRlG7RhN2YOYYzBQ==
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, PATCH, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      CF-RAY:
+      - a0f9ca15eef255fc-SIN
+      Cf-Cache-Status:
+      - DYNAMIC
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - zstd
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 22 Jun 2026 08:12:47 GMT
+      Nel:
+      - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
+      Report-To:
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=VptsATSDts0zkofy8B8c4dNVlJMk5WuCKzRjXgJNdPWH%2FmGc6J0CTEdY0hCbufr%2FjcDww19FqEE2QQAkYzEhS6sChaIZx39rPFJiiiClgqgoHF1PqaEWzXqz6XsT1a5166%2FYM0l3FtFAP9%2FTo%2FPJ"}]}'
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      X-Oneapi-Request-Id:
+      - 202606221512408471880636CXrulzQ
+      alt-svc:
+      - h3=":443"; ma=86400
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"messages":[{"role":"system","content":"You are a helpful assistant.\n\n\n        Parse
+      the content and return a JSON object matching this schema:\n\n        {\n  \"properties\":
+      {\n    \"reasoning\": {\n      \"title\": \"Reasoning\",\n      \"type\": \"string\"\n    },\n    \"valid\":
+      {\n      \"title\": \"Valid\",\n      \"type\": \"boolean\"\n    }\n  },\n  \"required\":
+      [\n    \"reasoning\",\n    \"valid\"\n  ],\n  \"title\": \"VerificationResult\",\n  \"type\":
+      \"object\"\n}\n\n        Return a valid JSON instance, not the schema definition."},{"role":"user","content":"\nI''m
+      assessing the quality of the body (resolution criteria) of a forecasting question.
+      Here''s the body of the question:\n\nThis question will resolve as Yes if SpaceX
+      successfully lands at least one human on the surface of Mars before January
+      1, 2031. The landing must be confirmed by at least two reputable space agencies
+      (e.g., NASA, ESA, Roscosmos) or through clear and untampered video evidence
+      broadcast live from Mars.\n\nPlease evaluate the body according to the following
+      criteria:\n\n1. Clarity: The resolution criteria should be clear and unambiguous.\n2.
+      Objectivity: The criteria should be objectively measurable or verifiable.\n3.
+      Completeness: All necessary information for resolving the question should be
+      included.\n4. Appropriateness: The criteria should not mention market probabilities,
+      betting odds, or other inappropriate elements.\n\nExamples of valid bodies:\n-
+      This question will resolve as Yes if Kanye West is elected and inaugurated as
+      the president of the United States before January 1, 2030.\n- France has last
+      won the FIFA World Cup in 2018. This question will resolve as Yes if, by December
+      31, 2026, the French national football team (senior, not youth or women''s)
+      has won either the FIFA World Cup or the UEFA European Championship.\n\nExamples
+      of invalid bodies:\n- This question will resolve as Yes if it happens.\n- {\"resolution_criteria\":
+      \"nini\",\"background_info\": \"50% chance. Resolves NO if dismissed, dropped,
+      or still in process.\n\nResolves YES if there is a settlement or judgement for
+      either side.\n\nhttps://www.politico.com/news/2024/06/17/george-norcross-indictment-new-jersey-corruption-00163700\n\n[image]\"}\n-
+      This question will resolve as Yes if, by December 31, 2030, a new strain of
+      influenza virus is identified that meets the following criteria: \n  - The strain
+      must be genetically distinct from previously identified strains, with genetic
+      differences significant enough to be considered a new strain by the World Health
+      Organization (WHO) or a similar authoritative body.\n  - The strain must have
+      demonstrated the ability to cause human infection and have the potential for
+      sustained human-to-human transmission.\n  - The strain must be assessed by the
+      WHO or a similar authoritative body as having pandemic potential, meaning it
+      has a significant risk of causing widespread illness across multiple countries
+      or continents.\n  In the absence of a formal declaration by the WHO or a similar
+      authoritative body, a consensus among at least three leading infectious disease
+      research institutions will be considered sufficient for resolution.\n\nIssues
+      to flag:\n- Vague or subjective terms without clear definitions\n- Inconsistencies
+      between the body and the title\n- Inconsistencies within the body itself\n-
+      Missing crucial information needed for resolution\n- Multiple distinct pathways
+      to resolution that aren''t all important for the question\n- Any mention of
+      market probabilities, betting odds, or similar concepts\n- Spurious words or
+      irrelevant information in the body\n- Use of external links or images that are
+      crucial for understanding the resolution criteria\n- Overly complex or ambiguous
+      resolution criteria\n\nSome exceptions to the above:\n- It is okay to have subjective
+      terms if the resolution criteria references a specific source to be taken into
+      account. For example, in a question \"Will a woman win the Nobel Prize in Physics
+      by 2030?\", the preferred way to define \"woman\" is to say \"described by the
+      Nobel Prize committee as a woman\".\n- It is sometimes okay to have vague terms
+      if the question immediately clarifies an overriding criterium in case of dispute.
+      For example, \"In the event of ambiguity in the official documents, a public
+      statement from the CEO will be considered authoritative.\"\n\nYour response
+      should take the following structure:\nReasoning: { insert your concise evaluation
+      here, addressing the criteria above }\nValid: { True if the body meets all criteria,
+      False otherwise }\n\nConsider the question as a whole, not just the body. Check
+      all the sentences in the body thoroughly.\nFlag only when you have a reason
+      to believe the question is not well defined.\n\n\nReturn the correct JSON response
+      within a ```json codeblock. not the JSON_SCHEMA"}],"model":"gpt-5.4-mini","temperature":0.5}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate, br, zstd
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '4890'
+      Content-Type:
+      - application/json
+      Host:
+      - llm.wokushop.com
+      User-Agent:
+      - AsyncOpenAI/Python 2.30.0
+      X-Stainless-Arch:
+      - other:amd64
+      X-Stainless-Async:
+      - async:asyncio
+      X-Stainless-Lang:
+      - python
+      X-Stainless-OS:
+      - Windows
+      X-Stainless-Package-Version:
+      - 2.30.0
+      X-Stainless-Runtime:
+      - CPython
+      X-Stainless-Runtime-Version:
+      - 3.14.5
+      x-stainless-read-timeout:
+      - '600'
+      x-stainless-retry-count:
+      - '0'
+    method: POST
+    uri: https://llm.wokushop.com/v1/chat/completions
+  response:
+    body:
+      string: !!binary |
+        KLUv/QBYhRwA+kFECygQbbgNRhQiZeiashmPvcmuCeQ8Y++x9JsAdB+I+QnD1E0iqKqqqmoGtACg
+        AKYA7nb1Q2f83slis0K4z4JkcElG0tzNdV0yiM1ANNPNHzg4OOSS3/vdVKb81nd211xyWXMJseRK
+        1H2hTIolI+xqTogGS/oqbo/KlI+FAkOh4FhQLChwM6TAkGgofCTJJdmuBmWCOBoai8UC5LFYcu3r
+        OpUpu/Evi6CmEq+PyiVf7YOmZUpHQxfDw6EYjlIwOBoNo2EBUTQsHgrILoShjoVCoYzGQrEWFtos
+        hAGiiES+LpdcnBABr9GyiJ89CH3VW819c2W1BvdZgAkBWGHfy4od5zm65or+/ZrC14eCKSFJbAD0
+        156EG0ixOVN3egCh5hzcCTN8V7W0uQZX9S6eLLZdPMG1biNIv5/TZWq1Ylrb7PhTtQ3uk+gE1ykm
+        wzC+rHoliqs0clzW6L9oHTbKJ8MwuA/M0CG3CzCxE8YKY8/Bb43OuBx243+s+Trc5/Ffg2lZo6v1
+        A63Qe1DRVytDhzEZ30oy2B53sthrj2MBfH0efV/fGazSSAH+a436Pgiual1zXHMQXyHXHESQQIEB
+        VGzG1S3yddgeKe3BbihpfnCNghCAAs00k5Cg7PbZKezGryhpfn1MJwMSEiIpHRwcmoloZp2pg0sy
+        i5lOUjIJprsYW5/Hdl+2y+nj+6AQPoofCqYHpQ1j+vrs2vNPUVHSXHFYbeT4rz3PFPSKUp4RERGN
+        BkaKUKx9lKqEWNIZ6++KNDgWPoKaizI5Ho8F02+f6aFoLOm9D+0jL5ODiEhnyqi955KRx7nZyRTB
+        2OslnTFVEdbaZ8pEMzqj8/NYYQCeMfl7FmDCnabYYbcTSfNyKlmHFcZ0MW1TUfea4/o+n0wCV7/m
+        FCvP2xa6YvJ97oy+zuowme+F1vGDsC65nSylEcAE5NjpprBZ361KC4ZiAdc1ZxvshgFEqLEUUggJ
+        jBAxhESMRppCiwEggqKYIx8S6JUdh7FzYSqt1n8DdlDmwlwfsMPEYg2U8dZt1+EqFbgnpAcnvC4P
+        6GkAy9eaykbUXg6WQJiCfJz9ZZvq6LaT79NjIILHA4/Zn4hlmJiREKPyoiQvqa1h+uSebOAHaNdv
+        hUTZOdtmsbtMM3/HkoV8qo74kEDw4ZABBcSQDjUI5kiOrChvWhhTCg4MiKIwFQ2neNMT9TCecTvi
+        Qg/VV1BJ2Jcq
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, PATCH, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      CF-RAY:
+      - a0f9ca3fef81f902-SIN
+      Cf-Cache-Status:
+      - DYNAMIC
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - zstd
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 22 Jun 2026 08:12:56 GMT
+      Nel:
+      - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
+      Report-To:
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=7T10U34KqqHK2J9JBLz1o7a0BtnmQsAPE0DpaqGnIfuviBkTBX4iXyzbFMgsV6els%2Blu%2FcsNpfuz6W0I6A9v0kPHh6qFmXk8AdCOQFNsAA%2B0xkccM7KOqtGWejBHbjS662kGzJxlG46JzF%2FdV9j9"}]}'
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      X-Oneapi-Request-Id:
+      - 20260622151247585149788X9CCTWNx
+      alt-svc:
+      - h3=":443"; ma=86400
+    status:
+      code: 200
+      message: OK
+version: 1

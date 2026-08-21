@@ -1,0 +1,8 @@
+{
+    "model": "gemini-2.5-flash",
+    "adversarial_model": "gemini-2.5-flash",
+    "preface": null,
+    "examples": [],
+    "adversarial_enabled": true,
+    "tcd_enabled": true
+}

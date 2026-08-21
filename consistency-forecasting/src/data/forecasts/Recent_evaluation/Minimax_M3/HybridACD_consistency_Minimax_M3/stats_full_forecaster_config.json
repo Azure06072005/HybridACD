@@ -1,0 +1,8 @@
+{
+    "model": "tduckcontact/MiniMax-M3",
+    "adversarial_model": "tduckcontact/MiniMax-M3",
+    "preface": null,
+    "examples": [],
+    "adversarial_enabled": true,
+    "tcd_enabled": true
+}

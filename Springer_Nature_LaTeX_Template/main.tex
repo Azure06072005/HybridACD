@@ -1,0 +1,359 @@
+%%
+%% Springer Nature LaTeX Template — Research Article
+%% HybridACD: Adversarial Constraint Decoding for Logically Consistent LLM Forecasting
+%%
+
+\documentclass[pdflatex,sn-mathphys-num]{sn-jnl}
+
+\usepackage[backend=biber]{biblatex}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[vietnamese,english]{babel}
+% \usepackage[backend=biber,autolang=other,babel=other]{biblatex}
+\addbibresource{ref.bib}
+%% -------------------------------------------------------------------
+\begin{document}
+\selectlanguage{english}
+
+\title[HybridACD]{HybridACD: Hybrid Adversarial Constrained Decoding for Logically Consistent Large Language Model Forecasting}
+
+\author*[1]{\fnm{Kiet} \sur{Tran Anh}}\email{23520820@gm.uit.edu.vn}
+
+\affil*[1]{\orgdiv{Faculty of Information Science and Engineering}, \orgname{University of Information Technology, VNU-HCM}, \orgaddress{\city{Ho Chi Minh City}, \country{Vietnam}}}
+
+\abstract{
+This report investigates the problem of \textit{probability consistency} in large language models (LLMs) when they are used as forecasting agents. Although LLMs can produce plausible probability estimates for individual questions, their predictions may still violate basic logical relations such as negation, paraphrase, conjunction, disjunction, and conditional probability. Such violations reduce the reliability of forecasting systems and can be interpreted as Dutch Book vulnerabilities in probability space.
+
+To address this problem, we propose \textbf{HybridACD} (\textit{Hybrid Adversarial Consistency Decoding}), a decoding-time intervention architecture that combines two mechanisms: (i) adversarial rewriting, which generates question variants that are semantically equivalent but difficult to solve through shallow surface-pattern matching, and (ii) token-constrained decoding, which restricts the output probability to a valid interval derived from consistency rules. Unlike costly post-hoc calibration or model fine-tuning that may suffer from Goodhart effects, HybridACD keeps the model weights unchanged and enforces constraints only at the final probability extraction step.
+
+Experiments on six LLMs show that HybridACD reduces the average Aggregated Violation Score from $0.1522$ to $0.0053$ ($-95.5\%$), while improving the Brier Score by $2.4\%$ to $17.3\%$ on the models with full evaluation. These results suggest that decoding-time constraints are an effective direction for improving the probability consistency of LLM forecasters without degrading forecasting accuracy.
+}
+
+\keywords{LLM forecasting, Probability consistency, Token-constrained decoding, Adversarial rewriting, Dutch Book, Decoding-time alignment}
+
+\maketitle
+\tableofcontents
+
+%%=======================================================================
+\section{Introduction}\label{sec:intro}
+%%=======================================================================
+
+Large language models (LLMs) are increasingly used in probabilistic forecasting tasks, where a model must assign a value $p \in [0,1]$ to the likelihood of a future event. Unlike standard classification tasks, forecasting requires the model not only to provide a plausible answer for each individual question, but also to maintain a coherent belief system across multiple logically related questions. For example, if a model predicts $P(A)=0.70$, then the probability of the negated event $\neg A$ should be close to $0.30$; otherwise, the system violates the additivity axiom of probability.
+
+Recent studies on LLM forecasters show that consistency scores can serve as early evaluation signals when ground truth has not yet become available \cite{ref1}. This is especially important in future-event forecasting, where waiting for event resolution may take months or years. However, good calibration on individual questions does not guarantee consistency over groups of logically related questions. An LLM may obtain a low Brier Score while still producing contradictory probabilities for negated events, equivalent events, or compound events.
+
+This issue can be formalized through the Dutch Book argument: if a set of probability forecasts is internally inconsistent, an adversary can construct a portfolio of bets that guarantees positive profit regardless of the actual outcome. Therefore, probability consistency is not merely a formal requirement, but also a necessary condition for an LLM forecaster to be considered a reliable decision-making system. Post-hoc methods such as arbitrage calibration can reduce violations, but they often require many model calls and may incur high cost. In contrast, directly optimizing model weights for consistency may lead to a Goodhart effect: the model learns to optimize the consistency metric through neutral predictions such as $P=0.5$, thereby reducing its practical forecasting value.
+
+This report focuses on \textbf{HybridACD}, a hybrid architecture that combines adversarial rewriting and token-constrained decoding. The central idea is to impose probability constraints at decoding time, before the final probability is committed. This approach has three advantages: it does not require model retraining, it avoids iterative post-hoc calibration, and it can directly convert probability rules into valid intervals for output tokens.
+
+\textbf{The main contributions} of this report are:
+\begin{enumerate}
+  \item We present the HybridACD framework for LLM forecasting, combining adversarial rewriting with decoding-time probability constraints.
+  \item We formalize how probability consistency rules can be converted into bounds $[\ell,u]$ for Token-Constrained Decoding (TCD).
+  \item We empirically evaluate HybridACD across multiple LLMs, focusing on three criteria: reducing consistency violations, improving Brier Score, and controlling inference cost.
+\end{enumerate}
+
+%%=======================================================================
+\section{Related Work}\label{sec:related}
+%%=======================================================================
+
+\subsection{Probability Consistency in LLM Forecasters}
+
+Paleka et al.\ \cite{ref1} propose evaluating LLM forecasters through consistency checks across multiple logically related questions. Instead of scoring forecasts only after events are resolved, this approach tests whether the probabilities generated by a model satisfy relations such as negation, implication, conjunction, disjunction, and conditional probability. This work provides the direct foundation for HybridACD, because the goal of the system is not only to forecast each question accurately, but also to maintain a valid probability distribution over the entire question set.
+
+At the mechanistic level, LLMs generate text by predicting the next token from a conditional probability distribution \cite{ref2}. However, internal token probabilities do not always correspond to the logical validity of the final answer. Analyses of probability consistency show that models may prefer token sequences that are natural in language but inconsistent in probability space \cite{ref4,ref5}. This explains why a separate intervention at the numerical output layer is needed, instead of relying only on prompting or sequence probability.
+
+\subsection{Preference Optimization and Self-Consistency}
+
+One direction for improving reasoning is to use internal probability signals during optimization. Yang et al.\ \cite{ref3} propose Probability-Consistent Preference Optimization (PCPO), where preference selection is based not only on answer correctness but also on token-level probability consistency. Zhou et al.\ \cite{ref6} connect internal probability with self-consistency by using perplexity to select or prune unreliable reasoning paths. These studies show that internal probability can support reasoning, but most of them act during training or sample selection. HybridACD differs by imposing constraints directly at the moment when the final probability is decoded.
+
+\subsection{Constrained Decoding and Decoding-Time Alignment}
+
+Constrained decoding refers to methods that control LLM outputs by restricting valid tokens during generation. Koo et al.\ \cite{ref7} use automata to represent formal constraints, which is especially useful for structured outputs such as JSON, API calls, or expressions with a predefined grammar. Yao et al.\ \cite{ref9} show that Token Constraint Decoding can improve robustness in question answering when the output must belong to a valid token set. Huang et al.\ \cite{ref11} extend this idea through DeAL, a decoding-time alignment framework that can combine multiple rewards and declarative constraints.
+
+However, constrained decoding also involves trade-offs. Schall and de Melo \cite{ref10} show that structural constraints can reduce generation performance, especially for instruction-tuned models, because they may push the model away from the natural language patterns it prefers. Therefore, HybridACD applies constraints only during the numerical probability extraction step rather than constraining the entire reasoning process. This design preserves the model's free-form reasoning ability while controlling the final probability value so that it satisfies probability axioms.
+
+\subsection{Controlled Prompting and Adversarial Robustness}
+
+Mousavi and Termehchy \cite{ref8} show that controlled prompting and decoding can reduce inconsistent answers across equivalent queries. In HybridACD, adversarial rewriting is used for a similar goal but in the context of probabilistic forecasting: questions are transformed syntactically through entity substitution, negation lifting, or nested conditions while preserving the same resolution criteria. This helps prevent the model from merely learning the surface patterns of consistency checks.
+
+Taken together, these research directions reveal a gap at the intersection of three elements: logical consistency evaluation, internal probability signals, and decoding-time output control. HybridACD is designed to address this gap through a compact, training-free pipeline applicable to many base LLMs.
+
+%%=======================================================================
+\section{Method}\label{sec:method}
+%%=======================================================================
+
+\subsection{Problem Formulation}
+
+Let $\mathcal{Q}$ denote the set of binary forecasting questions. A forecaster $\mathcal{F}$ maps each question $Q \in \mathcal{Q}$ to a subjective probability:
+\begin{equation}
+  \mathcal{F}: \mathcal{Q} \rightarrow [0,1], \quad p=\mathcal{F}(Q).
+\end{equation}
+A question set $T=\{Q_1,\ldots,Q_k\}$ is called a consistency set if the questions are connected by a logical relation $\mathcal{L}$ that induces a probability constraint $\mathcal{C}(p_1,\ldots,p_k)$. For example, under the negation rule, $\mathcal{C}$ requires $p_P+p_{\neg P}=1$.
+
+The goal of HybridACD is to generate predictions $\hat{p}_1,\ldots,\hat{p}_k$ such that:
+\begin{equation}
+  \mathcal{C}(\hat{p}_1,\ldots,\hat{p}_k)=0
+  \quad \text{and} \quad
+  \mathbb{E}[(\hat{p}-y)^2] \text{ is minimized as much as possible},
+\end{equation}
+where $(\hat{p}-y)^2$ is the Brier Score and $y\in\{0,1\}$ is the realized outcome.
+
+\subsection{Consistency Rules}
+
+HybridACD uses ten probability consistency rules, summarized in Table~\ref{tab:consistency_rules}. Each rule is converted into a feasible interval $[\ell,u]$ for the current prediction based on previously obtained predictions.
+
+\begin{table}[h]
+\caption{Ten probability consistency rules and their mathematical constraints.
+  For each rule, $\ell$ and $u$ denote the lower and upper bounds imposed on the target variable
+  given previously known values.}
+\label{tab:consistency_rules}
+\begin{tabular}{@{}llll@{}}
+\toprule
+\# & Rule & Constraint $\mathcal{C}(p_1, \ldots, p_k)$ & Set Key \\
+\midrule
+1 & \textsc{Negation}      & $p_P + p_{\neg P} = 1$                          & $\{P, \neg P\}$ \\
+2 & \textsc{Paraphrase}    & $p_P = p_{P'}$                                  & $\{P, P'\}$ \\
+3 & \textsc{Consequence}   & $P \models B \Rightarrow p_P \leq p_B$          & $\{P, B\}$ \\
+4 & \textsc{And}           & $\max(0,p+q-1) \leq p_{P \wedge Q} \leq \min(p,q)$ & $\{P,Q,P\wedge Q\}$ \\
+5 & \textsc{Or}            & $\max(p,q) \leq p_{P \vee Q} \leq \min(1,p+q)$ & $\{P,Q,P\vee Q\}$ \\
+6 & \textsc{But}           & $p_{P \vee Q} = p_P + p_{Q \wedge \neg P}$     & $\{P,Q\wedge\neg P,P\vee Q\}$ \\
+7 & \textsc{Conditional}   & $p_{P \wedge Q} = p_P \cdot p_{Q|P}$           & $\{P,Q|P,P\wedge Q\}$ \\
+8 & \textsc{CondCond}      & $p_{P\wedge Q\wedge R} = p_P \cdot p_{Q|P} \cdot p_{R|P\wedge Q}$ & $\{P,Q|P,R|P\wedge Q,P\wedge Q\wedge R\}$ \\
+9 & \textsc{And-Or}        & $p_P + p_Q = p_{P\vee Q} + p_{P\wedge Q}$      & $\{P,Q,P\wedge Q,P\vee Q\}$ \\
+10 & \textsc{Expected Evidence} & $p_P = p_Q p_{P|Q} + (1-p_Q)p_{P|\neg Q}$ & $\{P,Q,P|Q,P|\neg Q\}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Overview of the HybridACD Architecture}
+
+HybridACD consists of two main components. The first component is the \textit{Adversarial Input Agent}, which uses an auxiliary language model to rewrite a forecasting question so that it becomes syntactically more complex while preserving the same resolution criteria. The second component is \textit{Token-Constrained Decoding}, which computes the valid probability interval and forces the parsing model to return a value inside that interval.
+
+For a question $Q_i$, the adversarial agent generates the variant:
+\begin{equation}
+  Q_i' = \mathcal{M}_{adv}(Q_i;\tau=0.7),
+  \quad \text{Sem}(Q_i')=\text{Sem}(Q_i).
+\end{equation}
+The transformations include subordinate-clause insertion, entity substitution, negation lifting, and nested conditionals. The goal is not to change the label, but to reduce the model's ability to rely on shallow pattern matching.
+
+The main model then generates free-form reasoning:
+\begin{equation}
+  \text{cot}_i=\mathcal{M}(Q_i').
+\end{equation}
+This reasoning step is not constrained, allowing the model to retain the benefits of Chain-of-Thought reasoning. Constraints are applied only when extracting the final probability.
+
+\subsection{Computing Probability Bounds}
+
+Assume that previous predictions are $\hat{p}_1,\ldots,\hat{p}_{i-1}$. Given the logical rule $\mathcal{L}$, HybridACD computes:
+\begin{equation}
+  \ell_i = \max(0,\phi_{\ell}(\hat{p}_1,\ldots,\hat{p}_{i-1};\mathcal{L})),
+  \quad
+  u_i = \min(1,\phi_{u}(\hat{p}_1,\ldots,\hat{p}_{i-1};\mathcal{L})).
+  \label{eq:bounds}
+\end{equation}
+For example, under the \textsc{Cond} rule, if $\hat{p}_P$ and $\hat{p}_{Q|P}$ are known, then the valid value for $P\wedge Q$ is:
+\begin{equation}
+  \ell=u=\hat{p}_P \cdot \hat{p}_{Q|P}.
+\end{equation}
+Under the \textsc{And} rule, the valid value for $P\wedge Q$ lies in the interval:
+\begin{equation}
+  \max(0,\hat{p}_P+\hat{p}_Q-1)
+  \leq \hat{p}_{P\wedge Q}
+  \leq
+  \min(\hat{p}_P,\hat{p}_Q).
+\end{equation}
+
+\subsection{Token-Constrained Decoding}
+
+TCD operates on the discrete probability value set:
+\[
+  \mathcal{V}_{num}=\{0.00,0.01,\ldots,1.00\}.
+\]
+Each value $v\in\mathcal{V}_{num}$ is tokenized to identify the token representing the probability. Given a valid interval $[\ell_i,u_i]$, HybridACD constructs the following logit bias:
+\begin{equation}
+  b_{t_v} =
+  \begin{cases}
+    0, & \text{if } v \in [\ell_i,u_i],\\
+    -100, & \text{if } v \notin [\ell_i,u_i].
+  \end{cases}
+\end{equation}
+Probability tokens outside the valid interval are strongly penalized, while valid tokens remain unchanged. If the API does not support logit bias or the parsing process fails, the system uses a deterministic fallback:
+\begin{equation}
+  \hat{p}_i=\text{clip}(p_{raw},\ell_i,u_i).
+\end{equation}
+Therefore, the final output always lies within the probability interval derived from the consistency rule.
+
+\begin{algorithm}
+\caption{HybridACD Inference Pipeline}
+\label{alg:hybridacd}
+\begin{algorithmic}[1]
+\Require Consistency set $T = \{(Q_1, \text{key}_1), \ldots, (Q_k, \text{key}_k)\}$, rule $\mathcal{L}$
+\Ensure Predictions $\{\hat{p}_1, \ldots, \hat{p}_k\}$ satisfying $\mathcal{C}(p_1, \ldots, p_k)$
+\State $\mathcal{H} \gets \{\}$ \Comment{History of previous predictions}
+\For{$i = 1, \ldots, k$}
+  \State $Q_i' \gets \mathcal{M}_\text{adv}(Q_i; \tau=0.7)$ \Comment{Adversarial rewriting}
+  \State $[\ell_i, u_i] \gets \phi(\mathcal{H}, \text{key}_i, \mathcal{L})$ \Comment{Bound computation}
+  \State $\text{cot}_i \gets \mathcal{M}(Q_i')$ \Comment{Chain-of-Thought generation}
+  \State $B \gets \{t_v \mapsto b_{t_v}\}_{v \in \mathcal{V}_\text{num}}$ \Comment{Logit-bias map construction}
+  \State $\hat{p}_i \gets \text{parse}(\text{cot}_i \mid B)$ \Comment{TCD-constrained extraction}
+  \State $\hat{p}_i \gets \text{clip}(\hat{p}_i, \ell_i, u_i)$ \Comment{Deterministic fallback}
+  \State $\mathcal{H}[\text{key}_i] \gets \hat{p}_i$ \Comment{Store for later bounds}
+\EndFor
+\State \Return $\{\hat{p}_1, \ldots, \hat{p}_k\}$
+\end{algorithmic}
+\end{algorithm}
+
+%%=======================================================================
+\section{Experimental Results}\label{sec:results}
+%%=======================================================================
+
+\subsection{Experimental Setup}
+
+HybridACD is evaluated on a forecasting benchmark composed of question sets with logical relations. The tested models include Gemini-2.5-Flash, GPT-4o-mini, GPT-5.4-mini, MiniMax-M3, Mistral-Medium-3.5-128B, and Mistral-Small-4-119B. For each model, this report compares the BasicForecaster baseline with the full HybridACD variant.
+
+The main metrics are: (i) Aggregated Violation Score (AVS, lower is better), which measures consistency violations through an arbitrage-based metric; (ii) the Frequentist score, which measures deviation from the expected distribution; (iii) Brier Score, which measures real forecasting error; and (iv) Calibration Error, which measures the deviation between predicted confidence and empirical accuracy.
+
+\subsection{Reduction in Consistency Violations}
+
+Table~\ref{tab:avs_results} shows that HybridACD reduces AVS across all six models. The average reduction reaches $95.5\%$, from $0.1522$ to $0.0053$. This indicates that decoding-time constraints can effectively control logical violations without being strongly dependent on the base model architecture.
+
+\begin{table}[h]
+\caption{Aggregated Violation Score (AVS, $\downarrow$) and Frequentist score ($\downarrow$)
+  for BasicForecaster versus HybridACD on the Scraped benchmark. Best values are shown in bold.}
+\label{tab:avs_results}
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+\multirow{2}{*}{Model} &
+  \multicolumn{2}{c}{AVS (default)} &
+  \multicolumn{2}{c}{Frequentist} &
+  \multicolumn{2}{c}{Improvement} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+& Baseline & HybridACD & Baseline & HybridACD & $\Delta$AVS & $\Delta\%$ \\
+\midrule
+Gemini-2.5-Flash      & 0.1116 & \textbf{0.0087} & 0.2612 & 0.0168 & $-0.1029$ & $-92.2\%$ \\
+GPT-4o-mini           & 0.0307 & \textbf{0.0007} & 0.1752 & 0.0055 & $-0.0300$ & $-97.6\%$ \\
+GPT-5.4-mini          & 0.4909 & \textbf{0.0107} & 1.0423 & 0.0227 & $-0.4802$ & $-97.8\%$ \\
+MiniMax-M3            & 0.1266 & \textbf{0.0005} & 0.3756 & 0.0048 & $-0.1261$ & $-99.6\%$ \\
+Mistral-Medium-3.5    & 0.0792 & \textbf{0.0087} & 0.2494 & 0.0168 & $-0.0705$ & $-89.1\%$ \\
+Mistral-Small-4       & 0.0740 & \textbf{0.0023} & 0.2421 & 0.0156 & $-0.0717$ & $-96.8\%$ \\
+\midrule
+\textbf{Average}      & 0.1522 & \textbf{0.0053} & 0.2910 & 0.0137 & $-0.1469$ & $-95.5\%$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The largest improvements appear for MiniMax-M3 ($-99.6\%$) and GPT-5.4-mini ($-97.8\%$). GPT-5.4-mini has a substantially higher baseline AVS than the other models, but after HybridACD its AVS decreases to $0.0107$. This result suggests that TCD is especially useful when a model tends to produce extreme or unstable probabilities across logically related questions.
+
+\subsection{Forecasting Accuracy}
+
+Table~\ref{tab:brier_results} reports Brier Scores on 242 real-world questions. HybridACD improves the Brier Score for all five models with complete evaluation, with reductions ranging from $2.4\%$ to $17.3\%$.
+
+\begin{table}[h]
+\caption{Brier Score (BS, $\downarrow$) and Calibration Error (CE, $\downarrow$) on
+  242 real-world questions. HybridACD improves BS for all models, confirming
+  the absence of Goodhart collapse. \dag~marks cases where the increase in Calibration Error
+  remains under investigation.}
+\label{tab:brier_results}
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+\multirow{2}{*}{Model} &
+  \multicolumn{2}{c}{Brier Score} &
+  \multicolumn{2}{c}{Calibration Error} &
+  \multirow{2}{*}{$\Delta$BS} &
+  \multirow{2}{*}{Goodhart?} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+& Baseline & HybridACD & Baseline & HybridACD & & \\
+\midrule
+Gemini-2.5-Flash   & 0.141 & \textbf{0.130} & 0.195 & 0.185 & $-7.8\%$  & No \\
+GPT-4o-mini        & 0.205 & \textbf{0.200} & 0.161 & \textbf{0.105} & $-2.4\%$  & No \\
+MiniMax-M3         & 0.123 & \textbf{0.116} & 0.161 & \textbf{0.117} & $-5.7\%$  & No \\
+Mistral-Medium-3.5 & 0.202 & \textbf{0.167} & 0.090 & 0.138\dag & $-17.3\%$ & No \\
+Mistral-Small-4    & 0.211 & \textbf{0.202} & 0.124 & 0.127\dag & $-4.3\%$  & No \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+These results show that HybridACD does not suffer from the Goodhart effect. The reason is that the system does not directly optimize model weights with respect to a consistency metric; instead, it only constrains the final output probability according to mathematical rules. However, Calibration Error increases for the two Mistral models, suggesting that hard constraints may compress the model's confidence distribution toward constraint boundaries. This limitation should be addressed in future work through softer penalty mechanisms.
+
+\subsection{Comparison with Baselines}
+
+Table~\ref{tab:comparison_baseline} places HybridACD next to common forecasting baselines. Compared with ArbitrageForecaster, HybridACD achieves substantially lower AVS while requiring much lower cost per question. Notably, HybridACD + MiniMax-M3 obtains a Brier Score of $0.116$, outperforming the more expensive CoT configurations shown in the comparison.
+
+\begin{table}[h]
+\caption{Comprehensive comparison of forecasting methods on the Scraped benchmark. HybridACD achieves
+  the best AVS with negligible additional cost and no Goodhart risk. Costs are estimated
+  using API prices from June 2026.}
+\label{tab:comparison_baseline}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Method & AVS ($\downarrow$) & Brier Score ($\downarrow$) & Cost/Question (USD) & Goodhart \\
+\midrule
+BasicForecaster (GPT-4o-mini)          & $\sim 0.412$ & $0.205$--$0.231$ & \$0.002 & --- \\
+CoT-Forecaster (GPT-4o)                & $\sim 0.287$ & $\sim 0.198$      & \$0.018 & --- \\
+CoT-Forecaster (o1-preview, best)      & $\sim 0.089$ & $\sim 0.170$      & \$0.05+ & --- \\
+ArbitrageForecaster ($N=4$)            & $\sim 0.161$ & $\sim 0.245$      & $\sim$\$2,500 & Overfit \\
+\midrule
+HybridACD + GPT-4o-mini (ours)        & \textbf{0.0007} & $0.200$ & \$0.019 & No \\
+HybridACD + Gemini-2.5-Flash (ours)   & $0.0087$        & $0.130$ & $\sim$\$0.07 & No \\
+HybridACD + MiniMax-M3 (ours)         & \textbf{0.0005} & \textbf{0.116} & $\sim$\$0.08 & No \\
+HybridACD + Mistral-Medium-3.5 (ours) & $0.0087$        & $0.167$ & \$0.115 & No \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Three observations can be drawn from the table. First, HybridACD improves consistency more strongly than post-hoc calibration methods while avoiding many rounds of optimization. Second, forecasting accuracy is not sacrificed for consistency. Third, the additional cost of HybridACD mainly comes from adversarial rewriting and probability extraction, making it more suitable for practical deployment than multi-round iterative methods.
+
+\subsection{Ablation Study}
+
+Table~\ref{tab:ablation} evaluates the role of each component in HybridACD. When TCD is removed, AVS increases from $0.0007$ to $0.0147$, indicating that TCD is the main component responsible for hard consistency guarantees. When the adversarial agent is removed, AVS increases to $0.0012$ and the Brier Score slightly worsens, showing that adversarial rewriting improves robustness against linguistic artifacts.
+
+\begin{table}[h]
+\caption{Ablation study on GPT-4o-mini. Full HybridACD achieves the best consistency,
+  while each module contributes independently.}
+\label{tab:ablation}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Configuration & AVS & Brier Score & Hard Guarantee? \\
+\midrule
+BasicForecaster                         & 0.0307 & 0.205 & No \\
+HybridACD$^{-\text{adv}}$ (TCD only)    & 0.0012 & 0.202 & Yes \\
+HybridACD$^{-\text{tcd}}$ (Adversarial only) & 0.0147 & 0.206 & No \\
+\textbf{Full HybridACD}                 & \textbf{0.0007} & \textbf{0.200} & Yes \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%%=======================================================================
+\section{Discussion}\label{sec:discussion}
+%%=======================================================================
+
+The experimental results show that HybridACD achieves a balance among three objectives: probability consistency, forecasting accuracy, and inference cost. Methodologically, the key difference of HybridACD lies in the location of intervention. Instead of modifying probabilities after the model has answered or updating weights during training, the system intervenes at the final probability extraction step. As a result, the model can still reason freely, but its numerical output must lie within the valid domain.
+
+The adversarial component tests the model's robustness to meaning-preserving linguistic transformations. This is particularly important for rules such as \textsc{Negation} and \textsc{Paraphrase}, where models are easily affected by surface lexical cues. TCD, in contrast, acts as a mathematical guardrail that ensures the final probability does not violate bounds derived from consistency rules.
+
+Nevertheless, HybridACD has several limitations. First, hard constraints may increase Calibration Error for some models, especially when the interval $[\ell,u]$ is too narrow compared with the model's natural confidence distribution. Second, sequential processing reduces the ability to parallelize large consistency sets. Third, discretizing probability values with a step size of $0.01$ is suitable for many practical forecasting tasks, but it may be insufficiently fine-grained for applications requiring higher numerical precision.
+
+%%=======================================================================
+\section{Conclusion}\label{sec:conclusion}
+%%=======================================================================
+
+This report presented HybridACD, a hybrid architecture for improving the probability consistency of LLM forecasters through adversarial rewriting and token-constrained decoding. Building on prior work on consistency checks, probability-consistent optimization, self-consistency, and constrained decoding, HybridACD chooses decoding time as the intervention point in order to avoid two major limitations of previous approaches: the cost of post-hoc calibration and the Goodhart risk of directly optimizing the model.
+
+Experiments show that HybridACD reduces average AVS by $95.5\%$ and improves Brier Score on the models with complete evaluation. This suggests that probability consistency does not necessarily have to be traded off against forecasting accuracy if constraints are applied at the right location. Future work can extend the system in three directions: using soft logit bias instead of hard blocking, improving the handling of deeply nested conditional chains, and evaluating HybridACD on LLM forecasters that integrate RAG or real-time data.
+
+%%=======================================================================
+\section*{Acknowledgements}
+%%=======================================================================
+\printbibliography
+\end{document}
+

@@ -1,0 +1,90 @@
+{
+    "total_questions": 242,
+    "avg_brier_score": 0.141,
+    "avg_platt_brier_score": 0.148,
+    "tuned_brier_baseline": 0.227,
+    "avg_brier_score_scaled": 43.5,
+    "avg_platt_brier_score_scaled": 40.7,
+    "tuned_brier_baseline_scaled": 9.3,
+    "avg_log_score": 2.011,
+    "platt_scaling_factor": 1.372,
+    "brier_score_decomposition": {
+        "uncertainty": 0.227,
+        "reliability": 0.197,
+        "resolution": 0.108
+    },
+    "calibration_error": 0.195,
+    "calibration_error_data": {
+        "bins": [
+            0.01,
+            0.03,
+            0.05,
+            0.1,
+            0.2,
+            0.3,
+            0.4,
+            0.5,
+            0.7,
+            0.8,
+            0.9,
+            0.95,
+            0.97,
+            0.99
+        ],
+        "bin_accuracies": [
+            0.11,
+            0.0,
+            0.077,
+            0.25,
+            0.0,
+            0.375,
+            0.333,
+            0.0,
+            0.778,
+            0.692,
+            0.0,
+            0.611,
+            1.0,
+            0.919
+        ],
+        "bin_confidences": [
+            0.001,
+            0.02,
+            0.05,
+            0.15,
+            0.25,
+            0.35,
+            0.45,
+            0.5,
+            0.672,
+            0.845,
+            0.88,
+            0.95,
+            0.98,
+            0.999
+        ],
+        "num_samples": [
+            109,
+            1,
+            26,
+            8,
+            2,
+            8,
+            6,
+            2,
+            9,
+            13,
+            1,
+            18,
+            2,
+            37
+        ],
+        "calibration_error": 0.195
+    },
+    "forecaster": "BasicForecaster",
+    "full_forecaster_config": {
+        "model": "gemini-2.5-flash",
+        "preface": "You are an informed and well-calibrated forecaster. I need you to give me your best probability estimate for the following sentence or question resolving YES. Your answer should be a float between 0 and 1, with nothing else in your response.",
+        "examples": []
+    }
+}

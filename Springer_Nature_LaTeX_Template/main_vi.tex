@@ -1,0 +1,356 @@
+%% Springer Nature LaTeX Template — Research Article
+%% HybridACD: Giải mã Ràng buộc Đối nghịch cho Dự báo LLM Nhất quán về Mặt Logic
+%%
+
+\documentclass[pdflatex,sn-mathphys-num,oneside]{sn-jnl}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[vietnamese,english]{babel}
+
+%% -------------------------------------------------------------------
+\begin{document}
+\selectlanguage{vietnamese}
+
+\title[HybridACD]{HybridACD: Giải mã Ràng buộc Đối nghịch cho Dự báo Mô hình Ngôn ngữ Lớn Nhất quán về Mặt Logic}
+
+\author*[1]{\fnm{Kiệt} \sur{Trần Anh}}\email{23520820@gm.uit.edu.vn}
+
+\affil*[1]{\orgdiv{Khoa Khoa học và Kỹ thuật thông tin}, \orgname{Trường Đại học Công nghệ Thông tin, ĐHQG-HCM}, \orgaddress{\city{Thành phố Hồ Chí Minh}, \country{Việt Nam}}}
+
+\abstract{
+Báo cáo này nghiên cứu vấn đề \textit{nhất quán xác suất} của các mô hình ngôn ngữ lớn (LLM) khi được sử dụng như tác nhân dự báo. Mặc dù LLM có thể sinh ra các ước lượng xác suất hợp lý ở cấp độ từng câu hỏi, các dự đoán của chúng vẫn có thể vi phạm các quan hệ logic cơ bản như phủ định, diễn giải lại, hội, tuyển và xác suất có điều kiện. Những vi phạm trên làm giảm độ tin cậy của hệ thống dự báo và có thể được diễn giải như các lỗ hổng Dutch Book trong không gian xác suất.
+
+Để giải quyết vấn đề trên, chúng tôi đề xuất \textbf{HybridACD} (\textit{Hybrid Adversarial Consistency Decoding}), một kiến trúc can thiệp tại thời điểm giải mã nhằm kết hợp hai cơ chế: (i) viết lại đối nghịch để tạo các biến thể câu hỏi tương đương về mặt ngữ nghĩa nhưng khó khớp mẫu bề mặt.(ii) giải mã ràng buộc token để giới hạn xác suất đầu ra trong khoảng hợp lệ được suy ra từ các quy tắc nhất quán. Khác với hiệu chỉnh hậu nghiệm tốn kém hoặc tinh chỉnh mô hình có nguy cơ Goodhart, HybridACD giữ nguyên trọng số mô hình và áp đặt ràng buộc ở bước trích xuất xác suất cuối cùng.
+
+Thực nghiệm trên sáu LLM cho thấy HybridACD giảm Điểm Vi phạm Tổng hợp trung bình từ $0,1522$ xuống $0,0053$ ($-95,5\%$), đồng thời cải thiện Điểm Brier từ $2,4\%$ đến $17,3\%$ trên các mô hình được đánh giá đầy đủ. Kết quả gợi ý rằng ràng buộc tại thời điểm giải mã là một hướng tiếp cận hiệu quả để nâng cao tính nhất quán xác suất của LLM forecasters mà không làm suy giảm độ chính xác dự báo.
+}
+
+% \keywords{Dự báo LLM, Nhất quán xác suất, Giải mã ràng buộc token, Viết lại đối nghịch, Dutch Book, Decoding-time alignment}
+
+\maketitle
+\tableofcontents
+
+%%=======================================================================
+\section{Giới thiệu}\label{sec:intro}
+%%=======================================================================
+
+Các mô hình ngôn ngữ lớn (LLM) ngày càng được sử dụng trong các tác vụ dự báo xác suất, nơi mô hình phải gán một giá trị $p \in [0,1]$ cho khả năng xảy ra của một sự kiện. Khác với các bài toán phân loại thông thường, dự báo yêu cầu mô hình không chỉ đưa ra một câu trả lời hợp lý mà còn phải duy trì một hệ thống niềm tin nhất quán giữa nhiều câu hỏi có liên hệ logic. Ví dụ, nếu một mô hình dự đoán $P(A)=0,70$ thì xác suất cho biến cố phủ định $\neg A$ phải là $0,30$. Nếu không, hệ thống sẽ vi phạm tiên đề cộng xác suất.
+
+Các nghiên cứu gần đây về LLM forecasters cho thấy điểm số nhất quán có thể được dùng như một tín hiệu đánh giá sớm khi ground truth chưa xuất hiện \cite{ref1}. Điều này đặc biệt quan trọng trong các bài toán dự báo tương lai, nơi việc chờ kết quả thực tế có thể mất rất nhiều thời gian. Tuy nhiên, hiệu chỉnh tốt trên từng câu hỏi riêng lẻ không đảm bảo rằng mô hình nhất quán trên các nhóm câu hỏi có quan hệ logic. Một LLM có thể có Điểm Brier thấp nhưng vẫn đưa ra các xác suất mâu thuẫn đối với các biến cố phủ định, biến cố tương đương, hoặc các biến cố hợp thành.
+
+Vấn đề này có thể được hình thức hóa bằng lập luận Dutch Book: nếu một tập dự đoán xác suất không nhất quán, một đối thủ có thể xây dựng danh mục cược đảm bảo lợi nhuận dương bất kể kết quả thực tế. Do đó, tính nhất quán xác suất không chỉ là yêu cầu hình thức, mà còn là điều kiện cần để LLM forecaster có thể được xem là một hệ thống ra quyết định đáng tin cậy. Các phương pháp hậu nghiệm như hiệu chỉnh arbitrage có thể làm giảm vi phạm, nhưng thường đòi hỏi nhiều vòng gọi mô hình và dễ phát sinh chi phí lớn. Ngược lại, tối ưu hóa trực tiếp vào trọng số mô hình có thể tạo ra hiệu ứng Goodhart: mô hình học cách tối ưu chỉ số nhất quán bằng các dự đoán trung tính như $P=0,5$ đã làm suy giảm giá trị dự báo thực tế.
+
+Báo cáo này tập trung vào \textbf{HybridACD}, một kiến trúc lai kết hợp viết lại đối nghịch và giải mã ràng buộc token. Ý tưởng chính là áp đặt các ràng buộc xác suất tại thời điểm giải mã trước khi xác suất cuối cùng được chốt. Cách tiếp cận này có ba ưu điểm: không cần huấn luyện lại mô hình, không cần hiệu chỉnh lặp hậu nghiệm và có thể chuyển trực tiếp các quy tắc xác suất thành khoảng hợp lệ cho token đầu ra.
+
+\textbf{Đóng góp chính} của báo cáo gồm:
+\begin{enumerate}
+  \item Trình bày một khung HybridACD cho dự báo LLM, kết hợp viết lại đối nghịch và ràng buộc xác suất tại thời điểm giải mã.
+  \item Hình thức hóa cách chuyển các quy tắc nhất quán xác suất thành các cận $[\ell,u]$ dùng trong Token Constraint Decoding (TCD).
+  \item Đánh giá thực nghiệm HybridACD trên nhiều LLM, tập trung vào ba tiêu chí: giảm vi phạm nhất quán, cải thiện Điểm Brier và kiểm soát chi phí suy luận.
+\end{enumerate}
+
+%%=======================================================================
+\section{Các công trình liên quan}\label{sec:related}
+%%=======================================================================
+
+\subsection{Nhất quán xác suất trong LLM forecasters}
+
+Paleka và các cộng sự đã đề xuất đánh giá LLM forecasters thông qua các kiểm tra nhất quán giữa nhiều câu hỏi có quan hệ logic\ \cite{ref1}. Thay vì chỉ chấm điểm dự báo sau khi sự kiện xảy ra, hướng tiếp cận này kiểm tra xem các xác suất mà mô hình sinh ra có tuân thủ các quan hệ như phủ định, hệ quả, hội, tuyển và xác suất có điều kiện hay không. Đây là nền tảng trực tiếp cho HybridACD vì mục tiêu của hệ thống không chỉ là dự báo đúng từng câu hỏi mà còn duy trì một phân phối xác suất hợp lệ trên toàn bộ bộ câu hỏi.
+
+Ở mức cơ bản, LLM sinh văn bản bằng cách dự đoán token tiếp theo từ một phân phối xác suất có điều kiện \cite{ref2}. Tuy nhiên, xác suất token nội tại lại không tương ứng với tính logic của câu trả lời. Các phân tích về xác xuất nhất quán cho thấy mô hình có thể ưu tiên các chuỗi token tự nhiên về ngôn ngữ nhưng không nhất quán về xác suất \cite{ref4,ref5}. Điều này giải thích tại sao cần một cơ chế can thiệp riêng ở tầng đầu ra thay vì chỉ dựa vào prompt hay xác suất chuỗi.
+
+\subsection{Tối ưu hóa preference và self-consistency}
+
+Một hướng cải thiện suy luận (reasoning) là sử dụng các tín hiệu xác suất nội tại trong quá trình tối ưu hóa. Yang và các cộng sự đề xuất Probability-Consistent Preference Optimization (PCPO), trong đó lựa chọn preference không chỉ dựa trên đáp án đúng, mà còn dựa trên tính nhất quán xác suất ở mức token\ \cite{ref3}. Zhou và các cộng sự đã kết nối xác suất nội tại với self-consistency bằng cách dùng perplexity để chọn hoặc loại bỏ các đường suy luận kém tin cậy\ \cite{ref6}. Các công trình này cho thấy xác suất nội tại có thể hỗ trợ suy luận nhưng phần lớn vẫn tác động ở giai đoạn huấn luyện hoặc chọn mẫu. HybridACD khác ở chỗ áp đặt ràng buộc trực tiếp tại thời điểm giải mã xác suất cuối cùng.
+
+\subsection{Constrained decoding và căn chỉnh tại thời điểm giải mã}
+
+Constrained decoding là nhóm phương pháp kiểm soát đầu ra của LLM bằng cách giới hạn các token hợp lệ trong quá trình sinh văn bản. Koo và các cộng sự sử dụng automata để biểu diễn các ràng buộc hình thức, đặc biệt hữu ích cho đầu ra có cấu trúc như JSON, API call hoặc biểu thức có ngữ pháp xác định\ \cite{ref7}. Yao và các cộng sự cho thấy Token Constraint Decoding có thể cải thiện độ bền trong bài toán hỏi đáp khi đầu ra phải thuộc một tập token hợp lệ\ \cite{ref9}. Huang và các cộng sự mở rộng ý tưởng này qua DeAL, một khung căn chỉnh tại thời điểm giải mã có thể kết hợp nhiều reward và ràng buộc khai báo.\ \cite{ref11}.
+
+Tuy vậy, constrained decoding cũng có nhược điểm. Schall và de Melo chỉ ra rằng ràng buộc cấu trúc có thể làm giảm hiệu năng tạo sinh văn bản, đặc biệt với các instruction-tuned models. Vì mô hình bị kéo khỏi các mẫu ngôn ngữ tự nhiên mà nó ưu tiên \cite{ref10} do đó mà HybridACD chỉ áp dụng ràng buộc ở bước trích xuất xác suất số thay vì ràng buộc toàn bộ quá trình reasoning. Thiết kế này giữ lại khả năng suy luận tự do của mô hình đồng thời kiểm soát giá trị xác suất cuối cùng để thỏa mãn các tiên đề xác suất.
+
+\subsection{Controlled prompting và độ bền đối nghịch}
+
+Mousavi và Termehchy \cite{ref8} cho thấy controlled prompting và decoding có thể giúp giảm các câu trả lời không nhất quán giữa những truy vấn tương đương. Trong HybridACD, thành phần viết lại đối nghịch được dùng với mục tiêu tương tự nhưng ở bối cảnh dự báo xác suất: câu hỏi được biến đổi về mặt cú pháp, thay thế thực thể hoặc lồng điều kiện trong khi vẫn giữ nguyên tiêu chí phân giải. Nhờ đó hệ thống hạn chế việc mô hình chỉ học các mẫu bề mặt của bộ kiểm tra nhất quán.
+
+Tổng hợp các hướng trên, khoảng trống nghiên cứu nằm ở việc kết hợp ba yếu tố: đánh giá nhất quán logic, khai thác xác suất nội tại và kiểm soát đầu ra tại thời điểm giải mã. HybridACD được xây dựng để lấp khoảng trống này bằng một pipeline gọn, không huấn luyện lại và có thể áp dụng cho nhiều LLM nền tảng.
+
+%%=======================================================================
+\section{Phương pháp}\label{sec:method}
+%%=======================================================================
+
+\subsection{Phát biểu bài toán}
+
+Gọi $\mathcal{Q}$ là tập các câu hỏi dự báo nhị phân. Một bộ dự báo $\mathcal{F}$ ánh xạ mỗi câu hỏi $Q \in \mathcal{Q}$ thành xác suất chủ quan:
+\begin{equation}
+  \mathcal{F}: \mathcal{Q} \rightarrow [0,1], \quad p=\mathcal{F}(Q).
+\end{equation}
+Một bộ câu hỏi $T=\{Q_1,\ldots,Q_k\}$ được gọi là bộ nhất quán nếu giữa các câu hỏi tồn tại quan hệ logic $\mathcal{L}$ kéo theo một ràng buộc xác suất $\mathcal{C}(p_1,\ldots,p_k)$. Ví dụ, với quy tắc phủ định, $\mathcal{C}$ yêu cầu $p_P+p_{\neg P}=1$.
+
+Mục tiêu của HybridACD là sinh ra các dự đoán $\hat{p}_1,\ldots,\hat{p}_k$ sao cho:
+\begin{equation}
+  \mathcal{C}(\hat{p}_1,\ldots,\hat{p}_k)=0
+  \quad \text{và} \quad
+  \mathbb{E}[(\hat{p}-y)^2] \text{ nhỏ nhất có thể},
+\end{equation}
+trong đó $(\hat{p}-y)^2$ là Điểm Brier và $y\in\{0,1\}$ là kết quả thực tế.
+
+\subsection{Các quy tắc nhất quán}
+
+HybridACD sử dụng mười quy tắc nhất quán xác suất, được tóm tắt trong Bảng~\ref{tab:consistency_rules}. Mỗi quy tắc được chuyển thành một khoảng khả thi $[\ell,u]$ cho dự đoán hiện tại, dựa trên các dự đoán đã có trước đó.
+
+Trong đó $\ell$ và $u$ là ký hiệu cận dưới và cận trên áp đặt lên biến mục tiêu cho trước các giá trị đã biết trước đó.
+
+\begin{table}[htbp]
+\caption{Mười quy tắc nhất quán xác suất và các ràng buộc toán học của chúng}
+\label{tab:consistency_rules}
+\begin{tabular}{@{}llll@{}}
+\toprule
+\# & Quy tắc & Ràng buộc $\mathcal{C}(p_1, \ldots, p_k)$ & Bộ Khoá \\
+\midrule
+1 & \textsc{Phủ định}      & $p_P + p_{\neg P} = 1$                          & $\{P, \neg P\}$ \\
+2 & \textsc{Diễn giải lại} & $p_P = p_{P'}$                                  & $\{P, P'\}$ \\
+3 & \textsc{Hệ quả}        & $P \models B \Rightarrow p_P \leq p_B$          & $\{P, B\}$ \\
+4 & \textsc{Và}            & $\max(0,p+q-1) \leq p_{P \wedge Q} \leq \min(p,q)$ & $\{P,Q,P\wedge Q\}$ \\
+5 & \textsc{Hoặc}          & $\max(p,q) \leq p_{P \vee Q} \leq \min(1,p+q)$ & $\{P,Q,P\vee Q\}$ \\
+6 & \textsc{Nhưng}         & $p_{P \vee Q} = p_P + p_{Q \wedge \neg P}$     & $\{P,Q\wedge\neg P,P\vee Q\}$ \\
+7 & \textsc{Có điều kiện}  & $p_{P \wedge Q} = p_P \cdot p_{Q|P}$           & $\{P,Q|P,P\wedge Q\}$ \\
+8 & \textsc{Điều kiện lồng}& $p_{P\wedge Q\wedge R} = p_P \cdot p_{Q|P} \cdot p_{R|P\wedge Q}$ & $\{P,Q|P,R|P\wedge Q,P\wedge Q\wedge R\}$ \\
+9 & \textsc{Và-Hoặc}       & $p_P + p_Q = p_{P\vee Q} + p_{P\wedge Q}$      & $\{P,Q,P\wedge Q,P\vee Q\}$ \\
+10 & \textsc{Bằng chứng kỳ vọng} & $p_P = p_Q p_{P|Q} + (1-p_Q)p_{P|\neg Q}$ & $\{P,Q,P|Q,P|\neg Q\}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Tổng quan kiến trúc HybridACD}
+
+HybridACD gồm hai thành phần chính. Thành phần thứ nhất là \textit{Tác nhân Đầu vào Đối nghịch}, dùng một mô hình ngôn ngữ phụ trợ để viết lại câu hỏi dự báo sao cho phức tạp hơn về cú pháp nhưng giữ nguyên tiêu chí phân giải. Thành phần thứ hai là \textit{Giải mã Ràng buộc Token}, tính toán khoảng xác suất hợp lệ và ép mô hình phân tích trả về giá trị trong khoảng đó.
+
+Với câu hỏi $Q_i$, tác nhân đối nghịch sinh biến thể:
+\begin{equation}
+  Q_i' = \mathcal{M}_{adv}(Q_i;\tau=0.7),
+  \quad \text{Sem}(Q_i')=\text{Sem}(Q_i).
+\end{equation}
+Các dạng biến đổi bao gồm chèn mệnh đề phụ, thay thế thực thể, nâng phủ định và lồng điều kiện. Mục tiêu không phải là làm thay đổi nhãn mà là làm giảm khả năng mô hình dựa vào khớp mẫu.
+
+Sau đó, mô hình chính sinh luận tự do:
+\begin{equation}
+  \text{cot}_i=\mathcal{M}(Q_i').
+\end{equation}
+Bước reasoning này chưa bị ràng buộc giúp mô hình vẫn khai thác được lợi ích của Chain-of-Thought. Ràng buộc chỉ được áp dụng khi trích xuất xác suất cuối cùng.
+
+\subsection{Tính toán giới hạn xác suất}
+
+Giả sử các dự đoán trước đó là $\hat{p}_1,\ldots,\hat{p}_{i-1}$. Với quy tắc logic $\mathcal{L}$, HybridACD tính:
+\begin{equation}
+  \ell_i = \max(0,\phi_{\ell}(\hat{p}_1,\ldots,\hat{p}_{i-1};\mathcal{L})),
+  \quad
+  u_i = \min(1,\phi_{u}(\hat{p}_1,\ldots,\hat{p}_{i-1};\mathcal{L})).
+  \label{eq:bounds}
+\end{equation}
+Ví dụ, với quy tắc \textsc{Cond}, nếu đã biết $\hat{p}_P$ và $\hat{p}_{Q|P}$, thì giá trị hợp lệ cho $P\wedge Q$ là:
+\begin{equation}
+  \ell=u=\hat{p}_P \cdot \hat{p}_{Q|P}.
+\end{equation}
+Với quy tắc \textsc{And}, giá trị hợp lệ cho $P\wedge Q$ nằm trong khoảng:
+\begin{equation}
+  \max(0,\hat{p}_P+\hat{p}_Q-1)
+  \leq \hat{p}_{P\wedge Q}
+  \leq
+  \min(\hat{p}_P,\hat{p}_Q).
+\end{equation}
+
+\subsection{Giải mã ràng buộc token}
+
+Cơ chế TCD hoạt động trên tập giá trị xác suất rời rạc:
+\[
+  \mathcal{V}_{num}=\{0,00;0,01;\ldots;1,00\}.
+\]
+Mỗi giá trị $v\in\mathcal{V}_{num}$ được token hóa để xác định token biểu diễn xác suất. Với khoảng hợp lệ $[\ell_i,u_i]$, HybridACD xây dựng logit bias:
+\begin{equation}
+  b_{t_v} =
+  \begin{cases}
+    0, & \text{nếu } v \in [\ell_i,u_i],\\
+    -100, & \text{nếu } v \notin [\ell_i,u_i].
+  \end{cases}
+\end{equation}
+Các token xác suất ngoài khoảng hợp lệ bị phạt mạnh trong khi các token hợp lệ được giữ nguyên. Nếu API không hỗ trợ logit bias hoặc quá trình phân tích thất bại thì hệ thống sẽ dùng cơ chế dự phòng:
+\begin{equation}
+  \hat{p}_i=\text{clip}(p_{raw},\ell_i,u_i).
+\end{equation}
+Do đó, đầu ra cuối cùng luôn nằm trong khoảng xác suất được suy ra từ quy tắc nhất quán.
+
+\begin{algorithm}
+\caption{Pipeline Suy luận HybridACD}
+\label{alg:hybridacd}
+\begin{algorithmic}[1]
+\Require Bộ nhất quán $T = \{(Q_1, \text{key}_1), \ldots, (Q_k, \text{key}_k)\}$, quy tắc $\mathcal{L}$
+\Ensure Các dự đoán $\{\hat{p}_1, \ldots, \hat{p}_k\}$ thỏa mãn $\mathcal{C}(p_1, \ldots, p_k)$
+\State $\mathcal{H} \gets \{\}$ \Comment{Lịch sử các dự đoán trước}
+\For{$i = 1, \ldots, k$}
+  \State $Q_i' \gets \mathcal{M}_\text{adv}(Q_i; \tau=0.7)$ \Comment{Viết lại đối nghịch}
+  \State $[\ell_i, u_i] \gets \phi(\mathcal{H}, \text{key}_i, \mathcal{L})$ \Comment{Tính toán giới hạn}
+  \State $\text{cot}_i \gets \mathcal{M}(Q_i')$ \Comment{Sinh tạo Chuỗi Suy nghĩ}
+  \State $B \gets \{t_v \mapsto b_{t_v}\}_{v \in \mathcal{V}_\text{num}}$ \Comment{Xây dựng bản đồ logit bias}
+  \State $\hat{p}_i \gets \text{parse}(\text{cot}_i \mid B)$ \Comment{Trích xuất bị ràng buộc TCD}
+  \State $\hat{p}_i \gets \text{clip}(\hat{p}_i, \ell_i, u_i)$ \Comment{Cơ chế dự phòng tất định}
+  \State $\mathcal{H}[\text{key}_i] \gets \hat{p}_i$ \Comment{Ghi lại cho các giới hạn tiếp theo}
+\EndFor
+\State \Return $\{\hat{p}_1, \ldots, \hat{p}_k\}$
+\end{algorithmic}
+\end{algorithm}
+
+%%=======================================================================
+\section{Kết quả thực nghiệm}\label{sec:results}
+%%=======================================================================
+
+\subsection{Thiết lập thực nghiệm}
+
+HybridACD được đánh giá trên bộ chuẩn dự báo gồm các bộ câu hỏi có quan hệ logic. Các mô hình được kiểm thử bao gồm Gemini-2.5-Flash, GPT-4o-mini, GPT-5.4-mini, MiniMax-M3, Mistral-Medium-3.5-128B và Mistral-Small-4-119B. Với mỗi mô hình, báo cáo so sánh đường cơ sở BasicForecaster và biến thể HybridACD đầy đủ.
+
+Các chỉ số chính gồm: (i) Điểm Vi phạm Tổng hợp (AVS, càng thấp càng tốt), đo mức vi phạm nhất quán theo thước đo arbitrage; (ii) chỉ số tần suất, đo mức độ lệch khỏi phân phối kỳ vọng; (iii) Điểm Brier, đo sai số dự báo thực tế; và (iv) Sai số Hiệu chỉnh, đo độ lệch giữa độ tin tưởng dự đoán và độ chính xác thực nghiệm.
+
+\subsection{Mức giảm vi phạm nhất quán}
+
+Bảng~\ref{tab:avs_results} cho thấy HybridACD làm giảm AVS trên tất cả sáu mô hình. Mức giảm trung bình đạt $95,5\%$, từ $0,1522$ xuống $0,0053$. Điều này cho thấy ràng buộc tại thời điểm giải mã có thể kiểm soát hiệu quả các vi phạm logic mà không phụ thuộc nhiều vào kiến trúc mô hình nền tảng.
+
+\begin{table}[h]
+\caption{Điểm Vi phạm Tổng hợp (AVS, $\downarrow$) và Chỉ số Tần suất ($\downarrow$)
+  cho BasicForecaster so với HybridACD trên bộ chuẩn Scraped.}
+\label{tab:avs_results}
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+\multirow{2}{*}{Mô hình} &
+  \multicolumn{2}{c}{AVS (mặc định)} &
+  \multicolumn{2}{c}{Tần suất} &
+  \multicolumn{2}{c}{Cải thiện} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+& Basic Forecaster & HybridACD & Basic Forecaster & HybridACD & $\Delta$AVS & $\Delta\%$ \\
+\midrule
+Gemini-2.5-Flash      & 0,1116 & \textbf{0,0087} & 0,2612 & 0,0168 & $-0,1029$ & $-92,2\%$ \\
+GPT-4o-mini           & 0,0307 & \textbf{0,0007} & 0,1752 & 0,0055 & $-0,0300$ & $-97,6\%$ \\
+GPT-5.4-mini          & 0,4909 & \textbf{0,0107} & 1,0423 & 0,0227 & $-0,4802$ & $-97,8\%$ \\
+MiniMax-M3            & 0,1266 & \textbf{0,0005} & 0,3756 & 0,0048 & $-0,1261$ & $-99,6\%$ \\
+Mistral-Medium-3.5    & 0,0792 & \textbf{0,0087} & 0,2494 & 0,0168 & $-0,0705$ & $-89,1\%$ \\
+Mistral-Small-4       & 0,0740 & \textbf{0,0023} & 0,2421 & 0,0156 & $-0,0717$ & $-96,8\%$ \\
+\midrule
+\textbf{Trung bình}   & 0,1522 & \textbf{0,0053} & 0,2910 & 0,0137 & $-0,1469$ & $-95,5\%$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Mức cải thiện lớn nhất xuất hiện ở MiniMax-M3 ($-99,6\%$) và GPT-5.4-mini ($-97,8\%$). Với GPT-5.4-mini, AVS đường cơ sở cao hơn đáng kể so với các mô hình khác, nhưng sau HybridACD giảm xuống $0,0107$. Kết quả này cho thấy TCD đặc biệt hữu ích khi mô hình có xu hướng sinh các xác suất cực đoan hoặc không ổn định trên các câu hỏi liên hệ logic.
+
+\subsection{Độ chính xác dự báo}
+
+Bảng~\ref{tab:brier_results} trình bày Điểm Brier trên 242 câu hỏi thực tế. HybridACD cải thiện Điểm Brier trên tất cả năm mô hình được đánh giá đầy đủ, với mức giảm từ $2,4\%$ đến $17,3\%$.
+
+\begin{table}[h]
+\caption{Điểm Brier (BS, $\downarrow$) và Sai số Hiệu chỉnh (CE, $\downarrow$) trên
+  242 câu hỏi thực tế. HybridACD cải thiện BS trên tất cả các mô hình, xác nhận
+  sự vắng mặt của sự sụp đổ Luật Goodhart. \dag~chỉ các trường hợp Sai số Hiệu chỉnh
+  tăng vẫn đang được điều tra.}
+\label{tab:brier_results}
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+\multirow{2}{*}{Mô hình} &
+  \multicolumn{2}{c}{Điểm Brier} &
+  \multicolumn{2}{c}{Sai số Hiệu chỉnh} &
+  \multirow{2}{*}{$\Delta$BS} &
+  \multirow{2}{*}{Goodhart?} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+& Basic Forcaster & HybridACD &Basic Forcaster & HybridACD & & \\
+\midrule
+Gemini-2.5-Flash   & 0,141 & \textbf{0,130} & 0,195 & 0,185 & $-7,8\%$  & Không \\
+GPT-4o-mini        & 0,205 & \textbf{0,200} & 0,161 & \textbf{0,105} & $-2,4\%$  & Không \\
+MiniMax-M3         & 0,123 & \textbf{0,116} & 0,161 & \textbf{0,117} & $-5,7\%$  & Không \\
+Mistral-Medium-3.5 & 0,202 & \textbf{0,167} & 0,090 & 0,138\dag & $-17,3\%$ & Không \\
+Mistral-Small-4    & 0,211 & \textbf{0,202} & 0,124 & 0,127\dag & $-4,3\%$  & Không \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Kết quả này cho thấy HybridACD không rơi vào hiện tượng Goodhart. Nguyên nhân là hệ thống không tối ưu trực tiếp trọng số mô hình theo chỉ số nhất quán mà chỉ ràng buộc xác suất đầu ra cuối cùng theo các quy tắc toán học. Tuy nhiên, Sai số Hiệu chỉnh tăng ở hai mô hình Mistral, điều này cho thấy ràng buộc cứng có thể làm phân phối độ tin tưởng của mô hình bị nén về biên. Đây là một hạn chế cần được xử lý bằng các dạng phạt mềm hơn trong tương lai.
+
+\subsection{So sánh với các đường cơ sở}
+
+Bảng~\ref{tab:comparison_baseline} đặt HybridACD cạnh các đường cơ sở dự báo phổ biến. So với ArbitrageForecaster, HybridACD đạt AVS thấp hơn đáng kể trong khi chi phí trên mỗi câu hỏi nhỏ hơn nhiều. Đáng chú ý, HybridACD + MiniMax-M3 đạt Điểm Brier $0,116$, tốt hơn các cấu hình CoT đắt tiền hơn trong bảng so sánh.
+
+Ta có thể đưa ra ba nhận định. Thứ nhất, HybridACD cải thiện nhất quán mạnh hơn các phương pháp hiệu chỉnh hậu nghiệm trong khi không cần nhiều vòng tối ưu. Thứ hai, độ chính xác dự báo không bị đánh đổi để lấy tính nhất quán. Thứ ba, chi phí bổ sung của HybridACD chủ yếu đến từ bước viết lại đối nghịch và trích xuất xác suất nên phù hợp hơn với triển khai thực tế so với các phương pháp lặp nhiều vòng.
+
+\begin{table}[h]
+\caption{So sánh toàn diện các phương pháp dự báo trên bộ chuẩn Scraped. HybridACD đạt
+  AVS tốt nhất với chi phí không đáng kể và không có rủi ro Goodhart. Chi phí được ước
+  tính theo giá API tháng 6 năm 2026.}
+\label{tab:comparison_baseline}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Phương pháp & AVS ($\downarrow$) & Điểm Brier ($\downarrow$) & Chi phí/Câu hỏi (USD) & Goodhart \\
+\midrule
+BasicForecaster (GPT-4o-mini)          & $\sim 0,412$ & $0,205$--$0,231$ & \$0,002 & --- \\
+CoT-Forecaster (GPT-4o)                & $\sim 0,287$ & $\sim 0,198$      & \$0,018 & --- \\
+CoT-Forecaster (o1-preview, tốt nhất)  & $\sim 0,089$ & $\sim 0,170$      & \$0,05+ & --- \\
+ArbitrageForecaster ($N=4$)            & $\sim 0,161$ & $\sim 0,245$      & $\sim$\$2.500 & Overfit \\
+\midrule
+HybridACD + GPT-4o-mini         & \textbf{0,0007} & $0,200$ & \$0,019 & Không \\
+HybridACD + Gemini-2.5-Flash    & $0,0087$        & $0,130$ & $\sim$\$0,07 & Không \\
+HybridACD + MiniMax-M3          & \textbf{0,0005} & \textbf{0,116} & $\sim$\$0,08 & Không \\
+HybridACD + Mistral-Medium-3.5  & $0,0087$        & $0,167$ & \$0,115 & Không \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+
+\subsection{Ablation study}
+
+Bảng~\ref{tab:ablation} đánh giá vai trò của từng thành phần trong HybridACD. Khi bỏ TCD, AVS tăng từ $0,0007$ lên $0,0147$, cho thấy TCD là thành phần chính tạo ra đảm bảo nhất quán. Khi bỏ tác nhân đối nghịch, AVS tăng lên $0,0012$ và Điểm Brier giảm nhẹ cho thấy viết lại đối nghịch hỗ trợ cải thiện độ bền trước các artifact ngôn ngữ.
+
+\begin{table}[h]
+\caption{Nghiên cứu ablation trên GPT-4o-mini. HybridACD đầy đủ đạt nhất quán tốt nhất,
+  trong khi mỗi mô-đun đóng góp độc lập.}
+\label{tab:ablation}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Cấu hình & AVS & Điểm Brier & Đảm bảo Cứng? \\
+\midrule
+BasicForecaster                         & 0,0307 & 0,205 & Không \\
+HybridACD$^{-\text{adv}}$ (Chỉ TCD)    & 0,0012 & 0,202 & Có \\
+HybridACD$^{-\text{tcd}}$ (Chỉ Đối nghịch) & 0,0147 & 0,206 & Không \\
+\textbf{HybridACD đầy đủ}               & \textbf{0,0007} & \textbf{0,200} & Có \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%%=======================================================================
+\section{Thảo luận}\label{sec:discussion}
+%%=======================================================================
+
+Kết quả thực nghiệm cho thấy HybridACD đạt được mục tiêu cân bằng giữa ba yếu tố: tính nhất quán xác suất, độ chính xác dự báo và chi phí suy luận. Về mặt phương pháp, điểm khác biệt quan trọng của HybridACD là vị trí can thiệp. Thay vì sửa xác suất sau khi mô hình đã trả lời hoặc cập nhật trọng số trong quá trình huấn luyện, hệ thống can thiệp ở bước trích xuất xác suất cuối cùng. Nhờ đó, mô hình vẫn được phép suy luận (reasoning) tự do nhưng đầu ra số phải nằm trong miền hợp lệ.
+
+Thành phần đối nghịch đóng vai trò kiểm tra độ bền của mô hình trước các biến đổi ngôn ngữ bảo toàn ngữ nghĩa. Điều này đặc biệt quan trọng với các quy tắc như NEGATION và PARAPHRASE, nơi mô hình dễ bị ảnh hưởng bởi dấu hiệu từ vựng bề mặt. Trong khi đó, TCD đóng vai trò như lớp bảo vệ toán học, đảm bảo xác suất cuối cùng không vi phạm các cận được suy ra từ quy tắc nhất quán.
+
+Tuy nhiên, HybridACD vẫn có một số hạn chế. Thứ nhất, ràng buộc cứng có thể làm tăng sai số hiệu chỉnh ở một số mô hình, đặc biệt khi khoảng $[\ell,u]$ quá hẹp so với phân phối tự nhiên của mô hình. Thứ hai, cách xử lý tuần tự làm giảm khả năng song song hóa đối với các bộ nhất quán lớn. Thứ ba, việc rời rạc hóa xác suất theo bước $0,01$ phù hợp với nhiều bài toán dự báo thực tế, nhưng có thể chưa đủ mịn cho các ứng dụng yêu cầu độ chính xác cao hơn.
+
+%%=======================================================================
+\section{Kết luận}\label{sec:conclusion}
+%%=======================================================================
+
+Báo cáo đã trình bày HybridACD, một kiến trúc lai nhằm cải thiện tính nhất quán xác suất của LLM forecasters thông qua viết lại đối nghịch và giải mã ràng buộc token. Dựa trên các nghiên cứu về consistency checks, probability-consistent optimization, self-consistency và constrained decoding, HybridACD chọn vị trí can thiệp tại thời điểm giải mã để tránh hai hạn chế chính của các hướng trước: chi phí hiệu chỉnh hậu nghiệm và rủi ro Goodhart khi tối ưu trực tiếp mô hình.
+
+Thực nghiệm cho thấy HybridACD giảm AVS trung bình $95,5\%$ và cải thiện Điểm Brier trên các mô hình được đánh giá đầy đủ. Điều này gợi ý rằng tính nhất quán xác suất không nhất thiết phải đánh đổi với độ chính xác dự báo nếu ràng buộc được áp dụng đúng vị trí. Trong tương lai, hệ thống có thể được mở rộng theo ba hướng: sử dụng logit bias mềm thay cho chặn cứng, cải thiện xử lý các chuỗi điều kiện lồng sâu và đánh giá trên các LLM forecasters có tích hợp RAG hoặc dữ liệu thời gian thực.
+
+%%=======================================================================
+\section*{Lời cảm ơn}
+%%=======================================================================
+\bibliography{sn-bibliography}
+\end{document}

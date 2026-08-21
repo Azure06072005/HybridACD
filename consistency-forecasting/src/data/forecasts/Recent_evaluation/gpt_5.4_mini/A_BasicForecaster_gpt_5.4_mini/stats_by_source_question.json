@@ -1,0 +1,180 @@
+{
+    "Will Ukraine join NATO before 2030?": {
+        "source_id": "a7c64f83-f1e4-4730-b871-767fbc2af3f5",
+        "overall": {
+            "default": {
+                "num_samples": 4,
+                "num_violations": 1,
+                "avg_violation": 0.032371,
+                "avg_violation_no_outliers": 0.0,
+                "median_violation": 0.0,
+                "label": "Overall_Will Ukraine join NATO before 2030?"
+            },
+            "frequentist": {
+                "num_samples": 4,
+                "num_violations": 1,
+                "avg_violation": 0.087603,
+                "avg_violation_no_outliers": 0.0,
+                "median_violation": 0.0,
+                "label": "Overall_Will Ukraine join NATO before 2030?"
+            },
+            "default_scaled": {
+                "num_samples": 4,
+                "num_violations": 1,
+                "avg_violation": 0.01079,
+                "avg_violation_no_outliers": 0.0,
+                "median_violation": 0.0,
+                "label": "Overall_Will Ukraine join NATO before 2030?"
+            }
+        },
+        "by_checker": {
+            "NegChecker": {
+                "default": {
+                    "label": "NegChecker_Will Ukraine join NATO before 2030?",
+                    "num_samples_including_errors": 1,
+                    "num_samples": 1,
+                    "num_violations": 0,
+                    "avg_violation": 0.0,
+                    "avg_violation_no_outliers": 0.0,
+                    "median_violation": 0.0
+                },
+                "frequentist": {
+                    "label": "NegChecker_Will Ukraine join NATO before 2030?",
+                    "num_samples_including_errors": 1,
+                    "num_samples": 1,
+                    "num_violations": 0,
+                    "avg_violation": 0.0,
+                    "avg_violation_no_outliers": 0.0,
+                    "median_violation": 0.0
+                },
+                "default_scaled": {
+                    "label": "NegChecker_Will Ukraine join NATO before 2030?",
+                    "num_samples_including_errors": 1,
+                    "num_samples": 1,
+                    "num_violations": 0,
+                    "avg_violation": 0.0,
+                    "avg_violation_no_outliers": 0.0,
+                    "median_violation": 0.0
+                }
+            },
+            "AndChecker": {
+                "default": {
+                    "label": "AndChecker_Will Ukraine join NATO before 2030?",
+                    "num_samples_including_errors": 3,
+                    "num_samples": 3,
+                    "num_violations": 1,
+                    "avg_violation": 0.064741,
+                    "avg_violation_no_outliers": 0.0,
+                    "median_violation": 0.0
+                },
+                "frequentist": {
+                    "label": "AndChecker_Will Ukraine join NATO before 2030?",
+                    "num_samples_including_errors": 3,
+                    "num_samples": 3,
+                    "num_violations": 1,
+                    "avg_violation": 0.175206,
+                    "avg_violation_no_outliers": 0.0,
+                    "median_violation": 0.0
+                },
+                "default_scaled": {
+                    "label": "AndChecker_Will Ukraine join NATO before 2030?",
+                    "num_samples_including_errors": 3,
+                    "num_samples": 3,
+                    "num_violations": 1,
+                    "avg_violation": 0.02158,
+                    "avg_violation_no_outliers": 0.0,
+                    "median_violation": 0.0
+                }
+            }
+        }
+    },
+    "Will a Formula 1 Grand Prix be hosted in a country currently under international sanctions by 2025?": {
+        "source_id": "a5bdb25b-1d11-46f9-ac5a-8cdcff7de9be",
+        "overall": {
+            "default": {
+                "num_samples": 4,
+                "num_violations": 1,
+                "avg_violation": 0.019504,
+                "avg_violation_no_outliers": 0.018914,
+                "median_violation": 0.018914,
+                "label": "Overall_Will a Formula 1 Grand Prix be hosted in a country currently under international sanctions by 2025?"
+            },
+            "frequentist": {
+                "num_samples": 4,
+                "num_violations": 1,
+                "avg_violation": 0.123843,
+                "avg_violation_no_outliers": 0.11012,
+                "median_violation": 0.11012,
+                "label": "Overall_Will a Formula 1 Grand Prix be hosted in a country currently under international sanctions by 2025?"
+            },
+            "default_scaled": {
+                "num_samples": 4,
+                "num_violations": 1,
+                "avg_violation": 0.009654,
+                "avg_violation_no_outliers": 0.009458,
+                "median_violation": 0.009458,
+                "label": "Overall_Will a Formula 1 Grand Prix be hosted in a country currently under international sanctions by 2025?"
+            }
+        },
+        "by_checker": {
+            "NegChecker": {
+                "default": {
+                    "label": "NegChecker_Will a Formula 1 Grand Prix be hosted in a country currently under international sanctions by 2025?",
+                    "num_samples_including_errors": 1,
+                    "num_samples": 1,
+                    "num_violations": 1,
+                    "avg_violation": 0.037829,
+                    "avg_violation_no_outliers": 0.037829,
+                    "median_violation": 0.037829
+                },
+                "frequentist": {
+                    "label": "NegChecker_Will a Formula 1 Grand Prix be hosted in a country currently under international sanctions by 2025?",
+                    "num_samples_including_errors": 1,
+                    "num_samples": 1,
+                    "num_violations": 1,
+                    "avg_violation": 0.220241,
+                    "avg_violation_no_outliers": 0.220241,
+                    "median_violation": 0.220241
+                },
+                "default_scaled": {
+                    "label": "NegChecker_Will a Formula 1 Grand Prix be hosted in a country currently under international sanctions by 2025?",
+                    "num_samples_including_errors": 1,
+                    "num_samples": 1,
+                    "num_violations": 1,
+                    "avg_violation": 0.018915,
+                    "avg_violation_no_outliers": 0.018915,
+                    "median_violation": 0.018915
+                }
+            },
+            "AndChecker": {
+                "default": {
+                    "label": "AndChecker_Will a Formula 1 Grand Prix be hosted in a country currently under international sanctions by 2025?",
+                    "num_samples_including_errors": 3,
+                    "num_samples": 3,
+                    "num_violations": 0,
+                    "avg_violation": 0.001179,
+                    "avg_violation_no_outliers": 0.0,
+                    "median_violation": 0.0
+                },
+                "frequentist": {
+                    "label": "AndChecker_Will a Formula 1 Grand Prix be hosted in a country currently under international sanctions by 2025?",
+                    "num_samples_including_errors": 3,
+                    "num_samples": 3,
+                    "num_violations": 0,
+                    "avg_violation": 0.027446,
+                    "avg_violation_no_outliers": 0.0,
+                    "median_violation": 0.0
+                },
+                "default_scaled": {
+                    "label": "AndChecker_Will a Formula 1 Grand Prix be hosted in a country currently under international sanctions by 2025?",
+                    "num_samples_including_errors": 3,
+                    "num_samples": 3,
+                    "num_violations": 0,
+                    "avg_violation": 0.000393,
+                    "avg_violation_no_outliers": 0.0,
+                    "median_violation": 0.0
+                }
+            }
+        }
+    }
+}

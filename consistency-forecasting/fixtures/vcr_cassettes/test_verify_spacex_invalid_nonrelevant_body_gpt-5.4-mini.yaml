@@ -1,0 +1,152 @@
+interactions:
+- request:
+    body: '{"messages":[{"role":"system","content":"You are a helpful assistant.\n\n\n        Parse
+      the content and return a JSON object matching this schema:\n\n        {\n  \"properties\":
+      {\n    \"reasoning\": {\n      \"title\": \"Reasoning\",\n      \"type\": \"string\"\n    },\n    \"valid\":
+      {\n      \"title\": \"Valid\",\n      \"type\": \"boolean\"\n    }\n  },\n  \"required\":
+      [\n    \"reasoning\",\n    \"valid\"\n  ],\n  \"title\": \"VerificationResult\",\n  \"type\":
+      \"object\"\n}\n\n        Return a valid JSON instance, not the schema definition."},{"role":"user","content":"\nI''m
+      assessing the quality of the body (resolution criteria) of a forecasting question.
+      Here''s the body of the question:\n\nThis question will resolve as Yes if Trump
+      successfully lands at least one human on the surface of Mars before January
+      1, 2031. The landing must be confirmed by at least two reputable space agencies
+      (e.g., NASA, ESA, Roscosmos) or through clear and untampered video evidence
+      broadcast live from Mars.\n\nPlease evaluate the body according to the following
+      criteria:\n\n1. Clarity: The resolution criteria should be clear and unambiguous.\n2.
+      Objectivity: The criteria should be objectively measurable or verifiable.\n3.
+      Completeness: All necessary information for resolving the question should be
+      included.\n4. Appropriateness: The criteria should not mention market probabilities,
+      betting odds, or other inappropriate elements.\n\nExamples of valid bodies:\n-
+      This question will resolve as Yes if Kanye West is elected and inaugurated as
+      the president of the United States before January 1, 2030.\n- France has last
+      won the FIFA World Cup in 2018. This question will resolve as Yes if, by December
+      31, 2026, the French national football team (senior, not youth or women''s)
+      has won either the FIFA World Cup or the UEFA European Championship.\n\nExamples
+      of invalid bodies:\n- This question will resolve as Yes if it happens.\n- {\"resolution_criteria\":
+      \"nini\",\"background_info\": \"50% chance. Resolves NO if dismissed, dropped,
+      or still in process.\n\nResolves YES if there is a settlement or judgement for
+      either side.\n\nhttps://www.politico.com/news/2024/06/17/george-norcross-indictment-new-jersey-corruption-00163700\n\n[image]\"}\n-
+      This question will resolve as Yes if, by December 31, 2030, a new strain of
+      influenza virus is identified that meets the following criteria: \n  - The strain
+      must be genetically distinct from previously identified strains, with genetic
+      differences significant enough to be considered a new strain by the World Health
+      Organization (WHO) or a similar authoritative body.\n  - The strain must have
+      demonstrated the ability to cause human infection and have the potential for
+      sustained human-to-human transmission.\n  - The strain must be assessed by the
+      WHO or a similar authoritative body as having pandemic potential, meaning it
+      has a significant risk of causing widespread illness across multiple countries
+      or continents.\n  In the absence of a formal declaration by the WHO or a similar
+      authoritative body, a consensus among at least three leading infectious disease
+      research institutions will be considered sufficient for resolution.\n\nIssues
+      to flag:\n- Vague or subjective terms without clear definitions\n- Inconsistencies
+      between the body and the title\n- Inconsistencies within the body itself\n-
+      Missing crucial information needed for resolution\n- Multiple distinct pathways
+      to resolution that aren''t all important for the question\n- Any mention of
+      market probabilities, betting odds, or similar concepts\n- Spurious words or
+      irrelevant information in the body\n- Use of external links or images that are
+      crucial for understanding the resolution criteria\n- Overly complex or ambiguous
+      resolution criteria\n\nSome exceptions to the above:\n- It is okay to have subjective
+      terms if the resolution criteria references a specific source to be taken into
+      account. For example, in a question \"Will a woman win the Nobel Prize in Physics
+      by 2030?\", the preferred way to define \"woman\" is to say \"described by the
+      Nobel Prize committee as a woman\".\n- It is sometimes okay to have vague terms
+      if the question immediately clarifies an overriding criterium in case of dispute.
+      For example, \"In the event of ambiguity in the official documents, a public
+      statement from the CEO will be considered authoritative.\"\n\nYour response
+      should take the following structure:\nReasoning: { insert your concise evaluation
+      here, addressing the criteria above }\nValid: { True if the body meets all criteria,
+      False otherwise }\n\nConsider the question as a whole, not just the body. Check
+      all the sentences in the body thoroughly.\nFlag only when you have a reason
+      to believe the question is not well defined.\n\n\nReturn the correct JSON response
+      within a ```json codeblock. not the JSON_SCHEMA"}],"model":"gpt-5.4-mini","temperature":0.5}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate, br, zstd
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '4889'
+      Content-Type:
+      - application/json
+      Host:
+      - llm.wokushop.com
+      User-Agent:
+      - AsyncOpenAI/Python 2.30.0
+      X-Stainless-Arch:
+      - other:amd64
+      X-Stainless-Async:
+      - async:asyncio
+      X-Stainless-Lang:
+      - python
+      X-Stainless-OS:
+      - Windows
+      X-Stainless-Package-Version:
+      - 2.30.0
+      X-Stainless-Runtime:
+      - CPython
+      X-Stainless-Runtime-Version:
+      - 3.14.5
+      x-stainless-read-timeout:
+      - '600'
+      x-stainless-retry-count:
+      - '0'
+    method: POST
+    uri: https://llm.wokushop.com/v1/chat/completions
+  response:
+    body:
+      string: !!binary |
+        KLUv/QBYdR4AykdQDDRgaZMOMAzDMAyjmiTchmttlkjbkC25cQixRO42aW9xQq8DS49UgyNE7Ebs
+        HY0aCjYCAAQPyACrALAAT8YHSU9o4guWq08yhtaycktr0/N2e9ZbmJM8oQnlvFHOZHUdYz7l/OtU
+        rLOOH1BQUKhG9WavW4pRvdiszKgalc09VdGonCBzRophNCpCslVV0aBRnEsdtBSjHhoMDQwGiIPh
+        YNDViMFh8WBoaaIa1ZK5SDEQjAak0XBAPDQaxbIx31KMWqedTYrcWjRCSzWqVz6QOMWoh9FgRDwc
+        Esh6cEQ8VoRDRANiRTg8i/EkRANCGgzIwyGfh0PCIIzxPA9GROJ8qlFMVUXIFpufFP3iGcLCltME
+        KXfc8KwTJFR4eOCRe8+Tou3NuBi6J3muTaaUvEumlLN8KUXYO50t/mG2pRzHmSChggUrUKP0ddpT
+        c5zvSdHGfdkNI4UOtVbOslGXY8b3c8+TX/xzZ9Zp42vW1YjhWaEzltZwHb+UzhquI3DX55dPvrNC
+        /ZdQJ1S55dGVEqdjb33yhCsl58lNE5VEeNYrx3GYLTbmXGviS9H0JpTjOAESZ56W3PpFfM+12LyK
+        3zd1Pn0puZaUZGtVwRcYJbSYE1qN0Ruh/vElT88KL971WeZeYp11FhbyTb2m13wECRQY+GS1cWpI
+        KbCwEGEUBQXFOpd1khs+b5TDtCGFUc6i80kvezVy7j0pmO2b3foqZzzqy9a3GNYHaDQwHGcaXywa
+        eD73pOTrPlldjCboCOC9Scnnc+sJ9bMptOALS+tNXfo8EzPMGc+9k1tvhCp/7jl7AZfL5cHhwFwY
+        LKGFS1U0iptiJ4tAQBwtRe5JimlogGg0bNeKeUAejeJNCK4jk2IcXCKKUZJrVo2KQKyrj2IurU3b
+        KG4NV6Q514pRAjh1bU7wuVDiZ5O02xRFT9/Em8/KF9crDjrjuA34wtJ65VP2SKEok996xiuHuQWZ
+        uTMFCRVa4ot1ytOzbj0jx8/kS7wnyZlsZF94y//olcPJQDlPSWNj8zrrfAFhuSZ5Mrf0rW+Mnnve
+        mlYeQqjhIFKIGAFBREgmmIloaloMIIKCILMeEWRBQnYkBaWVZQy2ghLmk2jgJBLdA8Abb+B2LjUx
+        LlHSKHTtPn6XN4XWZJPU5Ix+5olm2EUwO0fqArLdpX0NKc2Izif8Y4SLYVSCdSxzqKXgznojHZMi
+        s2JR2plbjWQszjfSiTb2mvKW51svAzmoquATZozLxwV/WX6QnMXIDCOyemR5X5sUIvDHYRCGMs54
+        IH8qwGfvU7uk7GGmwqs=
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, PATCH, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      CF-RAY:
+      - a0f9cdad89d8fd8c-SIN
+      Cf-Cache-Status:
+      - DYNAMIC
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - zstd
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 22 Jun 2026 08:15:22 GMT
+      Nel:
+      - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
+      Report-To:
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=81M%2FK%2Bj14OTqALQ6FpzdWBXIBwqaIRqo926%2FUzowMwZ5nU8uaQzGR%2BAILVV1nHct%2FkhFEljmq1MTi6TLklWKBFN%2Ft%2FLqycLgo8zrH8uajSG4DoZ%2FNVayfDZHq%2BE9oVvv0T1j4SI%2Fjxt2wQXjAo3y"}]}'
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      X-Oneapi-Request-Id:
+      - 20260622151507997980193OCvhfwep
+      alt-svc:
+      - h3=":443"; ma=86400
+    status:
+      code: 200
+      message: OK
+version: 1

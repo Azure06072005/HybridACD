@@ -1,0 +1,175 @@
+# ==============================================================================
+# Python & Virtual Environments
+# ==============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+.venv/
+.venv*/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+venvlocal/
+
+# ==============================================================================
+# Secrets, Keys & Configuration
+# ==============================================================================
+.env
+.env.*
+!.env.example
+!.env.*.example
+.demo_config.json
+demo_config.json
+
+# ==============================================================================
+# Logs, Caches & Profiling
+# ==============================================================================
+*.log
+logs/
+**/logs/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Caches
+.cache/
+**/.cache/
+*cachedir/
+.costly/
+**/.costly/
+.pytest_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+cover/
+
+# ==============================================================================
+# IDEs & OS Generated Files
+# ==============================================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+.ipynb_checkpoints
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.streamlit/
+
+# ==============================================================================
+# Scratch, Temp, and Output Files
+# ==============================================================================
+scratch/
+**/scratch/
+tmp/
+temp/
+trash/
+.trash/
+*.bak
+*.tmp
+*.cache
+output_tables/
+**/output_tables/
+output_plots/
+**/output_plots/
+out/
+
+# ==============================================================================
+# Databases & Storage
+# ==============================================================================
+*.db
+*.sqlite
+*.sqlite3
+*.duckdb
+*.db3
+*.s3db
+*.mdf
+*.ldf
+*.ndf
+demo_history.db
+
+# ==============================================================================
+# Data & Large Files
+# ==============================================================================
+*.csv
+*.tsv
+*.dat
+*.jsonl
+
+# Large data binaries
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+*.npy
+*.npz
+*.feather
+*.parquet
+*.arrow
+
+# Deep Learning / ML Model Weights
+*.pt
+*.pth
+*.onnx
+*.tflite
+*.pb
+*.keras
+*.weights
+*.ckpt
+
+# Compressed Archives
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+*.gz
+*.bz2
+
+# ==============================================================================
+# LaTeX Build Artifacts
+# ==============================================================================
+*.aux
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.toc
+*.out
+*.nav
+*.snm
+*.vrb

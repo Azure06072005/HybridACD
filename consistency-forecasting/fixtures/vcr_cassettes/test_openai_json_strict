@@ -1,0 +1,538 @@
+interactions:
+- request:
+    body: '{"messages":[{"role":"system","content":"You are a helpful assistant.\n\n\n        Parse
+      the content and return a JSON object matching this schema:\n\n        {\n  \"properties\":
+      {\n    \"name\": {\n      \"description\": \"The name of the person\",\n      \"title\":
+      \"Name\",\n      \"type\": \"string\"\n    },\n    \"age\": {\n      \"description\":
+      \"The age of the person\",\n      \"title\": \"Age\",\n      \"type\": \"integer\"\n    }\n  },\n  \"required\":
+      [\n    \"name\",\n    \"age\"\n  ],\n  \"title\": \"TestResponse\",\n  \"type\":
+      \"object\"\n}\n\n        Return a valid JSON instance, not the schema definition."},{"role":"user","content":"Generate
+      a person with a name and age.\n\nReturn the correct JSON response within a ```json
+      codeblock. not the JSON_SCHEMA"}],"model":"gpt-5.4-mini","temperature":0.5}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate, br, zstd
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '826'
+      Content-Type:
+      - application/json
+      Host:
+      - api.xah.io
+      User-Agent:
+      - OpenAI/Python 2.30.0
+      X-Stainless-Arch:
+      - other:amd64
+      X-Stainless-Async:
+      - 'false'
+      X-Stainless-Lang:
+      - python
+      X-Stainless-OS:
+      - Windows
+      X-Stainless-Package-Version:
+      - 2.30.0
+      X-Stainless-Runtime:
+      - CPython
+      X-Stainless-Runtime-Version:
+      - 3.14.5
+      x-stainless-read-timeout:
+      - '600'
+      x-stainless-retry-count:
+      - '0'
+    method: POST
+    uri: https://api.xah.io/v1/chat/completions
+  response:
+    body:
+      string: '{"choices":[{"finish_reason":"stop","index":0,"message":{"content":"```json\n{\n  \"name\":
+        \"Alex Morgan\",\n  \"age\": 29\n}\n```","provider_specific_fields":{"refusal":null},"role":"assistant"},"provider_specific_fields":{}}],"created":1781883574,"id":"resp_0cd5fa067bf34c3d016a3562b5b380819a8d5a66fcecd6a20f","model":"gpt-5.4-mini","object":"chat.completion","usage":{"completion_tokens":25,"prompt_tokens":2216,"total_tokens":2241}}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Authorization, Content-Type, Accept, X-API-Key, OpenAI-Beta, OpenAI-Organization,
+        anthropic-version, anthropic-beta
+      Access-Control-Allow-Methods:
+      - GET, POST, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - X-Request-ID, request-id, Retry-After
+      Access-Control-Max-Age:
+      - '86400'
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Cache-Control:
+      - no-store
+      Cf-Cache-Status:
+      - DYNAMIC
+      Cf-Ray:
+      - a0e3a089dff2d8e3-SIN
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '437'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 19 Jun 2026 15:39:34 GMT
+      Llmprovider-Access-Control-Allow-Origin:
+      - '*'
+      Llmprovider-Connection:
+      - keep-alive
+      Llmprovider-Content-Type:
+      - application/json
+      Llmprovider-Date:
+      - Fri, 19 Jun 2026 15:39:34 GMT
+      Llmprovider-Keep-Alive:
+      - timeout=5
+      Llmprovider-Transfer-Encoding:
+      - chunked
+      Llmprovider-Vary:
+      - rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+      Nel:
+      - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
+      Referrer-Policy:
+      - no-referrer
+      Report-To:
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=x7kLVi5ZhFXUP0BhqttvunK8kiTuninODHlEUdN%2BqS1WmYAUuLiMSfvNdJ8O25ETg%2BK6kt%2BIPGjxl%2F7AF3NkAuz4wYYKFsGbc6DNdu2WqbBcUl8m%2BGlHGnGJzKNZoPjszNxfQTiQ9gA0bX%2FYWQ4wgBU%3D"}]}'
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Ckey-Proxy-Version:
+      - go-v1
+      X-Content-Type-Options:
+      - nosniff
+      - nosniff
+      X-Frame-Options:
+      - DENY
+      - DENY
+      X-Litellm-Attempted-Fallbacks:
+      - '0'
+      X-Litellm-Attempted-Retries:
+      - '0'
+      X-Litellm-Call-Id:
+      - e31db539-f7cd-48f9-8d31-f3069815f0c5
+      X-Litellm-Callback-Duration-Ms:
+      - '0.0'
+      X-Litellm-Key-Spend:
+      - '64.24809819'
+      X-Litellm-Model-Api-Base:
+      - http://9router:20128/v1
+      X-Litellm-Model-Group:
+      - gpt-5.4-mini
+      X-Litellm-Model-Id:
+      - 8e9f889f-0877-42cd-a943-51f308bffb53
+      X-Litellm-Overhead-Duration-Ms:
+      - '1.486'
+      X-Litellm-Response-Cost:
+      - '0.0017745'
+      X-Litellm-Response-Cost-Discount-Amount:
+      - '0.0'
+      X-Litellm-Response-Cost-Margin-Amount:
+      - '0.0'
+      X-Litellm-Response-Cost-Margin-Percent:
+      - '0.0'
+      X-Litellm-Response-Cost-Original:
+      - '0.0017745'
+      X-Litellm-Response-Duration-Ms:
+      - '1691.546'
+      X-Litellm-Version:
+      - 1.88.1
+      X-Request-Id:
+      - req_07adda89e07036cfbdd9620a
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"messages":[{"role":"system","content":"You are a helpful assistant.\n\n\n        Parse
+      the content and return a JSON object matching this schema:\n\n        {\n  \"properties\":
+      {\n    \"text\": {\n      \"title\": \"Text\",\n      \"type\": \"string\"\n    }\n  },\n  \"required\":
+      [\n    \"text\"\n  ],\n  \"title\": \"PlainText\",\n  \"type\": \"object\"\n}\n\n        Return
+      a valid JSON instance, not the schema definition."},{"role":"user","content":"Generate
+      a person with a name and age.\n\nReturn the correct JSON response within a ```json
+      codeblock. not the JSON_SCHEMA"}],"model":"gpt-5.4-mini","temperature":0.5}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate, br, zstd
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '626'
+      Content-Type:
+      - application/json
+      Host:
+      - api.xah.io
+      User-Agent:
+      - OpenAI/Python 2.30.0
+      X-Stainless-Arch:
+      - other:amd64
+      X-Stainless-Async:
+      - 'false'
+      X-Stainless-Lang:
+      - python
+      X-Stainless-OS:
+      - Windows
+      X-Stainless-Package-Version:
+      - 2.30.0
+      X-Stainless-Runtime:
+      - CPython
+      X-Stainless-Runtime-Version:
+      - 3.14.5
+      x-stainless-read-timeout:
+      - '600'
+      x-stainless-retry-count:
+      - '0'
+    method: POST
+    uri: https://api.xah.io/v1/chat/completions
+  response:
+    body:
+      string: '{"choices":[{"finish_reason":"stop","index":0,"message":{"content":"```json\n{\n  \"name\":
+        \"Isaac Sim\",\n  \"age\": 34\n}\n```","provider_specific_fields":{"refusal":null},"role":"assistant"},"provider_specific_fields":{}}],"created":1781883575,"id":"chatcmpl-resp_07d2e35736b92a06016a3562b727dc819199541ef8850691cb","model":"gpt-5.4-mini","object":"chat.completion","usage":{"completion_tokens":26,"prompt_tokens":2485,"total_tokens":2511}}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Authorization, Content-Type, Accept, X-API-Key, OpenAI-Beta, OpenAI-Organization,
+        anthropic-version, anthropic-beta
+      Access-Control-Allow-Methods:
+      - GET, POST, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - X-Request-ID, request-id, Retry-After
+      Access-Control-Max-Age:
+      - '86400'
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Cache-Control:
+      - no-store
+      Cf-Cache-Status:
+      - DYNAMIC
+      Cf-Ray:
+      - a0e3a0964861ce83-SIN
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '444'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 19 Jun 2026 15:39:36 GMT
+      Llmprovider-Access-Control-Allow-Headers:
+      - Content-Type, Authorization, x-api-key, anthropic-version, x-omniroute-connection,
+        x-internal-test, accept
+      Llmprovider-Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, PATCH, OPTIONS
+      Llmprovider-Connection:
+      - keep-alive
+      Llmprovider-Content-Security-Policy:
+      - 'default-src ''self''; base-uri ''self''; object-src ''none''; frame-ancestors
+        ''none''; form-action ''self''; script-src ''self'' ''unsafe-inline'' ''unsafe-eval''
+        blob:; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com;
+        font-src ''self'' https://fonts.gstatic.com data:; img-src ''self'' data:
+        blob: https:; media-src ''self'' data: blob:; connect-src ''self'' http://localhost:*
+        http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:* https: wss:; worker-src
+        ''self'' blob:; manifest-src ''self'''
+      Llmprovider-Content-Type:
+      - application/json
+      Llmprovider-Date:
+      - Fri, 19 Jun 2026 15:39:36 GMT
+      Llmprovider-Keep-Alive:
+      - timeout=5
+      Llmprovider-Permissions-Policy:
+      - camera=(), microphone=(), geolocation=(), payment=(), usb=(), serial=()
+      Llmprovider-Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Llmprovider-Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      Llmprovider-Transfer-Encoding:
+      - chunked
+      Llmprovider-Vary:
+      - rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+      Llmprovider-X-Content-Type-Options:
+      - nosniff
+      Llmprovider-X-Frame-Options:
+      - DENY
+      Llmprovider-X-Omniroute-Cache:
+      - MISS
+      Llmprovider-X-Omniroute-Cache-Hit:
+      - 'false'
+      Llmprovider-X-Omniroute-Latency-Ms:
+      - '1376'
+      Llmprovider-X-Omniroute-Model:
+      - gpt-5.4-mini
+      Llmprovider-X-Omniroute-Provider:
+      - cx
+      Llmprovider-X-Omniroute-Response-Cost:
+      - '0.0008835000'
+      Llmprovider-X-Omniroute-Route-Class:
+      - CLIENT_API
+      Llmprovider-X-Omniroute-Session-Id:
+      - 6b9a5966a4995368
+      Llmprovider-X-Omniroute-Tokens-In:
+      - '485'
+      Llmprovider-X-Omniroute-Tokens-Out:
+      - '26'
+      Llmprovider-X-Request-Id:
+      - 1a302cb2-6c0a-4eb4-8403-b9d544ed8c47
+      Nel:
+      - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
+      Referrer-Policy:
+      - no-referrer
+      Report-To:
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=ipgJoM%2B2CZB8Vmln5HeKzNR6g3dSAAjuKY1jEjCNDLuFAcwczUY44LMVhONmQae8cLDQTwgJ2latcVHAv5B9449uY%2FjM4WWEpYYumkM7iolikBuEZ9%2FdZYt3c21sxQ2VlKXI%2Bu2ou%2FvcpD%2B8GKmB"}]}'
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Ckey-Proxy-Version:
+      - go-v1
+      X-Content-Type-Options:
+      - nosniff
+      - nosniff
+      X-Frame-Options:
+      - DENY
+      - DENY
+      X-Litellm-Attempted-Fallbacks:
+      - '0'
+      X-Litellm-Attempted-Retries:
+      - '0'
+      X-Litellm-Call-Id:
+      - 4924b978-3913-47c2-af1e-946262405d68
+      X-Litellm-Callback-Duration-Ms:
+      - '0.0'
+      X-Litellm-Key-Spend:
+      - '658.2420867349996'
+      X-Litellm-Model-Api-Base:
+      - http://omniroute:20131
+      X-Litellm-Model-Group:
+      - gpt-5.4-mini
+      X-Litellm-Model-Id:
+      - a28a3cca-48db-4f48-8f66-45eda4acf3d5
+      X-Litellm-Overhead-Duration-Ms:
+      - '1.247'
+      X-Litellm-Response-Cost:
+      - '0.00198075'
+      X-Litellm-Response-Cost-Discount-Amount:
+      - '0.0'
+      X-Litellm-Response-Cost-Margin-Amount:
+      - '0.0'
+      X-Litellm-Response-Cost-Margin-Percent:
+      - '0.0'
+      X-Litellm-Response-Cost-Original:
+      - '0.00198075'
+      X-Litellm-Response-Duration-Ms:
+      - '1422.528'
+      X-Litellm-Version:
+      - 1.88.1
+      X-Request-Id:
+      - req_78cede69b09bd3916ffa6659
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"messages":[{"role":"system","content":"You are a helpful assistant.\n\n\n        Parse
+      the content and return a JSON object matching this schema:\n\n        {\n  \"properties\":
+      {\n    \"text\": {\n      \"title\": \"Text\",\n      \"type\": \"string\"\n    }\n  },\n  \"required\":
+      [\n    \"text\"\n  ],\n  \"title\": \"PlainText\",\n  \"type\": \"object\"\n}\n\n        Return
+      a valid JSON instance, not the schema definition."},{"role":"user","content":"Generate
+      a person with a name and age.\n\nReturn the correct JSON response within a ```json
+      codeblock. not the JSON_SCHEMA"},{"role":"assistant","content":"```json\n{\n  \"name\":
+      \"Isaac Sim\",\n  \"age\": 34\n}\n```"},{"role":"user","content":"Correct your
+      JSON ONLY RESPONSE, based on the following errors:\n<failed_attempts>\n\n<generation
+      number=\"1\">\n<exception>\n    1 validation error for PlainText\ntext\n  Field
+      required [type=missing, input_value={''name'': ''Isaac Sim'', ''age'': 34},
+      input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/missing\n</exception>\n<completion>\n    ChatCompletion(id=''chatcmpl-resp_07d2e35736b92a06016a3562b727dc819199541ef8850691cb'',
+      choices=[Choice(finish_reason=''stop'', index=0, logprobs=None, message=ChatCompletionMessage(content=''```json\\n{\\n  \"name\":
+      \"Isaac Sim\",\\n  \"age\": 34\\n}\\n```'', refusal=None, role=''assistant'',
+      annotations=None, audio=None, function_call=None, tool_calls=None, provider_specific_fields={''refusal'':
+      None}), provider_specific_fields={})], created=1781883575, model=''gpt-5.4-mini'',
+      object=''chat.completion'', service_tier=None, system_fingerprint=None, usage=CompletionUsage(completion_tokens=26,
+      prompt_tokens=2485, total_tokens=2511, completion_tokens_details=CompletionTokensDetails(accepted_prediction_tokens=None,
+      audio_tokens=0, reasoning_tokens=0, rejected_prediction_tokens=None), prompt_tokens_details=PromptTokensDetails(audio_tokens=0,
+      cached_tokens=0)))\n</completion>\n</generation>\n\n</failed_attempts>\n\n<last_exception>\n    1
+      validation error for PlainText\ntext\n  Field required [type=missing, input_value={''name'':
+      ''Isaac Sim'', ''age'': 34}, input_type=dict]\n    For further information visit
+      https://errors.pydantic.dev/2.12/v/missing\n</last_exception>"}],"model":"gpt-5.4-mini","temperature":0.5}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate, br, zstd
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2290'
+      Content-Type:
+      - application/json
+      Host:
+      - api.xah.io
+      User-Agent:
+      - OpenAI/Python 2.30.0
+      X-Stainless-Arch:
+      - other:amd64
+      X-Stainless-Async:
+      - 'false'
+      X-Stainless-Lang:
+      - python
+      X-Stainless-OS:
+      - Windows
+      X-Stainless-Package-Version:
+      - 2.30.0
+      X-Stainless-Runtime:
+      - CPython
+      X-Stainless-Runtime-Version:
+      - 3.14.5
+      x-stainless-read-timeout:
+      - '600'
+      x-stainless-retry-count:
+      - '0'
+    method: POST
+    uri: https://api.xah.io/v1/chat/completions
+  response:
+    body:
+      string: '{"choices":[{"finish_reason":"stop","index":0,"message":{"content":"```json\n{\"text\":\"{\\\"name\\\":\\\"Isaac
+        Sim\\\",\\\"age\\\":34}\"}\n```","provider_specific_fields":{"refusal":null},"role":"assistant"},"provider_specific_fields":{}}],"created":1781883577,"id":"chatcmpl-resp_06e38946a028e64d016a3562b9091c81918dd06df531d4ef47","model":"gpt-5.4-mini","object":"chat.completion","usage":{"completion_tokens":23,"prompt_tokens":2911,"total_tokens":2934}}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Authorization, Content-Type, Accept, X-API-Key, OpenAI-Beta, OpenAI-Organization,
+        anthropic-version, anthropic-beta
+      Access-Control-Allow-Methods:
+      - GET, POST, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - X-Request-ID, request-id, Retry-After
+      Access-Control-Max-Age:
+      - '86400'
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Cache-Control:
+      - no-store
+      Cf-Cache-Status:
+      - DYNAMIC
+      Cf-Ray:
+      - a0e3a0a209c0d8e3-SIN
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '459'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 19 Jun 2026 15:39:38 GMT
+      Llmprovider-Access-Control-Allow-Headers:
+      - Content-Type, Authorization, x-api-key, anthropic-version, x-omniroute-connection,
+        x-internal-test, accept
+      Llmprovider-Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, PATCH, OPTIONS
+      Llmprovider-Connection:
+      - keep-alive
+      Llmprovider-Content-Security-Policy:
+      - 'default-src ''self''; base-uri ''self''; object-src ''none''; frame-ancestors
+        ''none''; form-action ''self''; script-src ''self'' ''unsafe-inline'' ''unsafe-eval''
+        blob:; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com;
+        font-src ''self'' https://fonts.gstatic.com data:; img-src ''self'' data:
+        blob: https:; media-src ''self'' data: blob:; connect-src ''self'' http://localhost:*
+        http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:* https: wss:; worker-src
+        ''self'' blob:; manifest-src ''self'''
+      Llmprovider-Content-Type:
+      - application/json
+      Llmprovider-Date:
+      - Fri, 19 Jun 2026 15:39:38 GMT
+      Llmprovider-Keep-Alive:
+      - timeout=5
+      Llmprovider-Permissions-Policy:
+      - camera=(), microphone=(), geolocation=(), payment=(), usb=(), serial=()
+      Llmprovider-Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Llmprovider-Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      Llmprovider-Transfer-Encoding:
+      - chunked
+      Llmprovider-Vary:
+      - rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+      Llmprovider-X-Content-Type-Options:
+      - nosniff
+      Llmprovider-X-Frame-Options:
+      - DENY
+      Llmprovider-X-Omniroute-Cache:
+      - MISS
+      Llmprovider-X-Omniroute-Cache-Hit:
+      - 'false'
+      Llmprovider-X-Omniroute-Latency-Ms:
+      - '1423'
+      Llmprovider-X-Omniroute-Model:
+      - gpt-5.4-mini
+      Llmprovider-X-Omniroute-Provider:
+      - cx
+      Llmprovider-X-Omniroute-Response-Cost:
+      - '0.0015045000'
+      Llmprovider-X-Omniroute-Route-Class:
+      - CLIENT_API
+      Llmprovider-X-Omniroute-Session-Id:
+      - 6b9a5966a4995368
+      Llmprovider-X-Omniroute-Tokens-In:
+      - '911'
+      Llmprovider-X-Omniroute-Tokens-Out:
+      - '23'
+      Llmprovider-X-Request-Id:
+      - e12afca8-f518-4d9b-9348-8d3617957652
+      Nel:
+      - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
+      Referrer-Policy:
+      - no-referrer
+      Report-To:
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=Ge%2FmcLLJIFylWHmOcDUbVgo45Rf4u%2FHDoLqzTSS28jwD1b0HSVos9EnS%2FfYXr6fvsBpr0MsqtkZgeBBjod39uC0lZjqAn98Fqp2MG%2B7lAuy9lGUIKIWv99a9QA1h8MnFt5bdUGVAiQTgRdnGwVCNChQ%3D"}]}'
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Ckey-Proxy-Version:
+      - go-v1
+      X-Content-Type-Options:
+      - nosniff
+      - nosniff
+      X-Frame-Options:
+      - DENY
+      - DENY
+      X-Litellm-Attempted-Fallbacks:
+      - '0'
+      X-Litellm-Attempted-Retries:
+      - '0'
+      X-Litellm-Call-Id:
+      - a39b922a-9015-4694-89e6-0216f96f58fe
+      X-Litellm-Callback-Duration-Ms:
+      - '0.0'
+      X-Litellm-Key-Spend:
+      - '64.25038493999999'
+      X-Litellm-Model-Api-Base:
+      - http://omniroute:20131
+      X-Litellm-Model-Group:
+      - gpt-5.4-mini
+      X-Litellm-Model-Id:
+      - a28a3cca-48db-4f48-8f66-45eda4acf3d5
+      X-Litellm-Overhead-Duration-Ms:
+      - '1.411'
+      X-Litellm-Response-Cost:
+      - '0.0022867499999999997'
+      X-Litellm-Response-Cost-Discount-Amount:
+      - '0.0'
+      X-Litellm-Response-Cost-Margin-Amount:
+      - '0.0'
+      X-Litellm-Response-Cost-Margin-Percent:
+      - '0.0'
+      X-Litellm-Response-Cost-Original:
+      - '0.0022867499999999997'
+      X-Litellm-Response-Duration-Ms:
+      - '1461.407'
+      X-Litellm-Version:
+      - 1.88.1
+      X-Request-Id:
+      - req_2afb6561ebdccac29e369e38
+    status:
+      code: 200
+      message: OK
+version: 1
