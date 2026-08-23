@@ -1186,7 +1186,8 @@ async def query_api_chat_native(
         fallback_url = os.getenv("FALLBACK_OPENAI_BASE_URL") or os.getenv("OPENAI_BASE_URL", "https://llm.wokushop.com/v1")
         current_api_key = api_key or os.getenv("OPENAI_API_KEY")
         target_model = model or (options.get("model") if 'options' in locals() else "unknown")
-        if (target_model == "gpt-4o-mini" and (not fallback_key or current_api_key == fallback_key)) or not fallback_key:
+        fallback_model = os.getenv("FALLBACK_MODEL") or os.getenv("DEFAULT_MODEL") or "gpt-4o-mini"
+        if (target_model == fallback_model and (not fallback_key or current_api_key == fallback_key)) or not fallback_key:
             try:
                 import streamlit as st
                 st.session_state["api_working_status"] = {
@@ -1197,7 +1198,7 @@ async def query_api_chat_native(
                 pass
             raise e
             
-        print(f"Query failed with model {target_model}: {e}. Falling back to gpt-4o-mini...")
+        print(f"Query failed with model {target_model}: {e}. Falling back to {fallback_model}...")
         
         orig_key = os.environ.get("OPENAI_API_KEY")
         orig_url = os.environ.get("OPENAI_BASE_URL")
@@ -1205,13 +1206,13 @@ async def query_api_chat_native(
         
         os.environ["OPENAI_API_KEY"] = fallback_key
         os.environ["OPENAI_BASE_URL"] = fallback_url
-        os.environ["DEFAULT_MODEL"] = "gpt-4o-mini"
+        os.environ["DEFAULT_MODEL"] = fallback_model
         
         try:
             import streamlit as st
             st.session_state["api_working_status"] = {
                 "working": True,
-                "model_used": "gpt-4o-mini",
+                "model_used": fallback_model,
                 "fallback": True,
                 "original_model": target_model,
                 "error": str(e)
@@ -1221,11 +1222,11 @@ async def query_api_chat_native(
             
         try:
             if 'model' in kwargs:
-                kwargs['model'] = "gpt-4o-mini"
+                kwargs['model'] = fallback_model
             return await query_api_chat_native(
                 messages,
                 verbose,
-                model="gpt-4o-mini",
+                model=fallback_model,
                 cost_log=cost_log,
                 api_key=fallback_key,
                 base_url=fallback_url,

@@ -3,6 +3,62 @@
 Update this at the end of every session (Principle 5 & 12). This is what the next
 session reads to avoid starting from zero.
 
+## Session 4 — 2026-08-23
+- Completed: F007 prep continued (not a scoped feature of its own — logged
+  here as F007 prep work, not a new tracked item, per WIP=1). A session with
+  repo access created `consistency-forecasting/src/hybrid_acd_config.py`
+  (renamed from an initial `src/config.py` after discovering a namespace
+  collision with the existing `forecasters/llm_forecasting/config/constants.py`
+  subpackage — good catch, avoided a confusing import shadow) plus
+  `tests/test_config.py`. Reconciled against the real `HybridACDForecaster`
+  fields on disk (`model`, `adversarial_model`, `preface`, `examples`,
+  `adversarial_enabled`, `tcd_enabled`, `research_enabled`) — confirms no
+  retrieval field exists yet, so F007 is genuinely greenfield there, not an
+  audit-and-extend of something already present. 16/16 tests passed
+  (test_config.py + test_hybrid_acd_forecaster.py combined).
+- IMPORTANT CAVEAT, not yet resolved: `hybrid_acd_config.py` is tested and
+  correct in isolation but NOT wired into `hybrid_acd_forecaster.py` —
+  nothing in the real forecaster reads `TCDConfig.logit_bias_value`,
+  `probability_grid_step`, or `AdversarialConfig.max_rewrites_per_question`
+  yet. It's scaffolding, not yet load-bearing. Do not describe TCD/adversarial
+  behavior as "configurable" in any future write-up until this wiring exists
+  and has its own test proving the forecaster actually reads these values.
+- In progress: —
+- Blocked: F007 still blocked_by F003, unchanged. Three sessions of F007
+  design/prep work (spec, ADR updates, config scaffolding) have accumulated
+  with zero sessions actually running F003.
+- Next session should: STOP adding further F007 prep and run F003 for real —
+  `python src/evaluation.py --tuple_dir src/data/tuples/scraped --num_lines 5
+  --run --async -k all -p src/forecasters/hybrid_acd_forecaster.py::HybridACDForecaster
+  -o model=gpt-4o-mini --output_dir src/data/forecasts/_smoke_run` — confirm
+  a real API key is set in `.env` first (small live cost). F007 cannot move
+  past `not_started` until this passes; further config/spec work without it
+  is scope accumulating ahead of its own prerequisite.
+
+## Session 3 — 2026-08-23
+- Completed: Design-only, no code changes. Received and reviewed a direct source
+  audit (from a session with real repo access) of ResolverBasedForecaster's
+  search pipeline. CONFIRMED (not just suspected): its Brier 0.096/0.088 on the
+  scraped set is outcome leakage, not forecasting — created_date/resolution_date
+  are only interpolated into prompt text, never passed to the actual Perplexity
+  API call, and Perplexity's own recency filter is relative-only anyway (cannot
+  express an absolute historical cutoff even if wired up). Updated F007 and
+  ADR-003 to record this as confirmed evidence and to add a hard requirement:
+  F007's search provider must support a verified absolute end-date API
+  parameter (not prompt text, not a relative filter) — named Tavily/Exa/Bing
+  News as provider candidates to verify against current docs. Drafted a
+  standalone retrieval-wrapper design spec (retrieval_step_spec.md) implementing
+  ADR-003's call order and the cutoff-enforcement requirement, ready to hand to
+  a session with repo write access.
+- In progress: —
+- Blocked: F007 still blocked on F003 (unchanged), and now also on picking one
+  concrete search provider and verifying its absolute-date-cutoff parameter
+  against that provider's current API docs before any code is written against it.
+- Next session should: still run `./init.sh` / start F003 first (unchanged
+  since Session 0). If continuing F007 prep: pick a provider from the spec's
+  candidate list, verify its date-cutoff parameter against live docs, then
+  implement retrieval_step_spec.md's design into hybrid_acd_forecaster.py.
+
 ## Session 2 — 2026-08-23
 - Completed: Design-only, no code changes. Confirmed (via a separate local
   session's directory survey, not independently re-verified in this session)

@@ -20,7 +20,6 @@ def _extract_prob_from_cot(text: str) -> float | None:
     Priority 2: last token that looks like a probability (0.XXXX or 1.0)
     Returns None if nothing found.
     """
-    import re
     # Priority 1: structured tag
     fp_match = re.search(r'FINAL\s*PROBABILITY.*?([0-9]*\.?[0-9]+)', text, re.IGNORECASE)
     if fp_match:
@@ -168,9 +167,9 @@ class HybridACDForecaster(Forecaster):
 
     async def adversarial_rewrite_async(self, fq: ForecastingQuestion, **kwargs) -> ForecastingQuestion:
         try:
+            _safe_kwargs = {k: v for k, v in kwargs.items() if k in ("api_key", "base_url", "max_tokens")}
             prompt = ADVERSARIAL_AGENT_PROMPT.format(title=fq.title, body=fq.body)
             response = await query_api_chat(
-
                 messages=[
                     {"role": "system", "content": ADVERSARIAL_AGENT_PREFACE},
                     {"role": "user", "content": prompt}
@@ -178,7 +177,7 @@ class HybridACDForecaster(Forecaster):
                 model=self.adversarial_model,
                 response_model=AdversarialOutput,
                 temperature=0.7,
-                **kwargs,
+                **_safe_kwargs,
             )
             
             fq_copy = fq.model_copy()
@@ -192,9 +191,9 @@ class HybridACDForecaster(Forecaster):
     def adversarial_rewrite_sync(self, fq: ForecastingQuestion, **kwargs) -> ForecastingQuestion:
         try:
             from common.llm_utils import query_api_chat_sync
+            _safe_kwargs = {k: v for k, v in kwargs.items() if k in ("api_key", "base_url", "max_tokens")}
             prompt = ADVERSARIAL_AGENT_PROMPT.format(title=fq.title, body=fq.body)
             response = query_api_chat_sync(
-
                 messages=[
                     {"role": "system", "content": ADVERSARIAL_AGENT_PREFACE},
                     {"role": "user", "content": prompt}
@@ -202,7 +201,7 @@ class HybridACDForecaster(Forecaster):
                 model=self.adversarial_model,
                 response_model=AdversarialOutput,
                 temperature=0.7,
-                **kwargs,
+                **_safe_kwargs,
             )
             
             fq_copy = fq.model_copy()
