@@ -48,6 +48,15 @@
       "verification": "written analysis + notebook comparing interval width vs calibration delta per question, no fixed pass/fail command yet — define one before marking active",
       "state": "not_started",
       "evidence": null
+    },
+    {
+      "id": "F007",
+      "name": "Retrieval-augmented small-model forecasting",
+      "behavior": "Add a pre-elicitation retrieval step (news/context search) to HybridACDForecaster, run before adversarial rewrite + TCD, with a hard date-cutoff filter enforced per question (search results must predate the question's created_at / effective forecast date — never the resolution date) to prevent outcome leakage on already-resolved tuple sets (e.g. src/data/tuples/scraped). Hypothesis: a small model (e.g. gpt-4o-mini or smaller) with retrieval closes most of the Brier-score gap to a large model without retrieval, while TCD keeps AVS low regardless of model size or retrieval.",
+      "verification": "Non-retrieval baselines already exist on disk (confirmed 2026-08-23) — no fresh runs needed for those: small = BasicForecaster_gpt4o_mini_2024-07-18_20240501_20240815 (Brier 0.202, CE 0.142) and its tuples_scraped AVS counterpart (0.0300 default / 0.1874 freq); large = BasicForecaster_gpt4o_2024-08-06_20240501_20240815 (Brier 0.179, CE 0.065) or CoT_ForecasterTextBeforeParsing_o1-preview_20240501_20240815 (Brier 0.168). PREREQUISITE before using it as a reference: audit ResolverBasedForecaster_llama-3.1-sonar-large-128k_20240501_20240815 (Brier 0.096, notably better than every non-retrieval baseline including large models) for whether its search calls enforce a pre-resolution date cutoff — if not, its number reflects possible outcome leakage (the scraped set resolved May-Aug 2024, evaluated well after), not a clean retrieval result, and cannot be used as an upper-bound reference until re-run with a cutoff. Only after that audit: run the treatment (HybridACDForecaster + retrieval, small model) and report all four numbers in one table (small/no-retrieval, large/no-retrieval, resolver/retrieval-audited, treatment) per docs/conventions.md baseline-first rule.",
+      "state": "not_started",
+      "evidence": null,
+      "blocked_by": "F003 (smoke run harness must be proven working before adding a retrieval step to it); also blocked on the ResolverBasedForecaster date-cutoff audit above"
     }
   ]
 }
