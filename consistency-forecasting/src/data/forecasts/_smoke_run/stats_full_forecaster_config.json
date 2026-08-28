@@ -1,0 +1,9 @@
+{
+    "model": "levuphong2909/gpt-5.6-luna",
+    "adversarial_model": "levuphong2909/gpt-5.6-luna",
+    "preface": null,
+    "examples": [],
+    "adversarial_enabled": true,
+    "tcd_enabled": true,
+    "research_enabled": false
+}

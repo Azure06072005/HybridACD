@@ -186,6 +186,7 @@ class LLM_Simulator(LLM_Simulator_Faker):
     @classmethod
     def _fake_custom(cls, t: type):
         import random
+        from datetime import datetime
 
         t_name = getattr(t, "__name__", "")
         if t_name in ("VerificationResult", "ValidationResult"):

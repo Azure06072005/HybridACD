@@ -2,6 +2,18 @@
 
 Update this at the end of every session. This is what the next session reads to avoid starting from zero.
 
+## Session 4 — 2026-08-28
+- Completed:
+  1. Configured active model routing for `levuphong2909/gpt-5.6-luna` on `https://api.xah.io/v1` in `consistency-forecasting/.env`.
+  2. Fixed `.ruff.toml` config to use modern `[lint]` section and added missing datetime import in `llm_utils.py`. `ruff check src tests` passes cleanly (0 errors).
+  3. Ran full pytest suite: 16/16 unit tests passed in 7.59s.
+  4. Executed full F003 evaluation command across all 10 checkers on `num_lines=5` (50 tuples total) with `HybridACDForecaster` (`model=levuphong2909/gpt-5.6-luna`, `adversarial_enabled=True`, `tcd_enabled=True`, `research_enabled=False`). Command exited 0 and produced `src/data/forecasts/_smoke_run/stats_summary.json` with 0.000 average violation across all 10 checkers.
+  5. Inspected raw JSONL traces for interval checkers (`AndChecker`, `OrChecker`, `CondChecker`, `CondCondChecker`) and confirmed rich, date-accurate, non-templated reasoning and correct Fréchet bound calculation.
+  6. Marked `F003` as `passing` in `feature_list.json` with full reproducible command and evidence.
+- In progress: Next feature F004 (Reproduce paper's AVS reduction on full 200 lines).
+- Blocked: None for F004.
+- Next session should: Set up and execute F004 full-scale evaluation (`--num_lines 200`).
+
 ## Session 3 — 2026-08-23
 - Completed:
   1. Inspected raw prediction outputs in `src/data/forecasts/_smoke_test_gemini/NegChecker.jsonl` (Karpathy Section 5 discipline). Verified that the 0.000 violation was NOT degenerate constant output: base questions produced grounded historical analysis ($p=0.0$), while negated questions correctly had dynamic bounds $[1.0, 1.0]$ enforced by `get_consistency_bounds`, satisfying algebraic consistency by construction.

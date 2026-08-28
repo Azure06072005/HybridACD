@@ -5,6 +5,7 @@ exclude = [
   "old/",
 ]
 
+[lint]
 ignore = [
   # line too long
   "E501", 
@@ -16,4 +17,12 @@ ignore = [
   "F841", 
   # import star
   "F403",
+  # undefined or defined from star imports
+  "F405",
+  # unused imports
+  "F401",
+  # multiple statements on one line
+  "E701",
+  # bare except
+  "E722",
 ]

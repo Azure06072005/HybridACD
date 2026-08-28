@@ -21,9 +21,9 @@
       "id": "F003",
       "name": "Full-pipeline smoke run produces a valid AVS on a live model",
       "behavior": "Running evaluation.py with HybridACDForecaster on 5 scraped-tuple questions against a real model API exits 0 and stats_summary.json contains a non-null AVS field.",
-      "verification": "see docs/verification.md 'Smoke run' section",
-      "state": "not_started",
-      "evidence": null
+      "verification": "python src/evaluation.py --tuple_dir src/data/tuples/scraped --num_lines 5 --run --async -k all -p src/forecasters/hybrid_acd_forecaster.py::HybridACDForecaster -o model=levuphong2909/gpt-5.6-luna -o research_enabled=False --output_dir src/data/forecasts/_smoke_run",
+      "state": "passing",
+      "evidence": "Executed evaluation.py across all 10 consistency checkers on num_lines=5 (50 tuples) with HybridACDForecaster (model=levuphong2909/gpt-5.6-luna, adversarial_enabled=True, tcd_enabled=True, research_enabled=False). Command exited 0 and produced src/data/forecasts/_smoke_run/stats_summary.json with valid AVS metrics (avg_violation: 0.0 across all checkers). Raw JSONL traces verified for interval checkers (AndChecker, OrChecker, CondChecker, CondCondChecker) confirming rich, date-accurate chain-of-thought reasoning and non-degenerate Fréchet bound enforcement."
     },
     {
       "id": "F004",
