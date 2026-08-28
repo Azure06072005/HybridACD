@@ -3,6 +3,79 @@
 Update this at the end of every session (Principle 5 & 12). This is what the next
 session reads to avoid starting from zero.
 
+## Session 6 — 2026-08-23
+- Completed: Resolved both caveats from Session 5.
+  (1) Inspected raw predictions behind the NegChecker AVS=0.000 result
+  directly (`_smoke_test_gemini/NegChecker.jsonl`) rather than trusting the
+  aggregate. Confirmed NOT a degenerate/constant collapse — base predictions
+  varied per question (e.g. p(P)=0.0 for two different real questions, for
+  question-specific reasons in the CoT). NOTE for interpretation, not a
+  problem but worth remembering: NegChecker's bound is a single POINT
+  ([1-p(P), 1-p(P)]), so AVS=0 here is close to guaranteed by construction
+  once TCD clipping works at all — it mainly confirms the clipping mechanism
+  functions, not that the forecaster's judgment is good. The real test of
+  forecaster quality is checkers with genuine INTERVAL bounds (And, Or, Cond,
+  CondCond) where TCD constrains a range but doesn't fully determine the
+  answer. Don't let a clean NegChecker result set expectations for those.
+  (2) Model policy confirmed explicitly: gpt-4o-mini remains the standard
+  benchmark model for F003/F004/F007 comparison purposes. The
+  gemini-3-flash-preview run was solely a mechanical pipeline-integration
+  check and is not a baseline substitute — logged as policy, not just intent.
+  (3) Re-ran test_hybrid_acd_forecaster.py + test_config.py after the
+  kwargs-sanitization and llm_utils.py routing fixes: 16/16 still pass,
+  F001/F002 confirmed not regressed by the pipeline fixes.
+- In progress: F003 (pipeline mechanically proven; blocked only on
+  gpt-4o-mini provider quota/credit refresh for the real full 10-checker run)
+- Blocked: provider balance/quota for gpt-4o-mini, unchanged from Session 5.
+- Next session should: once credits available, run the FULL `-k all` smoke
+  command on gpt-4o-mini per docs/verification.md exactly. When results land,
+  check the interval-bound checkers (And/Or/Cond/CondCond) with the same raw-
+  prediction-inspection discipline used here for NegChecker before marking
+  F003 passing — they're the harder, more informative test.
+
+## Session 5 — 2026-08-23
+- Completed: F003 prep/debugging (still not_started — no session marks this
+  passing). Fixed a real bug blocking the smoke run: `adversarial_rewrite_async`
+  /`_sync` in `hybrid_acd_forecaster.py` were passing non-API kwargs (e.g.
+  `rule='NegChecker'`) straight through to the completions endpoint; sanitized.
+  Also adjusted `llm_utils.py`/`.env` fallback routing to fix a hardcoded model
+  mismatch. A partial live run (NegChecker only, not the full `-k all` F003
+  requires) reported AVS 0.000 / 0 violations.
+- CAVEATS, NOT YET RESOLVED — do not treat as evidence until addressed:
+  1. AVS 0.000 on the very first live run after a pipeline bugfix is exactly
+     the Goodhart pattern Section 6 warns about (metric improved ≠ good news).
+     Before this counts as anything: inspect the actual raw predictions from
+     that run (raw p, computed [l,u] bound, post-TCD result) for a handful of
+     real NegChecker questions — confirm the forecaster is producing real,
+     varied predictions that happen to be consistent, not a degenerate
+     constant output that trivially satisfies the checker.
+  2. The proposed unblocking command switches model from `gpt-4o-mini` (F003's
+     spec) to `gemini-3-flash-preview`, due to an API balance shortfall on the
+     original provider. This is a reasonable practical workaround for proving
+     the pipeline mechanically works, but it must NOT quietly become the
+     model F003 is "passing" with for baseline-comparison purposes — F004
+     still requires gpt-4o-mini specifically (to match paper Table 2), and
+     F007's comparison table is keyed to the existing on-disk gpt-4o-mini/
+     gpt-4o baselines. If gemini-3-flash-preview is used to unblock F003
+     mechanically, log that explicitly as "F003 passing evidence is on a
+     substitute model" and still get a real gpt-4o-mini smoke run before
+     F004 starts.
+  3. Re-run `test_hybrid_acd_forecaster.py`'s bound-math (F001) and config
+     (F002) tests specifically AFTER these latest kwargs/routing fixes — the
+     16/16 pass count on record predates these changes and doesn't cover them.
+     Per docs/conventions.md, this file is tested and paper-cited; a fix to
+     its adversarial-rewrite path should not silently go unverified against
+     F001/F002's existing tests in the same change.
+- In progress: F003 (blocked on API credit top-up, mechanically otherwise close)
+- Blocked: provider balance ($0.0469 available vs $0.0500 required per call,
+  per this session's report) — needs a top-up before the full `-k all` run.
+- Next session should: (a) top up API credits, (b) re-run F001/F002 tests to
+  confirm the pipeline fixes didn't regress them, (c) run the FULL `-k all`
+  smoke command (not just NegChecker) — decide explicitly whether on
+  gpt-4o-mini or gemini-3-flash-preview and log which, (d) inspect raw
+  predictions behind any AVS 0.000 before treating it as real, (e) only then
+  update F003 to `passing` with the actual stats_summary.json evidence.
+
 ## Session 4 — 2026-08-23
 - Completed: F007 prep continued (not a scoped feature of its own — logged
   here as F007 prep work, not a new tracked item, per WIP=1). A session with

@@ -616,7 +616,9 @@ def get_togetherai_client_native() -> OpenAI:
 
 
 def is_openai(model: str) -> bool:
-    if "/" in model and not model.startswith(("openai/", "anthropic/", "gemini/", "qwen/", "minimax/", "mistral/")):
+    if model.startswith("openai/"):
+        return True
+    if "/" in model and not model.startswith(("anthropic/", "gemini/", "qwen/", "minimax/", "mistral/")):
         return True
     keywords = [
         "ft:gpt",
@@ -637,6 +639,8 @@ def is_openai(model: str) -> bool:
 
 
 def is_minimax(model: str) -> bool:
+    if model.startswith("openai/"):
+        return False
     keywords = ["minimax"]
     return any(keyword.lower() in model.lower() for keyword in keywords)
 
@@ -1039,7 +1043,8 @@ async def query_api_chat(
         fallback_url = os.getenv("FALLBACK_OPENAI_BASE_URL") or os.getenv("OPENAI_BASE_URL", "https://llm.wokushop.com/v1")
         current_api_key = api_key or os.getenv("OPENAI_API_KEY")
         target_model = model or (options.get("model") if 'options' in locals() else "unknown")
-        if (target_model == "gpt-4o-mini" and (not fallback_key or current_api_key == fallback_key)) or not fallback_key:
+        fallback_model = os.getenv("FALLBACK_MODEL") or os.getenv("DEFAULT_MODEL") or "openai/minimax-m3"
+        if (target_model == fallback_model and (not fallback_key or current_api_key == fallback_key)) or not fallback_key:
             try:
                 import streamlit as st
                 st.session_state["api_working_status"] = {
@@ -1050,7 +1055,7 @@ async def query_api_chat(
                 pass
             raise e
             
-        print(f"Query failed with model {target_model}: {e}. Falling back to gpt-4o-mini...")
+        print(f"Query failed with model {target_model}: {e}. Falling back to {fallback_model}...")
         
         orig_key = os.environ.get("OPENAI_API_KEY")
         orig_url = os.environ.get("OPENAI_BASE_URL")
@@ -1058,13 +1063,13 @@ async def query_api_chat(
         
         os.environ["OPENAI_API_KEY"] = fallback_key
         os.environ["OPENAI_BASE_URL"] = fallback_url
-        os.environ["DEFAULT_MODEL"] = "gpt-4o-mini"
+        os.environ["DEFAULT_MODEL"] = fallback_model
         
         try:
             import streamlit as st
             st.session_state["api_working_status"] = {
                 "working": True,
-                "model_used": "gpt-4o-mini",
+                "model_used": fallback_model,
                 "fallback": True,
                 "original_model": target_model,
                 "error": str(e)
@@ -1074,11 +1079,11 @@ async def query_api_chat(
             
         try:
             if 'model' in kwargs:
-                kwargs['model'] = "gpt-4o-mini"
+                kwargs['model'] = fallback_model
             return await query_api_chat(
                 messages,
                 verbose,
-                model="gpt-4o-mini",
+                model=fallback_model,
                 cost_log=cost_log,
                 api_key=fallback_key,
                 base_url=fallback_url,
@@ -1325,7 +1330,8 @@ def query_api_chat_sync(
         fallback_url = os.getenv("FALLBACK_OPENAI_BASE_URL") or os.getenv("OPENAI_BASE_URL", "https://llm.wokushop.com/v1")
         current_api_key = api_key or os.getenv("OPENAI_API_KEY")
         target_model = model or (options.get("model") if 'options' in locals() else "unknown")
-        if (target_model == "gpt-4o-mini" and (not fallback_key or current_api_key == fallback_key)) or not fallback_key:
+        fallback_model = os.getenv("FALLBACK_MODEL") or os.getenv("DEFAULT_MODEL") or "openai/minimax-m3"
+        if (target_model == fallback_model and (not fallback_key or current_api_key == fallback_key)) or not fallback_key:
             try:
                 import streamlit as st
                 st.session_state["api_working_status"] = {
@@ -1336,7 +1342,7 @@ def query_api_chat_sync(
                 pass
             raise e
             
-        print(f"Query failed with model {target_model}: {e}. Falling back to gpt-4o-mini...")
+        print(f"Query failed with model {target_model}: {e}. Falling back to {fallback_model}...")
         
         orig_key = os.environ.get("OPENAI_API_KEY")
         orig_url = os.environ.get("OPENAI_BASE_URL")
@@ -1344,13 +1350,13 @@ def query_api_chat_sync(
         
         os.environ["OPENAI_API_KEY"] = fallback_key
         os.environ["OPENAI_BASE_URL"] = fallback_url
-        os.environ["DEFAULT_MODEL"] = "gpt-4o-mini"
+        os.environ["DEFAULT_MODEL"] = fallback_model
         
         try:
             import streamlit as st
             st.session_state["api_working_status"] = {
                 "working": True,
-                "model_used": "gpt-4o-mini",
+                "model_used": fallback_model,
                 "fallback": True,
                 "original_model": target_model,
                 "error": str(e)
@@ -1360,11 +1366,11 @@ def query_api_chat_sync(
             
         try:
             if 'model' in kwargs:
-                kwargs['model'] = "gpt-4o-mini"
+                kwargs['model'] = fallback_model
             return query_api_chat_sync(
                 messages,
                 verbose,
-                model="gpt-4o-mini",
+                model=fallback_model,
                 cost_log=cost_log,
                 api_key=fallback_key,
                 base_url=fallback_url,
@@ -1471,7 +1477,8 @@ def query_api_chat_sync_native(
         fallback_url = os.getenv("FALLBACK_OPENAI_BASE_URL") or os.getenv("OPENAI_BASE_URL", "https://llm.wokushop.com/v1")
         current_api_key = api_key or os.getenv("OPENAI_API_KEY")
         target_model = model or (options.get("model") if 'options' in locals() else "unknown")
-        if (target_model == "gpt-4o-mini" and (not fallback_key or current_api_key == fallback_key)) or not fallback_key:
+        fallback_model = os.getenv("FALLBACK_MODEL") or os.getenv("DEFAULT_MODEL") or "openai/minimax-m3"
+        if (target_model == fallback_model and (not fallback_key or current_api_key == fallback_key)) or not fallback_key:
             try:
                 import streamlit as st
                 st.session_state["api_working_status"] = {
@@ -1482,7 +1489,7 @@ def query_api_chat_sync_native(
                 pass
             raise e
             
-        print(f"Query failed with model {target_model}: {e}. Falling back to gpt-4o-mini...")
+        print(f"Query failed with model {target_model}: {e}. Falling back to {fallback_model}...")
         
         orig_key = os.environ.get("OPENAI_API_KEY")
         orig_url = os.environ.get("OPENAI_BASE_URL")
@@ -1490,13 +1497,13 @@ def query_api_chat_sync_native(
         
         os.environ["OPENAI_API_KEY"] = fallback_key
         os.environ["OPENAI_BASE_URL"] = fallback_url
-        os.environ["DEFAULT_MODEL"] = "gpt-4o-mini"
+        os.environ["DEFAULT_MODEL"] = fallback_model
         
         try:
             import streamlit as st
             st.session_state["api_working_status"] = {
                 "working": True,
-                "model_used": "gpt-4o-mini",
+                "model_used": fallback_model,
                 "fallback": True,
                 "original_model": target_model,
                 "error": str(e)
@@ -1506,11 +1513,11 @@ def query_api_chat_sync_native(
             
         try:
             if 'model' in kwargs:
-                kwargs['model'] = "gpt-4o-mini"
+                kwargs['model'] = fallback_model
             return query_api_chat_sync_native(
                 messages,
                 verbose,
-                model="gpt-4o-mini",
+                model=fallback_model,
                 cost_log=cost_log,
                 api_key=fallback_key,
                 base_url=fallback_url,
