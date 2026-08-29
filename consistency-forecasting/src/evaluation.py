@@ -96,6 +96,15 @@ def get_stats(results: dict, label: str = "") -> dict:
         print(f"Average violation without outliers: {avg_violation_no_outliers:.3f}")
         print(f"Median violation: {median_violation:.3f}")
 
+        # Count TCD interventions across questions in results
+        intervention_counts = {"none": 0, "clip_fallback": 0, "logit_bias": 0}
+        for res in results:
+            for k, val in res.get("line", {}).items():
+                if isinstance(val, dict) and "forecast" in val:
+                    interv = val["forecast"].get("metadata", {}).get("tcd_intervention")
+                    if interv in intervention_counts:
+                        intervention_counts[interv] += 1
+
         ret[metric] = {
             "label": label,
             "num_samples_including_errors": len(results),
@@ -104,6 +113,7 @@ def get_stats(results: dict, label: str = "") -> dict:
             "avg_violation": round(avg_violation, 6),
             "avg_violation_no_outliers": round(avg_violation_no_outliers, 6),
             "median_violation": round(median_violation, 6),
+            "tcd_intervention_counts": intervention_counts,
         }
 
     return ret

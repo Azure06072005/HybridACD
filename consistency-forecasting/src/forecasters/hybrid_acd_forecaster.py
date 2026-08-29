@@ -292,8 +292,15 @@ class HybridACDForecaster(Forecaster):
                 print(f"Parser model call failed: {e}. Defaulting to midpoint.")
                 prob_val = (lower_bound + upper_bound) / 2
 
+        raw_prob_val = prob_val
+        intervention = "none"
+
         if self.tcd_enabled:
             prob_val = float(np.clip(prob_val, lower_bound, upper_bound))
+            if raw_prob_val is not None and (raw_prob_val < lower_bound or raw_prob_val > upper_bound):
+                intervention = "clip_fallback"
+            else:
+                intervention = "none"
 
         return Forecast(
             prob=round(prob_val, 4),
@@ -301,7 +308,10 @@ class HybridACDForecaster(Forecaster):
                 "chain_of_thought": native_response,
                 "lower_bound": lower_bound,
                 "upper_bound": upper_bound,
-                "research_summary": research_summary
+                "research_summary": research_summary,
+                "tcd_raw_prediction": round(raw_prob_val, 4) if raw_prob_val is not None else None,
+                "tcd_final_prediction": round(prob_val, 4),
+                "tcd_intervention": intervention,
             }
         )
 
@@ -380,8 +390,15 @@ class HybridACDForecaster(Forecaster):
                 print(f"Parser model call failed: {e}. Defaulting to midpoint.")
                 prob_val = (lower_bound + upper_bound) / 2
 
+        raw_prob_val = prob_val
+        intervention = "none"
+
         if self.tcd_enabled:
             prob_val = float(np.clip(prob_val, lower_bound, upper_bound))
+            if raw_prob_val is not None and (raw_prob_val < lower_bound or raw_prob_val > upper_bound):
+                intervention = "clip_fallback"
+            else:
+                intervention = "none"
 
         return Forecast(
             prob=round(prob_val, 4),
@@ -389,7 +406,10 @@ class HybridACDForecaster(Forecaster):
                 "chain_of_thought": native_response,
                 "lower_bound": lower_bound,
                 "upper_bound": upper_bound,
-                "research_summary": research_summary
+                "research_summary": research_summary,
+                "tcd_raw_prediction": round(raw_prob_val, 4) if raw_prob_val is not None else None,
+                "tcd_final_prediction": round(prob_val, 4),
+                "tcd_intervention": intervention,
             }
         )
 

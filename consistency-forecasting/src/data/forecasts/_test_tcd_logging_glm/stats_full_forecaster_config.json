@@ -1,0 +1,9 @@
+{
+    "model": "thanhnhan9023/glm-5.2",
+    "adversarial_model": "thanhnhan9023/glm-5.2",
+    "preface": null,
+    "examples": [],
+    "adversarial_enabled": true,
+    "tcd_enabled": true,
+    "research_enabled": false
+}

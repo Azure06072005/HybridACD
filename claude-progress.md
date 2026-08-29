@@ -3,6 +3,40 @@
 Update this at the end of every session (Principle 5 & 12). This is what the next
 session reads to avoid starting from zero.
 
+## Session 7 — 2026-08-29
+- Completed: Model policy resolved explicitly — ADR-004 formally adopts
+  `levuphong2909/gpt-5.6-luna` (via reseller) as the permanent benchmark model,
+  superseding the earlier gpt-4o-mini-default policy from Session 6. F003's
+  full `-k all` smoke run (num_lines=5, 10 checkers, 50 samples) completed:
+  AVS=0.000 across every checker and every metric (default/frequentist/
+  default_scaled), 0/50 violations. Verified via ruff (clean) and pytest
+  (16/16). Committed and pushed (9dbcc77, then 85f06c7 for ADR-004).
+- NEW FINDING (ADR-005): inspecting raw traces across NegChecker, AndChecker,
+  ButChecker, ExpectedEvidenceChecker shows every base prediction in all 50
+  samples was exactly 0.0 or 1.0, with CoT citing already-resolved 2024
+  outcomes as settled fact. Since `scraped` resolved May-Aug 2024 and
+  gpt-5.6-luna is a much more recent model, this is very likely training-data
+  memorization, not genuine forecasting under uncertainty — a parallel
+  leakage vector to ADR-003's search-based one, just via parametric memory
+  instead of live retrieval. AVS=0.000 under these conditions is expected
+  from memorization alone and is NOT strong evidence that HybridACD's
+  consistency mechanism (TCD/adversarial rewrite) is doing meaningful work —
+  though it does still validly confirm the pipeline mechanics (bound math,
+  clipping, elicit sequencing) function correctly, which is what F003 itself
+  checks.
+- F003 status: mechanical criterion satisfied (exits 0, non-null AVS) — can
+  be marked `passing` on that narrow basis. The AVS=0.000 number itself must
+  carry the ADR-005 caveat in any future citation and must not be presented
+  as evidence of forecaster quality.
+- In progress: —
+- Blocked: —
+- Next session should: before starting F004 or F007 proper, run a spot-check
+  smoke test on `src/data/tuples/2028` (not yet resolved, so no training-data
+  leakage is possible) and confirm predictions show genuine intermediate
+  probabilities rather than another 0/1 sweep. If 2028 also comes back all-
+  extreme, that's a different finding (e.g. model refusing to express
+  uncertainty) worth its own investigation before F004/F007 proceed.
+
 ## Session 6 — 2026-08-23
 - Completed: Resolved both caveats from Session 5.
   (1) Inspected raw predictions behind the NegChecker AVS=0.000 result

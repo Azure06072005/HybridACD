@@ -766,7 +766,10 @@ def get_client_pydantic(model: str, use_async=True, api_key: str = None, base_ur
                 mode = getattr(Mode, openai_mode_str)
             except AttributeError:
                 pass
-        final_model_name = model.replace("openai/", "")
+        if not (os.getenv("OPENAI_BASE_URL") or base_url):
+            final_model_name = model.replace("openai/", "")
+        else:
+            final_model_name = model
         client = (
             get_async_openai_client_pydantic(mode=mode, api_key=api_key, base_url=base_url)
             if use_async
@@ -840,7 +843,10 @@ def get_client_native(
             else get_openrouter_client_native()
         )
     elif provider in ["openai", "openai_strict", "openai_o1"]:
-        final_model_name = model.replace("openai/", "")
+        if not (os.getenv("OPENAI_BASE_URL") or base_url):
+            final_model_name = model.replace("openai/", "")
+        else:
+            final_model_name = model
         client = (
             get_async_openai_client_native(api_key=api_key, base_url=base_url)
             if use_async
