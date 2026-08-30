@@ -21,9 +21,9 @@
       "id": "F003",
       "name": "Full-pipeline smoke run produces a valid AVS on a live model",
       "behavior": "Running evaluation.py with HybridACDForecaster on 5 scraped-tuple questions against a real model API exits 0 and stats_summary.json contains a non-null AVS field.",
-      "verification": "python src/evaluation.py --tuple_dir src/data/tuples/scraped --num_lines 5 --run --async -k all -p src/forecasters/hybrid_acd_forecaster.py::HybridACDForecaster -o model=levuphong2909/gpt-5.6-luna -o research_enabled=False --output_dir src/data/forecasts/_smoke_run",
+      "verification": "see docs/verification.md 'Smoke run' section",
       "state": "passing",
-      "evidence": "Executed evaluation.py across all 10 consistency checkers on num_lines=5 (50 tuples) with HybridACDForecaster (model=levuphong2909/gpt-5.6-luna, adversarial_enabled=True, tcd_enabled=True, research_enabled=False). Command exited 0 and produced src/data/forecasts/_smoke_run/stats_summary.json with valid AVS metrics (avg_violation: 0.0 across all checkers). Raw JSONL traces verified for interval checkers (AndChecker, OrChecker, CondChecker, CondCondChecker) confirming rich, date-accurate chain-of-thought reasoning and non-degenerate Fréchet bound enforcement."
+      "evidence": "Full -k all 10-checker run (num_lines=5, 50 samples) on scraped: exit 0, AVS=0.000 across default/frequentist/default_scaled (commit 9dbcc77). Model=gpt-5.6-luna via reseller, not gpt-4o-mini as originally specified — see ADR-004 (permanent model policy change) and unresolved endpoint question below. CAVEAT (ADR-005): scraped's clean AVS is very likely training-data memorization of already-resolved May-Aug 2024 events, not genuine forecasting-under-uncertainty — do not cite as evidence of consistency-enforcement quality. CONFIRMED (ADR-005 follow-up, 2028 spot-check): re-run on src/data/tuples/2028 (unresolved, no leakage possible) produced genuine intermediate probabilities (e.g. 0.03, 0.95, 0.012, 0.93, 0.07) with real interval-bound enforcement (e.g. Fréchet bound [0.0,0.03] respected, not collapsed to a point) — this is the run that actually validates the mechanism works under real uncertainty. TCD intervention logging added and confirmed at least one genuine clip_fallback intervention (NegChecker sample, raw != final). ADR-006: logit-bias path has never fired on any reseller endpoint tested (xah.io, wokushop) — confirmed via direct empirical probe (scratch/test_logit_bias.py) that these proxies silently no-op logit_bias in the request payload. Live evidence to date reflects prompt-injected-bound + deterministic-clip, not logit-bias steering; this does not invalidate AVS as a consistency measure (clip fallback deterministically enforces bounds regardless) but should be described accurately. ruff clean, 16/16 unit tests pass (F001/F002 not regressed by pipeline fixes)."
     },
     {
       "id": "F004",
@@ -31,7 +31,8 @@
       "behavior": "Full 200-line evaluation on src/data/tuples/scraped with HybridACDForecaster (model=gpt-4o-mini) yields AVS within reasonable tolerance of the paper's reported 0.0007 (paper Table 2).",
       "verification": "see docs/verification.md 'Full evaluation' section, compare src/data/forecasts/HybridACD_gpt-4o-mini_run/stats_summary.json AVS to paper Table 2",
       "state": "not_started",
-      "evidence": null
+      "evidence": null,
+      "blocked_by": "MODEL POLICY DECISION NEEDED (see claude-progress.md Session 8): this feature's own spec requires gpt-4o-mini for direct paper comparability, but ADR-004 declared gpt-5.6-luna the permanent project model, and even that has drifted between two unverified reseller endpoints (xah.io vs wokushop) without a settled choice. Also: per ADR-005, scraped is confounded by training-data leakage for any post-2024-cutoff model regardless of which one is chosen — F004 as currently scoped may need to run on BOTH scraped (for nominal paper comparability, caveat attached) AND 2028 (for a clean uncertainty-based measurement) to be meaningful."
     },
     {
       "id": "F005",

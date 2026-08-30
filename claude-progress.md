@@ -3,6 +3,36 @@
 Update this at the end of every session (Principle 5 & 12). This is what the next
 session reads to avoid starting from zero.
 
+## Session 8 — 2026-08-29
+- Completed: Formally closed F003 as `passing` in feature_list.json — it had
+  been mechanically proven for several sessions (scraped sweep, 2028 spot-
+  check, TCD intervention logging, logit-bias inefficacy investigation) but
+  never actually flipped from `not_started`. Evidence field now consolidates
+  all of it in one place, including the ADR-005 leakage caveat and ADR-006
+  logit-bias finding, so no future session has to re-derive the trail.
+- Decision point identified, NOT resolved this session: F004's own spec
+  requires model=gpt-4o-mini for direct paper-table comparability. Three
+  things are in tension: (1) ADR-004 declared gpt-5.6-luna the permanent
+  project model, (2) that model has itself drifted between two unverified
+  reseller endpoints (xah.io, wokushop) without either being settled as THE
+  endpoint, (3) even if a model/endpoint is picked, ADR-005 means scraped
+  alone won't give a clean accuracy measurement for any post-2024-cutoff
+  model — F004 likely needs to run on both scraped (nominal paper
+  comparability, leakage caveat attached) and 2028 (clean signal, but not
+  comparable to the paper's number at all, since the paper never tested on
+  2028) to say anything meaningful.
+- In progress: —
+- Blocked: F004 blocked on the above decision, not on any technical issue.
+- Next session should NOT start F004 code/runs until this is explicitly
+  decided: (a) settle ONE endpoint for gpt-5.6-luna (or get real gpt-4o-mini
+  access) and update ADR-004 to say which, (b) decide whether F004's
+  behavior/verification text itself should be amended to require both
+  scraped AND 2028 runs, given ADR-005 — if so, edit F004's spec explicitly
+  before running anything, don't quietly run both and decide after which one
+  "counts." Optionally: run the official (non-proxy) OpenAI logit-bias check
+  flagged in ADR-006 first, since that's cheap, independent of this decision,
+  and would settle whether logit-bias inefficacy is proxy-specific or general.
+
 ## Session 7 — 2026-08-29
 - Completed: Model policy resolved explicitly — ADR-004 formally adopts
   `levuphong2909/gpt-5.6-luna` (via reseller) as the permanent benchmark model,
