@@ -1,0 +1,46 @@
+{
+    "overall": {
+        "default": {
+            "label": "ExpectedEvidenceChecker",
+            "num_samples_including_errors": 5,
+            "num_samples": 5,
+            "num_violations": 0,
+            "avg_violation": 0.001772,
+            "avg_violation_no_outliers": 0.000632,
+            "median_violation": 0.0,
+            "tcd_intervention_counts": {
+                "none": 18,
+                "clip_fallback": 2,
+                "logit_bias": 0
+            }
+        },
+        "frequentist": {
+            "label": "ExpectedEvidenceChecker",
+            "num_samples_including_errors": 5,
+            "num_samples": 5,
+            "num_violations": 1,
+            "avg_violation": 0.042786,
+            "avg_violation_no_outliers": 0.021512,
+            "median_violation": 0.000281,
+            "tcd_intervention_counts": {
+                "none": 18,
+                "clip_fallback": 2,
+                "logit_bias": 0
+            }
+        },
+        "default_scaled": {
+            "label": "ExpectedEvidenceChecker",
+            "num_samples_including_errors": 5,
+            "num_samples": 5,
+            "num_violations": 0,
+            "avg_violation": 0.000443,
+            "avg_violation_no_outliers": 0.000158,
+            "median_violation": 0.0,
+            "tcd_intervention_counts": {
+                "none": 18,
+                "clip_fallback": 2,
+                "logit_bias": 0
+            }
+        }
+    }
+}

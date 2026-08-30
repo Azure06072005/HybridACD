@@ -27,12 +27,12 @@
     },
     {
       "id": "F004",
-      "name": "Reproduce paper's AVS reduction on at least one model",
-      "behavior": "Full 200-line evaluation on src/data/tuples/scraped with HybridACDForecaster (model=gpt-4o-mini) yields AVS within reasonable tolerance of the paper's reported 0.0007 (paper Table 2).",
-      "verification": "see docs/verification.md 'Full evaluation' section, compare src/data/forecasts/HybridACD_gpt-4o-mini_run/stats_summary.json AVS to paper Table 2",
+      "name": "Reproduce paper's AVS reduction on at least one model, on both scraped (paper-comparable) and 2028 (leakage-clean)",
+      "behavior": "TWO required runs, per decision logged 2026-08-29 (not optional, not sequential-then-pick-one): (a) full 200-line evaluation on src/data/tuples/scraped with HybridACDForecaster, model=gpt-5.6-luna via wokushop — report AVS against paper's reported 0.0007 (paper Table 2) WITH the ADR-005 leakage caveat attached to any comparison, since this model's training data very likely covers the scraped set's May-Aug 2024 resolution window. (b) same run on src/data/tuples/2028 — this has no paper-table equivalent to compare against (the original paper never tested on 2028), so report its AVS standalone as the leakage-clean measurement of whether HybridACD's mechanism does real work under genuine uncertainty. Both numbers go in the same write-up, neither is optional, and (a) must not be presented without (b) alongside it or the leakage caveat gets silently dropped in future citations.",
+      "verification": "see docs/verification.md 'Full evaluation' section for the base command; run twice with --tuple_dir pointed at scraped then 2028 respectively, -o model=gpt-5.6-luna (via wokushop, per DECISIONS.md endpoint addendum), --output_dir src/data/forecasts/HybridACD_gpt-5.6-luna_scraped_run and _2028_run respectively. Compare (a)'s AVS to paper Table 2's 0.0007 with the leakage caveat stated explicitly in the same sentence, not a footnote. Report (b) standalone. Smoke-scale first (num_lines=5) before the full 200-line run per small-before-large rule, since this is real API cost either way.",
       "state": "not_started",
       "evidence": null,
-      "blocked_by": "MODEL POLICY DECISION NEEDED (see claude-progress.md Session 8): this feature's own spec requires gpt-4o-mini for direct paper comparability, but ADR-004 declared gpt-5.6-luna the permanent project model, and even that has drifted between two unverified reseller endpoints (xah.io vs wokushop) without a settled choice. Also: per ADR-005, scraped is confounded by training-data leakage for any post-2024-cutoff model regardless of which one is chosen — F004 as currently scoped may need to run on BOTH scraped (for nominal paper comparability, caveat attached) AND 2028 (for a clean uncertainty-based measurement) to be meaningful."
+      "blocked_by": null
     },
     {
       "id": "F005",

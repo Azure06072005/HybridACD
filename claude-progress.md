@@ -3,6 +3,31 @@
 Update this at the end of every session (Principle 5 & 12). This is what the next
 session reads to avoid starting from zero.
 
+## Session 9 — 2026-08-29
+- Completed: All three Session 8 decision points resolved.
+  1. Endpoint settled: `wokushop` (https://llm.wokushop.com/v1, gpt-5.6-luna)
+     is now the single project-wide default, superseding xah.io. Logged as an
+     addendum in DECISIONS.md — should be folded into ADR-004's original text
+     by whichever session has it, so the ADR reads as one settled endpoint
+     rather than the two-endpoint drift across Sessions 7-8.
+  2. F004 scope locked: BOTH scraped (paper-comparable, ADR-005 caveat
+     required alongside any citation) AND 2028 (leakage-clean, no paper
+     equivalent to compare against) runs are required, not optional, not
+     sequential-with-a-pick. feature_list.json F004 updated accordingly and
+     unblocked (blocked_by set to null).
+  3. Official-provider logit-bias check explicitly deprioritized this round
+     ("optimize for decision") — ADR-006's open question (proxy-specific vs.
+     general logit-bias inefficacy) remains unresolved but is not gating
+     F004. Worth returning to opportunistically if real OpenAI credits ever
+     become available, not worth spending a session on right now.
+- In progress: —
+- Blocked: — (F004 is now genuinely unblocked)
+- Next session should: run F004 exactly as scoped — smoke-scale (num_lines=5)
+  on both scraped and 2028 first per small-before-large, THEN the full
+  200-line run on both once smoke-scale looks sane on both. Do not run only
+  scraped and call it done; do not run 2028 alone and skip the paper
+  comparison either — both numbers are required in the same write-up.
+
 ## Session 8 — 2026-08-29
 - Completed: Formally closed F003 as `passing` in feature_list.json — it had
   been mechanically proven for several sessions (scraped sweep, 2028 spot-
