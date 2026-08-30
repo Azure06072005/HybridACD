@@ -4,8 +4,8 @@
             "label": "ExpectedEvidenceChecker",
             "num_samples_including_errors": 5,
             "num_samples": 5,
-            "num_violations": 1,
-            "avg_violation": 0.999659,
+            "num_violations": 0,
+            "avg_violation": 0.0,
             "avg_violation_no_outliers": 0.0,
             "median_violation": 0.0,
             "tcd_intervention_counts": {
@@ -18,8 +18,8 @@
             "label": "ExpectedEvidenceChecker",
             "num_samples_including_errors": 5,
             "num_samples": 5,
-            "num_violations": 1,
-            "avg_violation": 3.64661,
+            "num_violations": 0,
+            "avg_violation": 0.0,
             "avg_violation_no_outliers": 0.0,
             "median_violation": 0.0,
             "tcd_intervention_counts": {
@@ -32,8 +32,8 @@
             "label": "ExpectedEvidenceChecker",
             "num_samples_including_errors": 5,
             "num_samples": 5,
-            "num_violations": 1,
-            "avg_violation": 0.249915,
+            "num_violations": 0,
+            "avg_violation": 0.0,
             "avg_violation_no_outliers": 0.0,
             "median_violation": 0.0,
             "tcd_intervention_counts": {

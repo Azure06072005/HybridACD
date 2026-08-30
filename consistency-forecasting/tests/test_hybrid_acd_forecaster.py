@@ -180,6 +180,16 @@ def test_bounds_expected_evidence_checker():
     assert lower == pytest.approx(0.6)  # (0.6 - 0.3) / (0.8 - 0.3) = 0.3 / 0.5 = 0.6
     assert upper == pytest.approx(0.6)
 
+    # Test P_given_Q given P=0.0 and Q=1.0 (forces P_given_Q to 0.0)
+    lower, upper = forecaster.get_consistency_bounds(keys, {"P": 0.0, "Q": 1.0}, "P_given_Q")
+    assert lower == pytest.approx(0.0)
+    assert upper == pytest.approx(0.0)
+
+    # Test P_given_not_Q given P=0.6, Q=0.6, P_given_Q=0.8 -> (0.6 - 0.6*0.8) / 0.4 = 0.12 / 0.4 = 0.3
+    lower, upper = forecaster.get_consistency_bounds(keys, {"P": 0.6, "Q": 0.6, "P_given_Q": 0.8}, "P_given_not_Q")
+    assert lower == pytest.approx(0.3)
+    assert upper == pytest.approx(0.3)
+
 @pytest.mark.asyncio
 async def test_hybrid_acd_elicit_async_mocked(mock_questions):
     # Test sequential execution and dynamic bounds enforcement

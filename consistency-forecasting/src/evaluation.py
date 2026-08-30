@@ -96,14 +96,22 @@ def get_stats(results: dict, label: str = "") -> dict:
         print(f"Average violation without outliers: {avg_violation_no_outliers:.3f}")
         print(f"Median violation: {median_violation:.3f}")
 
-        # Count TCD interventions across questions in results
+        # Count TCD interventions and compute raw deviations across questions in results
         intervention_counts = {"none": 0, "clip_fallback": 0, "logit_bias": 0}
+        raw_deviations = []
         for res in results:
             for k, val in res.get("line", {}).items():
                 if isinstance(val, dict) and "forecast" in val:
-                    interv = val["forecast"].get("metadata", {}).get("tcd_intervention")
+                    meta = val["forecast"].get("metadata", {})
+                    interv = meta.get("tcd_intervention")
                     if interv in intervention_counts:
                         intervention_counts[interv] += 1
+                    dev = meta.get("tcd_raw_deviation")
+                    if dev is not None:
+                        raw_deviations.append(dev)
+
+        mean_dev = float(np.mean(raw_deviations)) if raw_deviations else 0.0
+        max_dev = float(np.max(raw_deviations)) if raw_deviations else 0.0
 
         ret[metric] = {
             "label": label,
@@ -114,6 +122,8 @@ def get_stats(results: dict, label: str = "") -> dict:
             "avg_violation_no_outliers": round(avg_violation_no_outliers, 6),
             "median_violation": round(median_violation, 6),
             "tcd_intervention_counts": intervention_counts,
+            "mean_tcd_raw_deviation": round(mean_dev, 6),
+            "max_tcd_raw_deviation": round(max_dev, 6),
         }
 
     return ret

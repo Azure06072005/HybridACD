@@ -297,10 +297,12 @@ class HybridACDForecaster(Forecaster):
 
         if self.tcd_enabled:
             prob_val = float(np.clip(prob_val, lower_bound, upper_bound))
-            if raw_prob_val is not None and (raw_prob_val < lower_bound or raw_prob_val > upper_bound):
+            if raw_prob_val is not None and abs(raw_prob_val - prob_val) > 1e-4:
                 intervention = "clip_fallback"
             else:
                 intervention = "none"
+
+        dev = abs(raw_prob_val - prob_val) if raw_prob_val is not None else 0.0
 
         return Forecast(
             prob=round(prob_val, 4),
@@ -311,6 +313,7 @@ class HybridACDForecaster(Forecaster):
                 "research_summary": research_summary,
                 "tcd_raw_prediction": round(raw_prob_val, 4) if raw_prob_val is not None else None,
                 "tcd_final_prediction": round(prob_val, 4),
+                "tcd_raw_deviation": round(dev, 4),
                 "tcd_intervention": intervention,
             }
         )
@@ -395,10 +398,12 @@ class HybridACDForecaster(Forecaster):
 
         if self.tcd_enabled:
             prob_val = float(np.clip(prob_val, lower_bound, upper_bound))
-            if raw_prob_val is not None and (raw_prob_val < lower_bound or raw_prob_val > upper_bound):
+            if raw_prob_val is not None and abs(raw_prob_val - prob_val) > 1e-4:
                 intervention = "clip_fallback"
             else:
                 intervention = "none"
+
+        dev = abs(raw_prob_val - prob_val) if raw_prob_val is not None else 0.0
 
         return Forecast(
             prob=round(prob_val, 4),
@@ -409,6 +414,7 @@ class HybridACDForecaster(Forecaster):
                 "research_summary": research_summary,
                 "tcd_raw_prediction": round(raw_prob_val, 4) if raw_prob_val is not None else None,
                 "tcd_final_prediction": round(prob_val, 4),
+                "tcd_raw_deviation": round(dev, 4),
                 "tcd_intervention": intervention,
             }
         )
@@ -587,11 +593,25 @@ class HybridACDForecaster(Forecaster):
                     if previous_predictions["Q"] > 1e-6:
                         val = (previous_predictions["P"] - (1.0 - previous_predictions["Q"]) * previous_predictions["P_given_not_Q"]) / previous_predictions["Q"]
                         lower, upper = val, val
+                elif "P" in previous_predictions and "Q" in previous_predictions:
+                    q = previous_predictions["Q"]
+                    p = previous_predictions["P"]
+                    if q > 1e-6:
+                        lower = max(0.0, (p - (1.0 - q)) / q)
+                        upper = min(1.0, p / q)
             elif target_key == "P_given_not_Q":
                 if "P" in previous_predictions and "Q" in previous_predictions and "P_given_Q" in previous_predictions:
-                    if previous_predictions["Q"] < 1.0 - 1e-6:
-                        val = (previous_predictions["P"] - previous_predictions["Q"] * previous_predictions["P_given_Q"]) / (1.0 - previous_predictions["Q"])
+                    q = previous_predictions["Q"]
+                    p = previous_predictions["P"]
+                    if q < 1.0 - 1e-6:
+                        val = (p - q * previous_predictions["P_given_Q"]) / (1.0 - q)
                         lower, upper = val, val
+                elif "P" in previous_predictions and "Q" in previous_predictions:
+                    q = previous_predictions["Q"]
+                    p = previous_predictions["P"]
+                    if q < 1.0 - 1e-6:
+                        lower = max(0.0, (p - q) / (1.0 - q))
+                        upper = min(1.0, p / (1.0 - q))
                         
         lower = max(0.0, min(1.0, lower))
         upper = max(0.0, min(1.0, upper))
