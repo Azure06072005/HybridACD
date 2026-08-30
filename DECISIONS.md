@@ -31,3 +31,15 @@ Record deliberate choices, tradeoffs, and non-obvious constraints here. Do not r
   3. Going forward, **`src/data/tuples/2028`** (not yet resolved as of 2026-08-29) is likely the only tuple set that cleanly tests genuine forecasting-under-uncertainty for any current-generation model, since no training data can contain its outcomes yet.
 - **Decision**: F003's AVS=0.000 result stands as valid evidence that the **pipeline mechanics** work (TCD clipping, bound computation, elicit sequencing) — this part of F003's verification criterion is satisfied. It must NOT be cited as evidence of HybridACD's consistency-enforcement quality in any future write-up without this caveat attached. Before F004/F005/F007 proceed on `scraped`/`newsapi`, run a spot-check smoke test on `src/data/tuples/2028` and confirm predictions show genuine intermediate probabilities (not a 0/1 sweep) — if `2028` also produces all-extreme predictions, that would suggest a different problem (e.g. the model refusing to express uncertainty) rather than leakage, which would itself be worth documenting.
 - **Status**: Accepted (finding logged; does not block F003 from closing on its narrow mechanical criterion, but gates how its result may be cited and what F004/F007 should check first).
+
+## ADR-006: Proxy Gateway Logit-Bias Inefficacy & TCD Enforcement Architecture
+- **Date**: 2026-08-30
+- **Context**: An audit of TCD intervention logs revealed `logit_bias` triggered 0 times across all runs, while `clip_fallback` correctly clamped out-of-bounds predictions. A dedicated probe (`scratch/test_logit_bias.py`) confirmed that third-party OpenAI-compatible proxy gateways (e.g., `llm.wokushop.com`, `api.xah.io`) accept `logit_bias` in the request payload (returning 200 OK) but ignore it during token generation.
+- **Finding**:
+  1. `HybridACDForecaster`'s primary probability elicitation relies on in-context prompt constraints (`CRITICAL CONSTRAINT: ... strictly within [l, u]`), followed by regex extraction of `FINAL PROBABILITY: X.XXXX`.
+  2. Mathematical consistency bounds are strictly guaranteed at the boundary by `np.clip(prob_val, lower_bound, upper_bound)` (`clip_fallback`).
+  3. Third-party proxy endpoints cannot be relied upon for true token-level logit manipulation.
+- **Decision**:
+  1. Maintain explicit tracking of `tcd_raw_prediction`, `tcd_final_prediction`, and `tcd_intervention` (`"none"` vs `"clip_fallback"`) to ensure full transparency into when clipping alters model output.
+  2. Acknowledge and document that evaluations executed via third-party proxy gateways operate in prompt-constraint + clipping mode.
+- **Status**: Accepted.
