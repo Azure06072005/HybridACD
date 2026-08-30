@@ -1,0 +1,115 @@
+{
+    "NegChecker": {
+        "overall": {
+            "default": {
+                "label": "NegChecker",
+                "num_samples_including_errors": 3,
+                "num_samples": 3,
+                "num_violations": 0,
+                "avg_violation": 0.0,
+                "avg_violation_no_outliers": 0.0,
+                "median_violation": 0.0,
+                "tcd_intervention_counts": {
+                    "none": 5,
+                    "clip_fallback": 1,
+                    "logit_bias": 0
+                }
+            },
+            "frequentist": {
+                "label": "NegChecker",
+                "num_samples_including_errors": 3,
+                "num_samples": 3,
+                "num_violations": 0,
+                "avg_violation": 0.0,
+                "avg_violation_no_outliers": 0.0,
+                "median_violation": 0.0,
+                "tcd_intervention_counts": {
+                    "none": 5,
+                    "clip_fallback": 1,
+                    "logit_bias": 0
+                }
+            },
+            "default_scaled": {
+                "label": "NegChecker",
+                "num_samples_including_errors": 3,
+                "num_samples": 3,
+                "num_violations": 0,
+                "avg_violation": 0.0,
+                "avg_violation_no_outliers": 0.0,
+                "median_violation": 0.0,
+                "tcd_intervention_counts": {
+                    "none": 5,
+                    "clip_fallback": 1,
+                    "logit_bias": 0
+                }
+            }
+        }
+    },
+    "AndChecker": {
+        "overall": {
+            "default": {
+                "label": "AndChecker",
+                "num_samples_including_errors": 3,
+                "num_samples": 3,
+                "num_violations": 0,
+                "avg_violation": 0.0,
+                "avg_violation_no_outliers": 0.0,
+                "median_violation": 0.0,
+                "tcd_intervention_counts": {
+                    "none": 9,
+                    "clip_fallback": 0,
+                    "logit_bias": 0
+                }
+            },
+            "frequentist": {
+                "label": "AndChecker",
+                "num_samples_including_errors": 3,
+                "num_samples": 3,
+                "num_violations": 0,
+                "avg_violation": 0.0,
+                "avg_violation_no_outliers": 0.0,
+                "median_violation": 0.0,
+                "tcd_intervention_counts": {
+                    "none": 9,
+                    "clip_fallback": 0,
+                    "logit_bias": 0
+                }
+            },
+            "default_scaled": {
+                "label": "AndChecker",
+                "num_samples_including_errors": 3,
+                "num_samples": 3,
+                "num_violations": 0,
+                "avg_violation": 0.0,
+                "avg_violation_no_outliers": 0.0,
+                "median_violation": 0.0,
+                "tcd_intervention_counts": {
+                    "none": 9,
+                    "clip_fallback": 0,
+                    "logit_bias": 0
+                }
+            }
+        }
+    },
+    "aggregated": {
+        "default": {
+            "avg_violation": 0.0
+        },
+        "frequentist": {
+            "avg_violation": 0.0
+        },
+        "default_scaled": {
+            "avg_violation": 0.0
+        }
+    },
+    "forecaster": "HybridACDForecaster",
+    "full_forecaster_config": {
+        "model": "gpt-5.6-luna",
+        "adversarial_model": "gpt-5.6-luna",
+        "preface": null,
+        "examples": [],
+        "adversarial_enabled": true,
+        "tcd_enabled": true,
+        "research_enabled": false
+    }
+}
