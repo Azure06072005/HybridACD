@@ -2,6 +2,21 @@
 
 Update this at the end of every session. This is what the next session reads to avoid starting from zero.
 
+## Session 5 — 2026-08-30
+- Completed:
+  1. Implemented TCD intervention tracking (`tcd_raw_prediction`, `tcd_final_prediction`, `tcd_raw_deviation`, `tcd_intervention`) in `hybrid_acd_forecaster.py` and summary aggregation (`tcd_intervention_counts`, `mean_tcd_raw_deviation`, `max_tcd_raw_deviation`) in `evaluation.py`.
+  2. Identified and resolved `ExpectedEvidenceChecker` sequential bound gap (ADR-007): added intermediate Fréchet bounds for $P \mid Q$ and $P \mid \neg Q$ when only $P$ and $Q$ are known. Added unit tests in `test_bounds_expected_evidence_checker` and verified re-run on `scraped` (0/5 violations, 0.000 AVS).
+  3. Conducted empirical probe on proxy gateway logit-bias support (`scratch/test_logit_bias.py`, ADR-006): confirmed third-party OpenAI-compatible proxies accept `logit_bias` without error but ignore it at inference time; HybridACD enforcement is driven by prompt-injected numerical bounds + deterministic clipping.
+  4. Analyzed raw-vs-final deviations on `2028`: proved that the initial 14 `clip_fallback` triggers were floating-point precision artifacts (mean deviation 0.0000); added a `1e-4` tolerance to intervention detection.
+  5. Configured settled endpoint `wokushop` (`https://llm.wokushop.com/v1`, model `gpt-5.6-luna`) in `.env`.
+  6. Executed smoke evaluations (`num_lines=5`, 10 checkers) on BOTH `src/data/tuples/scraped` and `src/data/tuples/2028`:
+     - `scraped`: 0.000 AVS (10/10 checkers passed).
+     - `2028`: 0.000208 Default AVS (0.000053 Scaled AVS).
+  7. Code health: `ruff check src tests` clean (0 errors), 16/16 unit tests passed in 8.64s.
+- In progress: F004 full-scale evaluation (`num_lines=200`) across `scraped` and `2028`.
+- Blocked: None — F004 is unblocked and smoke-validated on both datasets.
+- Next session should: Execute full 200-line evaluations for F004 on `scraped` and `2028`, report AVS for `scraped` against paper Table 2 (with ADR-005 caveat) and `2028` standalone.
+
 ## Session 4 — 2026-08-28
 - Completed:
   1. Configured active model routing for `levuphong2909/gpt-5.6-luna` on `https://api.xah.io/v1` in `consistency-forecasting/.env`.
