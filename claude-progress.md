@@ -3,6 +3,40 @@
 Update this at the end of every session (Principle 5 & 12). This is what the next
 session reads to avoid starting from zero.
 
+## Session 10 — 2026-08-29
+- Completed: F004 smoke tier (num_lines=5, both datasets) is now fully
+  validated, not just run — the ExpectedEvidenceChecker bug found in the
+  first smoke pass was root-caused and fixed (sequential P|Q / P|¬Q Fréchet
+  bounds, ADR-007), with new test coverage, and the "14 interventions" claim
+  from that same pass was re-investigated and corrected to "0 genuine
+  interventions, 14 floating-point false positives" — also ADR-007. 16/16
+  tests still pass, ruff clean. Nothing is blocking the full-scale run.
+- In progress: —
+- Blocked: — none
+- Next session (needs live execution in the real repo, not available from
+  this harness-drafting session): run the full 200-line F004 evaluation on
+  BOTH datasets, per the locked-in Session 9 decision (both required, same
+  write-up, neither optional):
+  ```
+  python src/evaluation.py --tuple_dir src/data/tuples/scraped --num_lines 200 \
+    --run --async -k all -p src/forecasters/hybrid_acd_forecaster.py::HybridACDForecaster \
+    -o model=gpt-5.6-luna -o research_enabled=False \
+    --output_dir src/data/forecasts/HybridACD_gpt-5.6-luna_scraped_run
+
+  python src/evaluation.py --tuple_dir src/data/tuples/2028 --num_lines 200 \
+    --run --async -k all -p src/forecasters/hybrid_acd_forecaster.py::HybridACDForecaster \
+    -o model=gpt-5.6-luna -o research_enabled=False \
+    --output_dir src/data/forecasts/HybridACD_gpt-5.6-luna_2028_run
+  ```
+  This is real API cost at 40x the smoke-tier volume (200 lines x 10 checkers
+  each, x2 datasets) — confirm budget before running both. When results land:
+  (a) check for any genuine (non-floating-point-noise, |raw-final|>1e-4)
+  clip_fallback interventions — this would be the first one observed in the
+  project's history, worth its own inspection if it happens; (b) report
+  scraped's AVS against paper Table 2's 0.0007 WITH the ADR-005 leakage
+  caveat in the same sentence; (c) report 2028's AVS standalone, no paper
+  comparison exists for it; (d) only then mark F004 passing.
+
 ## Session 9 — 2026-08-29
 - Completed: All three Session 8 decision points resolved.
   1. Endpoint settled: `wokushop` (https://llm.wokushop.com/v1, gpt-5.6-luna)
