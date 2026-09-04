@@ -2,6 +2,18 @@
 
 Update this at the end of every session. This is what the next session reads to avoid starting from zero.
 
+## Session 6 — 2026-09-04
+- Completed:
+  1. Git remote verification: Ran diagnostic commands (`git remote -v`, `git ls-remote origin main`, `git branch -vv`). Confirmed the remote repository `https://github.com/Azure06072005/HybridACD.git` is fully synchronized with local `main` at commit `c070871` (and later `2b2afb4`), containing all 16 commits including ADR-001 through ADR-007, F003, and F004 scraped runs. Proved that the external prompt claiming the remote is stuck at 1 commit was outdated/false.
+  2. Identified and resolved `research_enabled` default bug: `HybridACDForecaster.__init__` defaulted `research_enabled` to `True` (whereas `hybrid_acd_config.py` specifies `False`), which inadvertently triggered agentic web searches and caused HTTP 429 rate limit errors during evaluations. Updated default to `False` in `src/forecasters/hybrid_acd_forecaster.py`, verified with pytest (12/12 passing), and pushed commit `2b2afb4` to GitHub.
+  3. F004 Status:
+     - Part (a) (`src/data/tuples/scraped` 200 lines, 10 checkers): 100% complete and committed (`_full_scraped_f004/stats_summary.json`, default AVS 0.004963).
+     - Part (b) (`src/data/tuples/2028` 200 lines, 10 checkers): Clean run launched without retrieval overhead. Generated 125/200 tuples for `NegChecker.jsonl` before halting.
+  4. Code health: `ruff check` clean (0 errors), 12/12 unit tests pass.
+- In progress: F004 full evaluation on `2028` dataset.
+- Blocked: Live upstream API quota on Woku Shop endpoint (`https://llm.wokushop.com/v1`) — balance depleted (`-$0.006`), returning HTTP 403 `insufficient_user_quota`. Awaiting key top-up or replacement key.
+- Next session should: Resume F004 200-line evaluation on `2028` once API quota is restored, inspect `stats_summary.json`, and synthesize the complete dual-dataset AVS results into `feature_list.json`.
+
 ## Session 5 — 2026-08-30
 - Completed:
   1. Implemented TCD intervention tracking (`tcd_raw_prediction`, `tcd_final_prediction`, `tcd_raw_deviation`, `tcd_intervention`) in `hybrid_acd_forecaster.py` and summary aggregation (`tcd_intervention_counts`, `mean_tcd_raw_deviation`, `max_tcd_raw_deviation`) in `evaluation.py`.
