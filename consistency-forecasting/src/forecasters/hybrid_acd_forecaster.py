@@ -62,7 +62,7 @@ class HybridACDForecaster(Forecaster):
         examples: list = None,
         adversarial_enabled: bool = True,
         tcd_enabled: bool = True,
-        research_enabled: bool = True,
+        research_enabled: bool = False,
     ):
         self.model = model
         self.adversarial_model = adversarial_model or model
